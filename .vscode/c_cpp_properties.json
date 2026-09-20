@@ -1,0 +1,17 @@
+{
+  "configurations": [
+    {
+      "includePath": [
+        "/root/ros2_ws/install/ros2_interfaces/include/**",
+        "/opt/ros/lyrical/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ros2",
+      "intelliSenseMode": "linux-gcc-x64",
+      "compilerPath": "/usr/bin/g++",
+      "cStandard": "c17",
+      "cppStandard": "c++17"
+    }
+  ],
+  "version": 4
+}

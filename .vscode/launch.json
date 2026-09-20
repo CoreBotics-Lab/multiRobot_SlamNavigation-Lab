@@ -1,0 +1,50 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "C++: Debug ROS 2 Node",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/install/${input:package_name}/lib/${input:package_name}/${input:node_name}",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "sourceFileMap": {
+                "${workspaceFolder}": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Python: Debug ROS 2 Node",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/install/${input:package_name}/lib/${input:package_name}/${input:node_name}",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "package_name",
+            "type": "promptString",
+            "description": "Enter package name",
+            // "default": "topics"
+        },
+        {
+            "id": "node_name",
+            "type": "promptString",
+            "description": "Enter executable name",
+            // "default": "cpp_parameters_event_driven"
+        }
+    ]
+}

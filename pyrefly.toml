@@ -1,0 +1,15 @@
+# Pyrefly type checker configuration
+# https://pyrefly.org/en/stable/configuration/
+
+python-version = "3.14"
+
+# Tell Pyrefly where to find local/shared library packages
+# that are injected into sys.path at runtime (e.g. zenoh_ros)
+search-path = [
+    "/root/ros2_ws/install/ros2_interfaces/lib/python3.14/site-packages",
+    "/root/ros2_ws/install/topics/lib/python3.14/site-packages",
+    "/opt/ros/lyrical/lib/python3.14/site-packages",
+    "/usr/lib/python3/dist-packages",
+    "/usr/lib/python3.14/dist-packages",
+    "/usr/local/lib/python3.14/dist-packages",
+]
