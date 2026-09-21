@@ -2,9 +2,13 @@
 <robot name="gizmo" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <xacro:arg name="prefix" default="" />
-    <xacro:property name="_prefix" value="$(arg prefix)" />
-    <xacro:property name="tf_prefix" value="${_prefix if (_prefix == '' or _prefix.endswith('/')) else _prefix + '/'}" />
-    <xacro:property name="topic_prefix" value="${('/' + tf_prefix) if not tf_prefix.startswith('/') else tf_prefix}" />
+    <xacro:property name="_raw_prefix" value="$(arg prefix)" />
+    <!-- Strip all leading and trailing slashes first -->
+    <xacro:property name="_prefix" value="${_raw_prefix.strip('/')}" />
+    <!-- If not empty, add trailing slash for TF; otherwise keep empty -->
+    <xacro:property name="tf_prefix" value="${(_prefix + '/') if _prefix else ''}" />
+    <!-- Always start with '/' for ROS topics -->
+    <xacro:property name="topic_prefix" value="${('/' + _prefix + '/') if _prefix else '/'}" />
 
     <xacro:include filename="$(find gizmo_description)/urdf/include/robot_components/gizmo_mobile_base.xacro" />
     <xacro:include filename="$(find gizmo_description)/urdf/include/gazebo_components/gizmo_mobile_base.gazebo.xacro" />
