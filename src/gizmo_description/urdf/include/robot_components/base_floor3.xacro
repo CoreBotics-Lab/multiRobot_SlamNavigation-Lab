@@ -8,7 +8,7 @@
     <xacro:property name="base_floor3_o_rpy" value="0 0 0" />
 
     <!-- Link base_floor3 -->
-    <link name="base_floor3">
+    <link name="${tf_prefix}base_floor3">
     
         <xacro:cylinder_inertia m="${base_floor3_m}" r="${base_floor3_r}" h="${base_floor3_h}" o_xyz="${base_floor3_o_xyz}" o_rpy="${base_floor3_o_rpy}"/>
         

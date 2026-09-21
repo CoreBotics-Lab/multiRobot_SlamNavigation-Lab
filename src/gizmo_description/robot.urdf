@@ -1,0 +1,1053 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- Onshape https://cad.onshape.com/documents/ba161a14ba97029bdebdbe78/w/763840078b47bec3c84c8d3f/e/1aafa4d786a44edc0f75a836 -->
+<robot name="gizmo">
+  <!-- Link base_floor1 -->
+  <link name="base_floor1">
+    <inertial>
+      <origin xyz="0.0104633 7.04358e-06 0.013448" rpy="0 0 0"/>
+      <mass value="0.256267"/>
+      <inertia ixx="0.000509121" ixy="2.6885e-08" ixz="-1.38958e-05" iyy="0.000206262" iyz="-9.78249e-07" izz="0.000663069"/>
+    </inertial>
+    <!-- Part bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6 -->
+    <visual>
+      <origin xyz="0.0217 0.0627386 0.00961" rpy="3.14159 0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6.stl"/>
+      </geometry>
+      <material name="bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0217 0.0627386 0.00961" rpy="3.14159 0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part standoff_spacer_m3_30mm -->
+    <visual>
+      <origin xyz="-0.0444488 -0.0371773 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/standoff_spacer_m3_30mm.stl"/>
+      </geometry>
+      <material name="standoff_spacer_m3_30mm_material">
+        <color rgba="0.917647 0.917647 0.917647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0444488 -0.0371773 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/standoff_spacer_m3_30mm.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6 -->
+    <visual>
+      <origin xyz="-0.0444488 -0.0371773 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0444488 -0.0371773 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6_2 -->
+    <visual>
+      <origin xyz="0.001 -0.0627386 0.00961" rpy="1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6.stl"/>
+      </geometry>
+      <material name="bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6_2_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.001 -0.0627386 0.00961" rpy="1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part standoff_spacer_m3_30mm_2 -->
+    <visual>
+      <origin xyz="-0.0444488 0.0371773 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/standoff_spacer_m3_30mm.stl"/>
+      </geometry>
+      <material name="standoff_spacer_m3_30mm_2_material">
+        <color rgba="0.917647 0.917647 0.917647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0444488 0.0371773 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/standoff_spacer_m3_30mm.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_2 -->
+    <visual>
+      <origin xyz="-0.00011 -0.0337386 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_2_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.00011 -0.0337386 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_3 -->
+    <visual>
+      <origin xyz="-0.00011 0.0337386 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_3_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.00011 0.0337386 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6_3 -->
+    <visual>
+      <origin xyz="0.0217 -0.0627386 0.00961" rpy="1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6.stl"/>
+      </geometry>
+      <material name="bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6_3_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0217 -0.0627386 0.00961" rpy="1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_4 -->
+    <visual>
+      <origin xyz="0.03511 0.0557386 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_4_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.03511 0.0557386 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part base_floor_1 -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/base_floor_1.stl"/>
+      </geometry>
+      <material name="base_floor_1_material">
+        <color rgba="0.121569 0.133333 0.14902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/base_floor_1.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part servo_bracket_r -->
+    <visual>
+      <origin xyz="0.0175 -0.0447386 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/servo_bracket_r.stl"/>
+      </geometry>
+      <material name="servo_bracket_r_material">
+        <color rgba="0.615686 0.811765 0.929412 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0175 -0.0447386 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/servo_bracket_r.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_5 -->
+    <visual>
+      <origin xyz="0.03511 0.0337386 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_5_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.03511 0.0337386 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part servo_bracket_l -->
+    <visual>
+      <origin xyz="0.0175 0.0447386 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/servo_bracket_l.stl"/>
+      </geometry>
+      <material name="servo_bracket_l_material">
+        <color rgba="0.615686 0.811765 0.929412 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0175 0.0447386 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/servo_bracket_l.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_6 -->
+    <visual>
+      <origin xyz="-0.0444488 0.0371773 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_6_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0444488 0.0371773 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part st3215_hs_l -->
+    <visual>
+      <origin xyz="0.0175 0.0452886 0.00753371" rpy="0 -0 -0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/st3215_hs_l.stl"/>
+      </geometry>
+      <material name="st3215_hs_l_material">
+        <color rgba="0.262745 0.282353 0.301961 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0175 0.0452886 0.00753371" rpy="0 -0 -0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/st3215_hs_l.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part st3215_hs_r -->
+    <visual>
+      <origin xyz="0.0175 -0.0452886 0.00753324" rpy="0 -0 -0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/st3215_hs_r.stl"/>
+      </geometry>
+      <material name="st3215_hs_r_material">
+        <color rgba="0.262745 0.282353 0.301961 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0175 -0.0452886 0.00753324" rpy="0 -0 -0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/st3215_hs_r.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6_4 -->
+    <visual>
+      <origin xyz="0.001 0.0627386 0.03011" rpy="3.14159 0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6.stl"/>
+      </geometry>
+      <material name="bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6_4_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.001 0.0627386 0.03011" rpy="3.14159 0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6_5 -->
+    <visual>
+      <origin xyz="0.001 0.0627386 0.00961" rpy="3.14159 0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6.stl"/>
+      </geometry>
+      <material name="bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6_5_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.001 0.0627386 0.00961" rpy="3.14159 0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part face_plate_bottom -->
+    <visual>
+      <origin xyz="0.048 -0 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/face_plate_bottom.stl"/>
+      </geometry>
+      <material name="face_plate_bottom_material">
+        <color rgba="0.231373 0.380392 0.705882 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.048 -0 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/face_plate_bottom.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_7 -->
+    <visual>
+      <origin xyz="0.03511 -0.0337386 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_7_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.03511 -0.0337386 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6_6 -->
+    <visual>
+      <origin xyz="0.0217 -0.0627386 0.03011" rpy="1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6.stl"/>
+      </geometry>
+      <material name="bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6_6_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0217 -0.0627386 0.03011" rpy="1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_8 -->
+    <visual>
+      <origin xyz="0.03511 -0.0557386 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_8_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.03511 -0.0557386 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6_7 -->
+    <visual>
+      <origin xyz="0.001 -0.0627386 0.03011" rpy="1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6.stl"/>
+      </geometry>
+      <material name="bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6_7_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.001 -0.0627386 0.03011" rpy="1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_9 -->
+    <visual>
+      <origin xyz="-0.00011 0.0557386 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_9_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.00011 0.0557386 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6_8 -->
+    <visual>
+      <origin xyz="0.0217 0.0627386 0.03011" rpy="3.14159 0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6.stl"/>
+      </geometry>
+      <material name="bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6_8_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0217 0.0627386 0.03011" rpy="3.14159 0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_8699_1727796_hexagon_socket_button_head_screw_m2_5x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_10 -->
+    <visual>
+      <origin xyz="-0.00011 -0.0557386 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_10_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.00011 -0.0557386 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link base_floor2 -->
+  <link name="base_floor2">
+    <inertial>
+      <origin xyz="-9.82371e-05 6.3391e-08 0.00389344" rpy="0 0 0"/>
+      <mass value="0.0997662"/>
+      <inertia ixx="0.000101382" ixy="-3.2e-10" ixz="-2.32016e-06" iyy="0.000135188" iyz="2.1e-11" izz="0.000232289"/>
+    </inertial>
+    <!-- Part base_floor_2 -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/base_floor_2.stl"/>
+      </geometry>
+      <material name="base_floor_2_material">
+        <color rgba="0.0941176 0.580392 0.545098 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/base_floor_2.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_11 -->
+    <visual>
+      <origin xyz="-0.0406106 -0.0507522 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_11_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0406106 -0.0507522 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part face_plate_top -->
+    <visual>
+      <origin xyz="0.048 0 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/face_plate_top.stl"/>
+      </geometry>
+      <material name="face_plate_top_material">
+        <color rgba="0.866667 0.321569 0.156863 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.048 0 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/face_plate_top.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_12 -->
+    <visual>
+      <origin xyz="-0.0406106 0.0507522 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_12_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0406106 0.0507522 0.001" rpy="-0 -1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part standoff_spacer_m3_20mm -->
+    <visual>
+      <origin xyz="-0.0406106 0.0507522 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/standoff_spacer_m3_20mm.stl"/>
+      </geometry>
+      <material name="standoff_spacer_m3_20mm_material">
+        <color rgba="0.917647 0.917647 0.917647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0406106 0.0507522 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/standoff_spacer_m3_20mm.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part standoff_spacer_m3_20mm_2 -->
+    <visual>
+      <origin xyz="-0.0406106 -0.0507522 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/standoff_spacer_m3_20mm.stl"/>
+      </geometry>
+      <material name="standoff_spacer_m3_20mm_2_material">
+        <color rgba="0.917647 0.917647 0.917647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0406106 -0.0507522 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/standoff_spacer_m3_20mm.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mcu_controller -->
+    <visual>
+      <origin xyz="0 0 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/mcu_controller.stl"/>
+      </geometry>
+      <material name="mcu_controller_material">
+        <color rgba="0.105882 0.333333 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.0035" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/mcu_controller.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link base_floor3 -->
+  <link name="base_floor3">
+    <inertial>
+      <origin xyz="-0.00118623 6e-12 0.00148165" rpy="0 0 0"/>
+      <mass value="0.0662765"/>
+      <inertia ixx="9.51967e-05" ixy="0" ixz="-4.9768e-08" iyy="9.26433e-05" iyz="-0" izz="0.000187729"/>
+    </inertial>
+    <!-- Part base_floor_3 -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/base_floor_3.stl"/>
+      </geometry>
+      <material name="base_floor_3_material">
+        <color rgba="0.121569 0.133333 0.14902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/base_floor_3.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_13 -->
+    <visual>
+      <origin xyz="-0.0406106 -0.0507522 0.002" rpy="-0 1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_13_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0406106 -0.0507522 0.002" rpy="-0 1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_14 -->
+    <visual>
+      <origin xyz="-0.0406106 0.0507522 0.002" rpy="-0 1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_14_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0406106 0.0507522 0.002" rpy="-0 1.5708 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link lidar -->
+  <link name="lidar">
+    <inertial>
+      <origin xyz="-0.000564981 -1.4921e-05 0.0192986" rpy="0 0 0"/>
+      <mass value="0.19"/>
+      <inertia ixx="9.06037e-05" ixy="5.571e-08" ixz="2.50995e-06" iyy="8.63823e-05" iyz="3.3157e-08" izz="0.000126312"/>
+    </inertial>
+    <!-- Part lidar -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/lidar.stl"/>
+      </geometry>
+      <material name="lidar_material">
+        <color rgba="0.298039 0.298039 0.298039 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/lidar.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_floor3 to lidar -->
+  <joint name="lidar_joint" type="fixed">
+    <origin xyz="0 0 0.003" rpy="0 -0 0"/>
+    <parent link="base_floor3"/>
+    <child link="lidar"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
+  </joint>
+  <!-- Link realsense_d435 -->
+  <link name="realsense_d435">
+    <inertial>
+      <origin xyz="0.000978527 1.12611e-05 0.0122381" rpy="0 0 0"/>
+      <mass value="0.049866"/>
+      <inertia ixx="3.30039e-05" ixy="-9.941e-09" ixz="9.84e-09" iyy="4.47907e-06" iyz="-6.7e-11" izz="3.34583e-05"/>
+    </inertial>
+    <!-- Part realsense_d435 -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/realsense_d435.stl"/>
+      </geometry>
+      <material name="realsense_d435_material">
+        <color rgba="0.615686 0.811765 0.929412 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/realsense_d435.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_floor3 to realsense_d435 -->
+  <joint name="camera_joint" type="fixed">
+    <origin xyz="0.055 -0 0.003" rpy="0 -0 0"/>
+    <parent link="base_floor3"/>
+    <child link="realsense_d435"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
+  </joint>
+  <!-- Joint from base_floor2 to base_floor3 -->
+  <joint name="base_Floor3_joint" type="fixed">
+    <origin xyz="0 0 0.0235" rpy="0 -0 0"/>
+    <parent link="base_floor2"/>
+    <child link="base_floor3"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
+  </joint>
+  <!-- Joint from base_floor1 to base_floor2 -->
+  <joint name="base_Floor2_joint" type="fixed">
+    <origin xyz="0 0 0.0335" rpy="0 -0 0"/>
+    <parent link="base_floor1"/>
+    <child link="base_floor2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
+  </joint>
+  <!-- Link bno055 -->
+  <link name="bno055">
+    <inertial>
+      <origin xyz="-0.000442255 0.00020543 0.00106325" rpy="0 0 0"/>
+      <mass value="0.003"/>
+      <inertia ixx="8.8788e-08" ixy="1.862e-09" ixz="2.456e-09" iyy="1.64517e-07" iyz="-5.45e-10" izz="2.49761e-07"/>
+    </inertial>
+    <!-- Part bno055 -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bno055.stl"/>
+      </geometry>
+      <material name="bno055_material">
+        <color rgba="0.0392157 0.0392157 0.0392157 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bno055.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_floor1 to bno055 -->
+  <joint name="imu_joint" type="fixed">
+    <origin xyz="0 0 0.0035" rpy="0 -0 0"/>
+    <parent link="base_floor1"/>
+    <child link="bno055"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
+  </joint>
+  <!-- Link wheel_left -->
+  <link name="wheel_left">
+    <inertial>
+      <origin xyz="-7.14929e-06 0.00761544 -1.2447e-06" rpy="0 0 0"/>
+      <mass value="0.0258312"/>
+      <inertia ixx="7.93406e-06" ixy="2.56e-10" ixz="3.209e-09" iyy="1.53586e-05" iyz="4.31e-10" izz="7.91848e-06"/>
+    </inertial>
+    <!-- Part tire -->
+    <visual>
+      <origin xyz="0 0.009 0" rpy="0 -0 -0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/tire.stl"/>
+      </geometry>
+      <material name="tire_material">
+        <color rgba="0.0784314 0.0784314 0.0784314 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.009 0" rpy="0 -0 -0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/tire.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_15 -->
+    <visual>
+      <origin xyz="-0.00824889 0.0105 -0.0047625" rpy="1.5708 0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_15_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.00824889 0.0105 -0.0047625" rpy="1.5708 0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part servo_horn_adapter_wheel70mm__l -->
+    <visual>
+      <origin xyz="0 0.0045 0" rpy="0 -0 -0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/servo_horn_adapter_wheel70mm__l.stl"/>
+      </geometry>
+      <material name="servo_horn_adapter_wheel70mm__l_material">
+        <color rgba="0.615686 0.811765 0.929412 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.0045 0" rpy="0 -0 -0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/servo_horn_adapter_wheel70mm__l.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_16 -->
+    <visual>
+      <origin xyz="0 0.0105 0.009525" rpy="1.5708 0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_16_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.0105 0.009525" rpy="1.5708 0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part rim -->
+    <visual>
+      <origin xyz="0 0.009 0" rpy="0 -0 -0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/rim.stl"/>
+      </geometry>
+      <material name="rim_material">
+        <color rgba="0.0941176 0.580392 0.545098 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.009 0" rpy="0 -0 -0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/rim.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part 25t_servo_horn_l -->
+    <visual>
+      <origin xyz="0 0.00201 0" rpy="0 -0 -0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/25t_servo_horn_l.stl"/>
+      </geometry>
+      <material name="25t_servo_horn_l_material">
+        <color rgba="0.960784 0.960784 0.964706 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.00201 0" rpy="0 -0 -0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/25t_servo_horn_l.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_17 -->
+    <visual>
+      <origin xyz="0.00824889 0.0105 -0.0047625" rpy="1.5708 0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_17_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.00824889 0.0105 -0.0047625" rpy="1.5708 0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_18 -->
+    <visual>
+      <origin xyz="0 0.0105 0" rpy="3.14159 0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_18_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.0105 0" rpy="3.14159 0 -1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_floor1 to wheel_left -->
+  <joint name="left_wheel_joint" type="continuous">
+    <origin xyz="0.03 0.0601386 0.01986" rpy="-0 0 -0"/>
+    <parent link="base_floor1"/>
+    <child link="wheel_left"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
+  </joint>
+  <!-- Link wheel_right -->
+  <link name="wheel_right">
+    <inertial>
+      <origin xyz="-7.14929e-06 -0.00761544 -1.24475e-06" rpy="0 0 0"/>
+      <mass value="0.0258312"/>
+      <inertia ixx="7.93406e-06" ixy="-2.56e-10" ixz="3.209e-09" iyy="1.53586e-05" iyz="-4.31e-10" izz="7.91848e-06"/>
+    </inertial>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_19 -->
+    <visual>
+      <origin xyz="-0.00824889 -0.0105 -0.0047625" rpy="-1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_19_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.00824889 -0.0105 -0.0047625" rpy="-1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_20 -->
+    <visual>
+      <origin xyz="0 -0.0105 0.009525" rpy="-1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_20_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.0105 0.009525" rpy="-1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part 25t_servo_horn_r -->
+    <visual>
+      <origin xyz="0 -0.00201 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/25t_servo_horn_r.stl"/>
+      </geometry>
+      <material name="25t_servo_horn_r_material">
+        <color rgba="0.960784 0.960784 0.964706 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.00201 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/25t_servo_horn_r.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part servo_horn_adapter_wheel70mm__r -->
+    <visual>
+      <origin xyz="0 -0.0045 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/servo_horn_adapter_wheel70mm__r.stl"/>
+      </geometry>
+      <material name="servo_horn_adapter_wheel70mm__r_material">
+        <color rgba="0.615686 0.811765 0.929412 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.0045 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/servo_horn_adapter_wheel70mm__r.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part tire_2 -->
+    <visual>
+      <origin xyz="0 -0.009 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/tire.stl"/>
+      </geometry>
+      <material name="tire_2_material">
+        <color rgba="0.0784314 0.0784314 0.0784314 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.009 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/tire.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part rim_2 -->
+    <visual>
+      <origin xyz="0 -0.009 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/rim.stl"/>
+      </geometry>
+      <material name="rim_2_material">
+        <color rgba="0.0941176 0.580392 0.545098 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.009 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/rim.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_21 -->
+    <visual>
+      <origin xyz="0 -0.0105 0" rpy="-1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_21_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.0105 0" rpy="-1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_22 -->
+    <visual>
+      <origin xyz="0.00824889 -0.0105 -0.0047625" rpy="-1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_22_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.00824889 -0.0105 -0.0047625" rpy="-1.5708 -0 1.5708"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_floor1 to wheel_right -->
+  <joint name="right_wheel_joint" type="continuous">
+    <origin xyz="0.03 -0.0601386 0.01986" rpy="0 -0 -0"/>
+    <parent link="base_floor1"/>
+    <child link="wheel_right"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
+  </joint>
+  <!-- Link caster_wheel -->
+  <link name="caster_wheel">
+    <inertial>
+      <origin xyz="-0 -0 -0.0110664" rpy="0 0 0"/>
+      <mass value="0.00740259"/>
+      <inertia ixx="2.27687e-07" ixy="0" ixz="0" iyy="2.27687e-07" iyz="0" izz="1.42321e-07"/>
+    </inertial>
+    <!-- Part caster_ball -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/caster_ball.stl"/>
+      </geometry>
+      <material name="caster_ball_material">
+        <color rgba="0.301961 0.301961 0.301961 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/caster_ball.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part caster_frame -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/caster_frame.stl"/>
+      </geometry>
+      <material name="caster_frame_material">
+        <color rgba="0.141176 0.694118 0.65098 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/caster_frame.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_floor1 to caster_wheel -->
+  <joint name="caster_joint" type="fixed">
+    <origin xyz="-0.0556106 -0 0.0035" rpy="0 -0 0"/>
+    <parent link="base_floor1"/>
+    <child link="caster_wheel"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
+  </joint>
+</robot>

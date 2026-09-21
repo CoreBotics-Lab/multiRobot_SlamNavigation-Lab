@@ -9,7 +9,7 @@
     <xacro:property name="camera_o_rpy" value="0 0 0" />
 
   <!-- Link realsense_d435 -->
-  <link name="camera_link">
+  <link name="${tf_prefix}camera_link">
     <xacro:box_inertia m="${camera_m}" x="${camera_length}" y="${camera_width}" z="${camera_height}" o_xyz="${camera_o_xyz}" o_rpy="${camera_o_rpy}"/>
 
     <collision>
@@ -32,6 +32,6 @@
 
   </link>
 
-  <link name="camera_optical_frame"/>
+  <link name="${tf_prefix}camera_optical_frame"/>
 
 </robot>

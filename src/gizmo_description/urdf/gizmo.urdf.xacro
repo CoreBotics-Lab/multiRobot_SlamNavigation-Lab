@@ -1,6 +1,11 @@
 <?xml version="1.0" ?>
 <robot name="gizmo" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+    <xacro:arg name="prefix" default="" />
+    <xacro:property name="_prefix" value="$(arg prefix)" />
+    <xacro:property name="tf_prefix" value="${_prefix if (_prefix == '' or _prefix.endswith('/')) else _prefix + '/'}" />
+    <xacro:property name="topic_prefix" value="${('/' + tf_prefix) if not tf_prefix.startswith('/') else tf_prefix}" />
+
     <xacro:include filename="$(find gizmo_description)/urdf/include/robot_components/gizmo_mobile_base.xacro" />
     <xacro:include filename="$(find gizmo_description)/urdf/include/gazebo_components/gizmo_mobile_base.gazebo.xacro" />
 

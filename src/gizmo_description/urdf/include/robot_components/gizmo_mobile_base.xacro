@@ -17,41 +17,41 @@
     <xacro:property name="base_floor1_wheel_right_o_xyz" value="0.03 -0.0691386 0.01986" />
 
     <!-- Link base_footprint -->
-    <link name="base_footprint"/>
+    <link name="${tf_prefix}base_footprint"/>
 
     <!-- Joint base_footprint_base_floor1 -->
     <joint name="base_footprint_joint" type="fixed">
         <origin xyz="${base_footprint_base_floor1_o_xyz}" rpy="0 0 0"/>
-        <parent link="base_footprint"/>
-        <child link="base_floor1"/>
+        <parent link="${tf_prefix}base_footprint"/>
+        <child link="${tf_prefix}base_floor1"/>
     </joint>
 
     <!-- Joint base_floor1_base_floor2 -->
     <joint name="base_floor1_base_floor2_joint" type="fixed">
         <origin xyz="${base_floor1_base_floor2_o_xyz}" rpy="0 0 0"/>
-        <parent link="base_floor1"/>
-        <child link="base_floor2"/>
+        <parent link="${tf_prefix}base_floor1"/>
+        <child link="${tf_prefix}base_floor2"/>
     </joint>
 
     <!-- Joint base_floor2_base_floor3 -->
     <joint name="base_floor2_base_floor3_joint" type="fixed">
         <origin xyz="${base_floor2_base_floor3_o_xyz}" rpy="0 0 0"/>
-        <parent link="base_floor2"/>
-        <child link="base_floor3"/>
+        <parent link="${tf_prefix}base_floor2"/>
+        <child link="${tf_prefix}base_floor3"/>
     </joint>
 
     <!-- Joint base_floor1_caster_wheel -->
     <joint name="caster_wheel_joint" type="fixed">
         <origin xyz="${base_floor1_caster_wheel_o_xyz}" rpy="0 0 0"/>
-        <parent link="base_floor1"/>
-        <child link="caster_wheel"/>
+        <parent link="${tf_prefix}base_floor1"/>
+        <child link="${tf_prefix}caster_wheel"/>
     </joint>
 
     <!-- Joint base_floor1_wheel_left -->
     <joint name="left_wheel_joint" type="continuous">
         <origin xyz="${base_floor1_wheel_left_o_xyz}" rpy="0 0 0"/>
-        <parent link="base_floor1"/>
-        <child link="wheel_left"/>
+        <parent link="${tf_prefix}base_floor1"/>
+        <child link="${tf_prefix}wheel_left"/>
         <axis xyz="0 1 0"/>
         <!-- <limit effort="10" velocity="10"/> -->
     </joint>
@@ -59,8 +59,8 @@
     <!-- Joint base_floor1_wheel_right -->
     <joint name="right_wheel_joint" type="continuous">
         <origin xyz="${base_floor1_wheel_right_o_xyz}" rpy="0 0 0"/>
-        <parent link="base_floor1"/>
-        <child link="wheel_right"/>
+        <parent link="${tf_prefix}base_floor1"/>
+        <child link="${tf_prefix}wheel_right"/>
         <axis xyz="0 1 0"/>
         <!-- <limit effort="10" velocity="10"/> -->
     </joint>

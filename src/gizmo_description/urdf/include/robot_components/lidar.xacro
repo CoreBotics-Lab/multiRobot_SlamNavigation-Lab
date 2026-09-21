@@ -8,7 +8,7 @@
     <xacro:property name="lidar_o_rpy" value="0 0 0" />
 
     <!-- Link lidar_link -->
-    <link name="lidar_link">
+    <link name="${tf_prefix}lidar_link">
         <xacro:cylinder_inertia m="${lidar_m}" r="${lidar_r}" h="${lidar_length}" o_xyz="${lidar_o_xyz}" o_rpy="${lidar_o_rpy}"/>
 
         <collision>
@@ -31,6 +31,6 @@
 
     </link>
 
-    <link name="scan_frame"/>
+    <link name="${tf_prefix}scan_frame"/>
 
 </robot>

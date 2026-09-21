@@ -25,34 +25,34 @@
     <!-- Joint lidar_link -->
     <joint name="lidar_link_joint" type="fixed">
         <origin xyz="${base_floor3_lidar_link_o_xyz}" rpy="${base_floor3_lidar_link_o_rpy}"/>
-        <parent link="base_floor3"/>
-        <child link="lidar_link"/>
+        <parent link="${tf_prefix}base_floor3"/>
+        <child link="${tf_prefix}lidar_link"/>
     </joint>
 
     <joint name="scan_frame_joint" type="fixed">
         <origin xyz="${lidar_scan_frame_o_xyz}" rpy="${lidar_scan_frame_o_rpy}"/>
-        <parent link="lidar_link"/>
-        <child link="scan_frame"/>
+        <parent link="${tf_prefix}lidar_link"/>
+        <child link="${tf_prefix}scan_frame"/>
     </joint>
 
     <!-- Joint camera_link -->
     <joint name="camera_link_joint" type="fixed">
         <origin xyz="${base_floor3_camera_link_o_xyz}" rpy="${base_floor3_camera_link_o_rpy}"/>
-        <parent link="base_floor3"/>
-        <child link="camera_link"/>
+        <parent link="${tf_prefix}base_floor3"/>
+        <child link="${tf_prefix}camera_link"/>
     </joint>
 
     <joint name="camera_optical_frame_joint" type="fixed">
         <origin xyz="${camera_optical_frame_o_xyz}" rpy="${camera_optical_frame_o_rpy}"/>
-        <parent link="camera_link"/>
-        <child link="camera_optical_frame"/>
+        <parent link="${tf_prefix}camera_link"/>
+        <child link="${tf_prefix}camera_optical_frame"/>
     </joint>
 
     <!-- Joint imu_link -->
     <joint name="imu_link_joint" type="fixed">
         <origin xyz="${base_floor1_imu_link_o_xyz}" rpy="${base_floor1_imu_link_o_rpy}"/>
-        <parent link="base_floor1"/>
-        <child link="imu_link"/>
+        <parent link="${tf_prefix}base_floor1"/>
+        <child link="${tf_prefix}imu_link"/>
     </joint>
 
 </robot>

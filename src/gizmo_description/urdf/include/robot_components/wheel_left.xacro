@@ -4,7 +4,7 @@
     <xacro:property name="wheel_left_set_m" value="0.0258312" />
     <xacro:property name="wheel_left_set_o_xyz" value="0 -0.0025 0" />
     <xacro:property name="wheel_left_set_o_rpy" value="${pi/2} 0 0" />
-    xacro:<xacro:property name="wheel_left_set_h" value="0.0130" />
+    <xacro:property name="wheel_left_set_h" value="0.0130" />
 
     <xacro:property name="wheel_left_d" value="0.070" />
     <xacro:property name="wheel_left_r" value="${wheel_left_d / 2}" />
@@ -12,7 +12,7 @@
     <xacro:property name="wheel_left_o_rpy" value="0 0 0" />
 
   <!-- Link wheel_left -->
-  <link name="wheel_left">
+  <link name="${tf_prefix}wheel_left">
   
     <xacro:cylinder_inertia m="${wheel_left_set_m}" r="${wheel_left_r}" h="${wheel_left_set_h}" o_xyz="${wheel_left_set_o_xyz}" o_rpy="${wheel_left_set_o_rpy}"/>
 

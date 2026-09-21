@@ -10,7 +10,7 @@
     <xacro:property name="imu_o_rpy" value="0 0 0" />
 
     <!-- Link imu_link -->
-    <link name="imu_link">
+    <link name="${tf_prefix}imu_link">
         <xacro:box_inertia m="${imu_m}" x="${imu_length}" y="${imu_width}" z="${imu_height}" o_xyz="${imu_o_xyz}" o_rpy="${imu_o_rpy}"/>
 
         <collision>
