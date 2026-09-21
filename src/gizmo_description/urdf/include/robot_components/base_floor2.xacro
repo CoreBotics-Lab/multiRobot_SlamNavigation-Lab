@@ -1,0 +1,101 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="base_floor2_m" value="0.0997662" />
+    <xacro:property name="base_floor2_r" value="0.07500000" />
+    <xacro:property name="base_floor2_h" value="0.02350000" />
+    <xacro:property name="base_floor2_o_xyz" value="0 0 ${base_floor2_h / 2}" />
+    <xacro:property name="base_floor2_o_rpy" value="0 0 0" />
+
+    <!-- Link base_floor2 -->
+    <link name="base_floor2">
+
+        <xacro:cylinder_inertia m="${base_floor2_m}" r="${base_floor2_r}" h="${base_floor2_h}" o_xyz="${base_floor2_o_xyz}" o_rpy="${base_floor2_o_rpy}"/>
+        
+        <collision>
+        <origin xyz="${base_floor2_o_xyz}" rpy="${base_floor2_o_rpy}"/>
+        <geometry>
+            <cylinder radius="${base_floor2_r}" length="${base_floor2_h}" />
+        </geometry>
+        </collision>
+
+        <!-- Part base_floor_2 -->
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="package://gizmo_description/meshes/base_floor_2.stl"/>
+        </geometry>
+        <material name="base_floor_2_material">
+            <color rgba="0 0.639216 0.639216 1"/>
+        </material>
+        </visual>
+        
+        <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_11 -->
+        <visual>
+        <origin xyz="-0.0406106 -0.0507522 0.001" rpy="0 -${pi/2} 0"/>
+        <geometry>
+            <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+        </geometry>
+        <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_11_material">
+            <color rgba="0.941176 0.941176 0.941176 1"/>
+        </material>
+        </visual>
+        
+        <!-- Part face_plate_top -->
+        <visual>
+        <origin xyz="0.048 0 0.0035" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="package://gizmo_description/meshes/face_plate_top.stl"/>
+        </geometry>
+        <material name="face_plate_top_material">
+            <color rgba="0.866667 0.321569 0.156863 1"/>
+        </material>
+        </visual>
+        
+        <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_12 -->
+        <visual>
+        <origin xyz="-0.0406106 0.0507522 0.001" rpy="0 -${pi/2} 0"/>
+        <geometry>
+            <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+        </geometry>
+        <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_12_material">
+            <color rgba="0.941176 0.941176 0.941176 1"/>
+        </material>
+        </visual>
+        
+        <!-- Part standoff_spacer_m3_20mm -->
+        <visual>
+        <origin xyz="-0.0406106 0.0507522 0.0035" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="package://gizmo_description/meshes/standoff_spacer_m3_20mm.stl"/>
+        </geometry>
+        <material name="standoff_spacer_m3_20mm_material">
+            <color rgba="0.917647 0.917647 0.917647 1"/>
+        </material>
+        </visual>
+        
+        <!-- Part standoff_spacer_m3_20mm_2 -->
+        <visual>
+        <origin xyz="-0.0406106 -0.0507522 0.0035" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="package://gizmo_description/meshes/standoff_spacer_m3_20mm.stl"/>
+        </geometry>
+        <material name="standoff_spacer_m3_20mm_2_material">
+            <color rgba="0.917647 0.917647 0.917647 1"/>
+        </material>
+        </visual>
+        
+        <!-- Part mcu_controller -->
+        <visual>
+        <origin xyz="0 0 0.0035" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="package://gizmo_description/meshes/mcu_controller.stl"/>
+        </geometry>
+        <material name="mcu_controller_material">
+            <color rgba="0.105882 0.333333 0 1"/>
+        </material>
+        </visual>
+        
+    </link>
+
+</robot>

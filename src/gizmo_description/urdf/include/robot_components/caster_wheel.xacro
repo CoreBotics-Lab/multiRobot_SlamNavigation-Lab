@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="caster_wheel_m" value="0.00740259" />
+    <xacro:property name="caster_wheel_d" value="0.01863116" />
+    <xacro:property name="caster_wheel_r" value="${caster_wheel_d / 2}" />
+    <xacro:property name="caster_wheel_o_xyz" value="0 0 -${caster_wheel_r}" />
+    <xacro:property name="caster_wheel_o_rpy" value="0 0 0" />
+
+    <!-- Link caster_wheel -->
+    <link name="caster_wheel">
+    
+        <xacro:sphere_inertia m="${caster_wheel_m}" r="${caster_wheel_r}" o_xyz="${caster_wheel_o_xyz}" o_rpy="${caster_wheel_o_rpy}"/> 
+        
+        <collision>
+            <origin xyz="${caster_wheel_o_xyz}" rpy="${caster_wheel_o_rpy}"/>
+            <geometry>
+                <sphere radius="${caster_wheel_r}" />
+            </geometry>
+        </collision>
+
+        <!-- Part caster_frame -->
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="package://gizmo_description/meshes/caster_frame.stl"/>
+        </geometry>
+        <material name="caster_frame_material">
+            <color rgba="0.141176 0.694118 0.65098 1"/>
+        </material>
+        </visual>
+
+        <!-- Part caster_ball -->
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="package://gizmo_description/meshes/caster_ball.stl"/>
+        </geometry>
+        <material name="caster_ball_material">
+            <color rgba="0.301961 0.301961 0.301961 1"/>
+        </material>
+        </visual>
+
+    </link>
+
+</robot>

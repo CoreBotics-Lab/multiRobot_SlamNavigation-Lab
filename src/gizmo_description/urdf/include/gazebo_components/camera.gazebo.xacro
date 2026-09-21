@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Camera Sensor Mode Argument ('camera' or 'depth_camera') -->
+    <xacro:arg name="camera_type" default="camera"/>
+    <xacro:property name="camera_type" value="$(arg camera_type)" />
+
+    <!-- Camera Gazebo Plugin -->
+    <gazebo reference="camera_link">
+        <sensor name="camera" type="${camera_type}">
+            <pose>${camera_optical_frame_o_xyz} 0 0 0</pose>
+            <xacro:if value="${camera_type == 'depth_camera'}">
+                <topic>camera/depth/image_raw</topic>
+            </xacro:if>
+            <xacro:unless value="${camera_type == 'depth_camera'}">
+                <topic>camera/image_raw</topic>
+            </xacro:unless>
+            <camera_info_topic>camera/camera_info</camera_info_topic>
+            <gz_frame_id>camera_optical_frame</gz_frame_id>
+            <update_rate>30</update_rate>
+            <always_on>1</always_on>
+            <visualize>true</visualize>
+
+            <camera>
+                <!-- Intel RealSense D435 RGB Specs: 69 deg H-FOV (1.20427 rad), 42 deg V-FOV -->
+                <horizontal_fov>1.20427</horizontal_fov>
+                <image>
+                    <width>640</width>
+                    <height>480</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.105</near>
+                    <far>10.0</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+
+                <xacro:if value="${camera_type == 'depth_camera'}">
+                    <depth_camera>
+                        <output>depths</output>
+                        <clip>
+                            <near>0.105</near>
+                            <far>10.0</far>
+                        </clip>
+                    </depth_camera>
+                </xacro:if>
+            </camera>
+        </sensor>
+    </gazebo>
+
+</robot>

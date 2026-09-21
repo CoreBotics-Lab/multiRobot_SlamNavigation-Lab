@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="lidar_m" value="0.19" />
+    <xacro:property name="lidar_r" value="0.03800000" />
+    <xacro:property name="lidar_length" value="0.04100000" />
+    <xacro:property name="lidar_o_xyz" value="0 0 ${lidar_length/2}" />
+    <xacro:property name="lidar_o_rpy" value="0 0 0" />
+
+    <!-- Link lidar_link -->
+    <link name="lidar_link">
+        <xacro:cylinder_inertia m="${lidar_m}" r="${lidar_r}" h="${lidar_length}" o_xyz="${lidar_o_xyz}" o_rpy="${lidar_o_rpy}"/>
+
+        <collision>
+            <origin xyz="${lidar_o_xyz}" rpy="${lidar_o_rpy}"/>
+            <geometry>
+                <cylinder radius="${lidar_r}" length="${lidar_length}" />
+            </geometry>
+        </collision>
+
+        <!-- Part lidar -->
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://gizmo_description/meshes/lidar.stl"/>
+            </geometry>
+            <material name="lidar_material">
+                <color rgba="0.198039 0.498039 0.498039 1"/>
+            </material>
+        </visual>
+
+    </link>
+
+    <link name="scan_frame"/>
+
+</robot>

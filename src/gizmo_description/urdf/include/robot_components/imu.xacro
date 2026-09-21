@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="imu_m" value="0.003" />
+    <!-- Dimensions along robot frame axes: X=length, Y=width, Z=height -->
+    <xacro:property name="imu_length" value="0.02667000" /> <!-- x axis -->
+    <xacro:property name="imu_width" value="0.02032000" />  <!-- y axis -->
+    <xacro:property name="imu_height" value="0.00415000" /> <!-- z axis -->
+    <xacro:property name="imu_o_xyz" value="0 0 ${imu_height/2}" />
+    <xacro:property name="imu_o_rpy" value="0 0 0" />
+
+    <!-- Link imu_link -->
+    <link name="imu_link">
+        <xacro:box_inertia m="${imu_m}" x="${imu_length}" y="${imu_width}" z="${imu_height}" o_xyz="${imu_o_xyz}" o_rpy="${imu_o_rpy}"/>
+
+        <collision>
+            <origin xyz="${imu_o_xyz}" rpy="${imu_o_rpy}"/>
+            <geometry>
+                <box size="${imu_length} ${imu_width} ${imu_height}"/>
+            </geometry>
+        </collision>
+
+        <!-- Part bno055 -->
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://gizmo_description/meshes/bno055.stl"/>
+            </geometry>
+            <material name="bno055_material">
+                <color rgba="0.0392157 0.0392157 0.0392157 1"/>
+            </material>
+        </visual>
+
+    </link>
+
+</robot>

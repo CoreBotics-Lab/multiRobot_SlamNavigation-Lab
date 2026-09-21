@@ -1,0 +1,116 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="wheel_right_set_m" value="0.0258312" />
+    <xacro:property name="wheel_right_set_o_xyz" value="0 0.0025 0" />
+    <xacro:property name="wheel_right_set_o_rpy" value="${pi/2} 0 0" />
+    xacro:<xacro:property name="wheel_right_set_h" value="0.0130" />
+
+    <xacro:property name="wheel_right_d" value="0.070" />
+    <xacro:property name="wheel_right_r" value="${wheel_right_d / 2}" />
+    <xacro:property name="wheel_right_o_xyz" value="0 0 0" />
+    <xacro:property name="wheel_right_o_rpy" value="0 0 0" />
+
+<!-- Link wheel_right -->
+  <link name="wheel_right">
+  
+    <xacro:cylinder_inertia m="${wheel_right_set_m}" r="${wheel_right_r}" h="${wheel_right_set_h}" o_xyz="${wheel_right_set_o_xyz}" o_rpy="${wheel_right_set_o_rpy}"/>
+
+    <collision>
+      <origin xyz="${wheel_right_o_xyz}" rpy="${wheel_right_o_rpy}"/>
+      <geometry>
+        <sphere radius="${wheel_right_r}"/>
+      </geometry>
+    </collision>
+
+    <!-- Part rim_2 -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/rim.stl"/>
+      </geometry>
+      <material name="rim_2_material">
+        <color rgba="0.0941176 0.580392 0.545098 1"/>
+      </material>
+    </visual>
+
+    <!-- Part tire_2 -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/tire.stl"/>
+      </geometry>
+      <material name="tire_2_material">
+        <color rgba="0.0784314 0.0784314 0.0784314 1"/>
+      </material>
+    </visual>
+
+    <!-- Part 25t_servo_horn_r -->
+    <visual>
+      <origin xyz="0 0.00699 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/25t_servo_horn_r.stl"/>
+      </geometry>
+      <material name="25t_servo_horn_r_material">
+        <color rgba="0.960784 0.960784 0.964706 1"/>
+      </material>
+    </visual>
+
+    <!-- Part servo_horn_adapter_wheel70mm__r -->
+    <visual>
+      <origin xyz="0 0.0045 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/servo_horn_adapter_wheel70mm__r.stl"/>
+      </geometry>
+      <material name="servo_horn_adapter_wheel70mm__r_material">
+        <color rgba="0.615686 0.811765 0.929412 1"/>
+      </material>
+    </visual>
+
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_19 -->
+    <visual>
+      <origin xyz="-0.00824889 -0.0015 -0.0047625" rpy="-${pi/2} 0 ${pi/2}"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_19_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_20 -->
+    <visual>
+      <origin xyz="0 -0.0015 0.009525" rpy="-${pi/2} 0 ${pi/2}"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_20_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_21 -->
+    <visual>
+      <origin xyz="0 -0.0015 0" rpy="-${pi/2} 0 ${pi/2}"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_21_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+
+    <!-- Part bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_22 -->
+    <visual>
+      <origin xyz="0.00824889 -0.0015 -0.0047625" rpy="-${pi/2} 0 ${pi/2}"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/bn_1593_1348663_hexagon_socket_button_head_screw_m3x6.stl"/>
+      </geometry>
+      <material name="bn_1593_1348663_hexagon_socket_button_head_screw_m3x6_22_material">
+        <color rgba="0.941176 0.941176 0.941176 1"/>
+      </material>
+    </visual>
+
+  </link>
+
+</robot>

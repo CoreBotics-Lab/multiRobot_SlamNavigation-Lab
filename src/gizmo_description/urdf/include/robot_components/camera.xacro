@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- <xacro:include filename="$(find gizmo_description)/urdf/include/robot_components/inertial_function_macros.xacro" /> -->
+    <xacro:property name="camera_m" value="0.049866" />
+    <xacro:property name="camera_length" value="0.02410000" />
+    <xacro:property name="camera_width" value="0.09074825" />
+    <xacro:property name="camera_height" value="0.02456124" />
+    <xacro:property name="camera_o_xyz" value="${camera_width/64} 0 ${camera_height/2}" />
+    <xacro:property name="camera_o_rpy" value="0 0 0" />
+
+  <!-- Link realsense_d435 -->
+  <link name="camera_link">
+    <xacro:box_inertia m="${camera_m}" x="${camera_length}" y="${camera_width}" z="${camera_height}" o_xyz="${camera_o_xyz}" o_rpy="${camera_o_rpy}"/>
+
+    <collision>
+      <origin xyz="${camera_o_xyz}" rpy="${camera_o_rpy}"/>
+      <geometry>
+        <box size="${camera_length} ${camera_width} ${camera_height}"/>
+      </geometry>
+    </collision>
+    
+    <!-- Part realsense_d435 -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://gizmo_description/meshes/realsense_d435.stl"/>
+      </geometry>
+      <material name="realsense_d435_material">
+        <color rgba="0.615686 0.811765 0.929412 1"/>
+      </material>
+    </visual>
+
+  </link>
+
+  <link name="camera_optical_frame"/>
+
+</robot>

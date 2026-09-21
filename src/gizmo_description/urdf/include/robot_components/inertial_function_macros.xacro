@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <!-- refer https://en.wikipedia.org/wiki/List_of_moments_of_inertia#:~:text=%CE%A3%29-,List%20of%203D%20inertia%20tensors
+    for moment of inertia of different shapes -->
+    <xacro:macro name="box_inertia" params="m x y z o_xyz o_rpy">
+        <inertial>
+            <mass value="${m}" />
+            <origin xyz="${o_xyz}" rpy="${o_rpy}" />
+            <inertia ixx="${(1.0/12.0) * m * (y*y + z*z)}" ixy="0" ixz="0"
+                     iyy="${(1.0/12.0) * m * (x*x + z*z)}" iyz="0"
+                     izz="${(1.0/12.0) * m * (x*x + y*y)}" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="cylinder_inertia" params="m r h o_xyz o_rpy">
+        <inertial>
+            <mass value="${m}"/>
+            <origin xyz="${o_xyz}" rpy="${o_rpy}"/>
+            <inertia 
+                ixx="${(1.0/12.0) * m * (3 * r*r + h*h)}" ixy="0" ixz="0"
+                iyy="${(1.0/12.0) * m * (3 * r*r + h*h)}" iyz="0"
+                izz="${(1.0/2.0) * m * (r*r)}" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="sphere_inertia" params="m r o_xyz o_rpy">
+        <inertial>
+            <mass value="${m}" />
+            <origin xyz="${o_xyz}" rpy="${o_rpy}" />
+            <inertia 
+                ixx="${(2.0/5.0) * m * (r*r)}" ixy="0" ixz="0"
+                iyy="${(2.0/5.0) * m * (r*r)}" iyz="0"
+                izz="${(2.0/5.0) * m * (r*r)}" />
+        </inertial>
+    </xacro:macro>
+
+</robot>

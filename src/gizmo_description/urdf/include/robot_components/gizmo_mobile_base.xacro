@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find gizmo_description)/urdf/include/robot_components/inertial_function_macros.xacro" />
+    <xacro:include filename="$(find gizmo_description)/urdf/include/robot_components/base_floor1.xacro" />
+    <xacro:include filename="$(find gizmo_description)/urdf/include/robot_components/base_floor2.xacro" />
+    <xacro:include filename="$(find gizmo_description)/urdf/include/robot_components/base_floor3.xacro" />
+    <xacro:include filename="$(find gizmo_description)/urdf/include/robot_components/caster_wheel.xacro" />
+    <xacro:include filename="$(find gizmo_description)/urdf/include/robot_components/wheel_left.xacro" />
+    <xacro:include filename="$(find gizmo_description)/urdf/include/robot_components/wheel_right.xacro" />
+
+    <xacro:property name="base_footprint_base_floor1_o_xyz" value="0 0 0.01513116" />
+    <xacro:property name="base_floor1_base_floor2_o_xyz" value="0 0 0.03350000" />
+    <xacro:property name="base_floor2_base_floor3_o_xyz" value="0 0 0.02350000" />
+    <xacro:property name="base_floor1_caster_wheel_o_xyz" value="-0.0556106 -0 0.0035" />
+    <xacro:property name="base_floor1_wheel_left_o_xyz" value="0.03 0.0691386 0.01986" />
+    <xacro:property name="base_floor1_wheel_right_o_xyz" value="0.03 -0.0691386 0.01986" />
+
+    <!-- Link base_footprint -->
+    <link name="base_footprint"/>
+
+    <!-- Joint base_footprint_base_floor1 -->
+    <joint name="base_footprint_joint" type="fixed">
+        <origin xyz="${base_footprint_base_floor1_o_xyz}" rpy="0 0 0"/>
+        <parent link="base_footprint"/>
+        <child link="base_floor1"/>
+    </joint>
+
+    <!-- Joint base_floor1_base_floor2 -->
+    <joint name="base_floor1_base_floor2_joint" type="fixed">
+        <origin xyz="${base_floor1_base_floor2_o_xyz}" rpy="0 0 0"/>
+        <parent link="base_floor1"/>
+        <child link="base_floor2"/>
+    </joint>
+
+    <!-- Joint base_floor2_base_floor3 -->
+    <joint name="base_floor2_base_floor3_joint" type="fixed">
+        <origin xyz="${base_floor2_base_floor3_o_xyz}" rpy="0 0 0"/>
+        <parent link="base_floor2"/>
+        <child link="base_floor3"/>
+    </joint>
+
+    <!-- Joint base_floor1_caster_wheel -->
+    <joint name="caster_wheel_joint" type="fixed">
+        <origin xyz="${base_floor1_caster_wheel_o_xyz}" rpy="0 0 0"/>
+        <parent link="base_floor1"/>
+        <child link="caster_wheel"/>
+    </joint>
+
+    <!-- Joint base_floor1_wheel_left -->
+    <joint name="left_wheel_joint" type="continuous">
+        <origin xyz="${base_floor1_wheel_left_o_xyz}" rpy="0 0 0"/>
+        <parent link="base_floor1"/>
+        <child link="wheel_left"/>
+        <axis xyz="0 1 0"/>
+        <!-- <limit effort="10" velocity="10"/> -->
+    </joint>
+
+    <!-- Joint base_floor1_wheel_right -->
+    <joint name="right_wheel_joint" type="continuous">
+        <origin xyz="${base_floor1_wheel_right_o_xyz}" rpy="0 0 0"/>
+        <parent link="base_floor1"/>
+        <child link="wheel_right"/>
+        <axis xyz="0 1 0"/>
+        <!-- <limit effort="10" velocity="10"/> -->
+    </joint>
+
+</robot>

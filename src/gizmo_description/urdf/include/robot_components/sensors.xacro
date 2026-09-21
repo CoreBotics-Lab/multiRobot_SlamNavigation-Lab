@@ -1,0 +1,58 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find gizmo_description)/urdf/include/robot_components/inertial_function_macros.xacro" />
+    <xacro:include filename="$(find gizmo_description)/urdf/include/robot_components/lidar.xacro" />
+    <xacro:include filename="$(find gizmo_description)/urdf/include/robot_components/camera.xacro" />
+    <xacro:include filename="$(find gizmo_description)/urdf/include/robot_components/imu.xacro" />
+
+    <!-- lidar properties -->
+    <xacro:property name="base_floor3_lidar_link_o_xyz" value="0 0 0.003" />
+    <xacro:property name="base_floor3_lidar_link_o_rpy" value="0 0 0" />
+    <xacro:property name="lidar_scan_frame_o_xyz" value="0 0 0.031" />
+    <xacro:property name="lidar_scan_frame_o_rpy" value="0 0 0" />
+
+    <!-- camera properties -->
+    <xacro:property name="base_floor3_camera_link_o_xyz" value="0.055 0 0.003" />
+    <xacro:property name="base_floor3_camera_link_o_rpy" value="0 0 0" />
+    <xacro:property name="camera_optical_frame_o_xyz" value="0.01342258 0 0.01237412" />
+    <xacro:property name="camera_optical_frame_o_rpy" value="${-pi/2} 0 ${-pi/2}" />
+
+    <!-- imu properties -->
+    <xacro:property name="base_floor1_imu_link_o_xyz" value="0 0 0.0035" />
+    <xacro:property name="base_floor1_imu_link_o_rpy" value="0 0 0" />
+
+    <!-- Joint lidar_link -->
+    <joint name="lidar_link_joint" type="fixed">
+        <origin xyz="${base_floor3_lidar_link_o_xyz}" rpy="${base_floor3_lidar_link_o_rpy}"/>
+        <parent link="base_floor3"/>
+        <child link="lidar_link"/>
+    </joint>
+
+    <joint name="scan_frame_joint" type="fixed">
+        <origin xyz="${lidar_scan_frame_o_xyz}" rpy="${lidar_scan_frame_o_rpy}"/>
+        <parent link="lidar_link"/>
+        <child link="scan_frame"/>
+    </joint>
+
+    <!-- Joint camera_link -->
+    <joint name="camera_link_joint" type="fixed">
+        <origin xyz="${base_floor3_camera_link_o_xyz}" rpy="${base_floor3_camera_link_o_rpy}"/>
+        <parent link="base_floor3"/>
+        <child link="camera_link"/>
+    </joint>
+
+    <joint name="camera_optical_frame_joint" type="fixed">
+        <origin xyz="${camera_optical_frame_o_xyz}" rpy="${camera_optical_frame_o_rpy}"/>
+        <parent link="camera_link"/>
+        <child link="camera_optical_frame"/>
+    </joint>
+
+    <!-- Joint imu_link -->
+    <joint name="imu_link_joint" type="fixed">
+        <origin xyz="${base_floor1_imu_link_o_xyz}" rpy="${base_floor1_imu_link_o_rpy}"/>
+        <parent link="base_floor1"/>
+        <child link="imu_link"/>
+    </joint>
+
+</robot>

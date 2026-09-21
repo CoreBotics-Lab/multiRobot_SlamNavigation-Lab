@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<robot name="gizmo" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find gizmo_description)/urdf/include/robot_components/gizmo_mobile_base.xacro" />
+    <xacro:include filename="$(find gizmo_description)/urdf/include/gazebo_components/gizmo_mobile_base.gazebo.xacro" />
+
+    <xacro:include filename="$(find gizmo_description)/urdf/include/robot_components/sensors.xacro" />
+    <xacro:include filename="$(find gizmo_description)/urdf/include/gazebo_components/sensors.gazebo.xacro" />
+
+</robot>
