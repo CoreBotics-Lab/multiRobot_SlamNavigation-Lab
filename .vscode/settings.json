@@ -59,7 +59,8 @@
         "/opt/ros/lyrical/opt/gz_math_vendor/lib/python",
         "/opt/ros/lyrical/lib/python3.14/site-packages"
     ],
-    "python-envs.defaultEnvManager": "ms-python.python:system"
+    "python-envs.defaultEnvManager": "ms-python.python:system",
+    "python.analysis.diagnosticsSource": "Pylance + Pyrefly"
     // urdf-visualizer extention settings
 
 }
