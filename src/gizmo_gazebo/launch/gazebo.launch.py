@@ -13,9 +13,9 @@ def generate_launch_description():
     gizmo_description_dir = get_package_share_directory('gizmo_description')
     ros_gz_package_dir = get_package_share_directory('ros_gz_sim')
 
-    launch_arg_use_sim_true = DeclareLaunchArgument(
+    launch_arg_use_sim_time = DeclareLaunchArgument(
         'use_sim_time',
-        default_value='True',
+        default_value='true',
         description='Use simulation time'
     )
     use_sim_time = LaunchConfiguration('use_sim_time')
@@ -193,7 +193,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        launch_arg_use_sim_true,
+        launch_arg_use_sim_time,
         launch_arg_run_rviz2,
         launch_arg_headless,
         launch_arg_world_file,
