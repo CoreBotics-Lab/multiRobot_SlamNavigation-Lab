@@ -1,0 +1,34 @@
+# Robot Localization Extended Kalman Filter (EKF) Configuration for Gizmo
+ekf_filter_node:
+  ros__parameters:
+    frequency: 30.0
+    two_d_mode: true
+    publish_tf: true
+    use_sim_time: true
+
+    # Coordinate Frames
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_footprint
+    world_frame: odom
+
+    # 1. Configuration for Wheel Encoders (Fuse X linear velocity & Z angular velocity)
+    odom0: /wheel_odom
+    odom0_config: [false, false, false,  # X,  Y,  Z position
+                   false, false, false,  # Roll, Pitch, Yaw orientation
+                   true,  false, false,  # X velocity (Forward speed)
+                   false, false, true,   # Roll, Pitch, Yaw angular velocity
+                   false, false, false]  # Accelerations
+    odom0_differential: false
+    odom0_queue_size: 10
+
+    # 2. Configuration for IMU (Fuse Gyroscope Yaw angular velocity)
+    imu0: /imu/data
+    imu0_config:  [false, false, false,  # X,  Y,  Z position
+                   false, false, false,  # Roll, Pitch, Yaw orientation
+                   false, false, false,  # X,  Y,  Z velocity
+                   false, false, true,   # Roll, Pitch, Yaw angular velocity (Gyroscope)
+                   false, false, false]  # Accelerations (Disabled to prevent drift runaway)
+    imu0_differential: false
+    imu0_queue_size: 10
+    imu0_remove_gravitational_acceleration: true
