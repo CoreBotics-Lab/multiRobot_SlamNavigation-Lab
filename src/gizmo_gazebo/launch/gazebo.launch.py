@@ -2,7 +2,7 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription, SetEnvironmentVariable
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetEnvironmentVariable
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression, Command
@@ -121,15 +121,8 @@ def generate_launch_description():
         name='rviz2',
         output='screen',
         arguments=['-d', rviz_config],
-        parameters=[{'use_sim_time': use_sim_time}]
-    )
-
-    rviz_group = GroupAction(
-        condition=IfCondition(run_rviz2),
-        actions=[
-            launch_arg_rviz_config,
-            rviz2
-        ]
+        parameters=[{'use_sim_time': use_sim_time}],
+        condition=IfCondition(run_rviz2)
     )
 
     bridge_config_file = os.path.join(
@@ -195,6 +188,7 @@ def generate_launch_description():
     return LaunchDescription([
         launch_arg_use_sim_time,
         launch_arg_run_rviz2,
+        launch_arg_rviz_config,
         launch_arg_headless,
         launch_arg_world_file,
         launch_arg_camera_type,
@@ -203,7 +197,7 @@ def generate_launch_description():
         launch_arg_use_imu,
         env_gz_resource_path,
         robot_state_publisher,
-        rviz_group,
+        rviz2,
         gazebo_clock_bridge,
         gz_sim,
         gz_spawn_entity,
