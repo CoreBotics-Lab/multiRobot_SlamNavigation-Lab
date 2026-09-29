@@ -27,6 +27,9 @@ def launch_setup(context, *args, **kwargs):
     use_sim_time = LaunchConfiguration('use_sim_time').perform(context).lower() == 'true'
     run_rviz2 = LaunchConfiguration('run_rviz2').perform(context)
     rviz_config = LaunchConfiguration('rviz_config').perform(context)
+    use_camera = LaunchConfiguration('use_camera').perform(context)
+    use_lidar = LaunchConfiguration('use_lidar').perform(context)
+    use_imu = LaunchConfiguration('use_imu').perform(context)
 
     ekf_template_path = os.path.join(gizmo_gazebo_dir, 'config', 'ekf_multi_robot.yaml')
     with open(ekf_template_path, 'r') as f:
@@ -99,9 +102,9 @@ def launch_setup(context, *args, **kwargs):
             Command([
                 'xacro ', xacro_file,
                 ' prefix:=', name,
-                ' use_lidar:=true',
-                ' use_camera:=false',
-                ' use_imu:=true'
+                ' use_lidar:=', use_lidar,
+                ' use_camera:=', use_camera,
+                ' use_imu:=', use_imu
             ]),
             value_type=str
         )
@@ -188,7 +191,24 @@ def generate_launch_description():
         default_value='true',
         description='Use simulation time'
     )
-    use_sim_time = LaunchConfiguration('use_sim_time')
+
+    launch_arg_use_camera = DeclareLaunchArgument(
+        'use_camera',
+        default_value='true',
+        description='Enable/Disable Camera Sensor'
+    )
+
+    launch_arg_use_lidar = DeclareLaunchArgument(
+        'use_lidar',
+        default_value='true',
+        description='Enable/Disable Lidar Sensor'
+    )
+
+    launch_arg_use_imu = DeclareLaunchArgument(
+        'use_imu',
+        default_value='true',
+        description='Enable/Disable IMU Sensor'
+    )
 
     headless_launch_arg = DeclareLaunchArgument(
         'headless',
@@ -221,6 +241,9 @@ def generate_launch_description():
 
     return LaunchDescription([
         launch_arg_use_sim_time,
+        launch_arg_use_camera,
+        launch_arg_use_lidar,
+        launch_arg_use_imu,
         launch_arg_run_rviz2,
         launch_arg_rviz_config,
         headless_launch_arg,
