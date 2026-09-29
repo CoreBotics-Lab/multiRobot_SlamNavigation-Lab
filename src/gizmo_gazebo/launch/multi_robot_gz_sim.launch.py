@@ -28,6 +28,7 @@ def launch_setup(context, *args, **kwargs):
     run_rviz2 = LaunchConfiguration('run_rviz2').perform(context)
     rviz_config = LaunchConfiguration('rviz_config').perform(context)
     use_camera = LaunchConfiguration('use_camera').perform(context)
+    camera_type = LaunchConfiguration('camera_type').perform(context)
     use_lidar = LaunchConfiguration('use_lidar').perform(context)
     use_imu = LaunchConfiguration('use_imu').perform(context)
 
@@ -104,6 +105,7 @@ def launch_setup(context, *args, **kwargs):
                 ' prefix:=', name,
                 ' use_lidar:=', use_lidar,
                 ' use_camera:=', use_camera,
+                ' camera_type:=', camera_type,
                 ' use_imu:=', use_imu
             ]),
             value_type=str
@@ -153,6 +155,12 @@ def launch_setup(context, *args, **kwargs):
                 f'/{name}/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
                 f'/{name}/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model',
                 f'/{name}/imu/data@sensor_msgs/msg/Imu[gz.msgs.IMU',
+                # Camera bridges:
+                #camera_type:=camera
+                f'/{name}/camera/image_raw@sensor_msgs/msg/Image[gz.msgs.Image',
+                f'/{name}/camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
+                #camera_type:=depth_camera
+                f'/{name}/camera/depth/image_raw@sensor_msgs/msg/Image[gz.msgs.Image',
             ],
             parameters=[{'use_sim_time': use_sim_time}]
         )
@@ -198,6 +206,12 @@ def generate_launch_description():
         description='Enable/Disable Camera Sensor'
     )
 
+    launch_arg_camera_type = DeclareLaunchArgument(
+        'camera_type',
+        default_value='camera',
+        description="Gazebo camera plugin type: 'camera' or 'depth_camera'"
+    )
+
     launch_arg_use_lidar = DeclareLaunchArgument(
         'use_lidar',
         default_value='true',
@@ -233,6 +247,7 @@ def generate_launch_description():
         'rviz',
         'gazebo.rviz'
     )
+
     launch_arg_rviz_config = DeclareLaunchArgument(
         'rviz_config',
         default_value=default_rviz_config,
@@ -242,11 +257,12 @@ def generate_launch_description():
     return LaunchDescription([
         launch_arg_use_sim_time,
         launch_arg_use_camera,
+        launch_arg_camera_type,
         launch_arg_use_lidar,
         launch_arg_use_imu,
         launch_arg_run_rviz2,
         launch_arg_rviz_config,
         headless_launch_arg,
         fleet_config_arg,
-        OpaqueFunction(function=launch_setup)
+        OpaqueFunction(function=launch_setup),
     ])
