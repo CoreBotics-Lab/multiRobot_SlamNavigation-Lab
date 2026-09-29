@@ -1,42 +1,41 @@
-"""Launch file for multi robot simulation in Gazebo."
-Common:
- - world
- - clockbridge
- - gz resource path
- - gz sim
-
-for each robot:
- - robot description
- - robot state publisher
- - spawn node
- - ros gz bridge for each topics except clock
- - ekf node
-
-"""
+#!/usr/bin/env python3
 
 import os
+import tempfile
+import yaml
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.action import Action
 from launch_ros.actions import Node
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetEnvironmentVariable, OpaqueFunction
-from launch.conditions import IfCondition
+from launch.actions import (
+    DeclareLaunchArgument,
+    GroupAction,
+    IncludeLaunchDescription,
+    SetEnvironmentVariable,
+    OpaqueFunction,
+)
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression, Command
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, Command
 from launch_ros.parameter_descriptions import ParameterValue
-import yaml
+from launch.conditions import IfCondition
+
 
 def launch_setup(context, *args, **kwargs):
-
-    gizmo_desc_dir = get_package_share_directory('gizmo_description')
     gizmo_gazebo_dir = get_package_share_directory('gizmo_gazebo')
-    gz_sim_dir = get_package_share_directory('ros_gz_sim')
+    gizmo_desc_dir = get_package_share_directory('gizmo_description')
+    ros_gz_dir = get_package_share_directory('ros_gz_sim')
+    use_sim_time = LaunchConfiguration('use_sim_time').perform(context).lower() == 'true'
+    run_rviz2 = LaunchConfiguration('run_rviz2').perform(context)
+    rviz_config = LaunchConfiguration('rviz_config').perform(context)
 
-    world_file = os.path.join(gizmo_gazebo_dir, 'worlds', 'simpleWorld.sdf')
-    robot_fleet_config = os.path.join(gizmo_gazebo_dir, 'config', 'robot_fleet.yaml')
-    ekf_config_file = os.path.join(gizmo_gazebo_dir, 'config', 'ekf_multi_robot.yaml')
+    ekf_template_path = os.path.join(gizmo_gazebo_dir, 'config', 'ekf_multi_robot.yaml')
+    with open(ekf_template_path, 'r') as f:
+        ekf_template_content = f.read()
+
+    world_path = os.path.join(gizmo_gazebo_dir, 'worlds', 'simpleBiggerWorld.sdf')
     xacro_file = os.path.join(gizmo_desc_dir, 'urdf', 'gizmo.urdf.xacro')
 
+    # Environment variables for Gazebo model loading
     gz_resource_path = SetEnvironmentVariable(
         name='GZ_SIM_RESOURCE_PATH',
         value=[
@@ -46,14 +45,13 @@ def launch_setup(context, *args, **kwargs):
         ]
     )
 
-    # headless_arg = LaunchConfiguration('headless').perform(context).lower() == 'true'
-    headless_arg = False
+    headless_arg = LaunchConfiguration('headless').perform(context).lower() == 'true'
+    gz_args_val = f'-r -s {world_path}' if headless_arg else f'-r {world_path}'
 
-    gz_args_val = f'-r -s {world_file}' if headless_arg else f'-r {world_file}'
-
+    # 1. Start Gazebo Sim with simpleBiggerWorld
     gz_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            PathJoinSubstitution([gz_sim_dir, 'launch', 'gz_sim.launch.py'])
+            PathJoinSubstitution([ros_gz_dir, 'launch', 'gz_sim.launch.py'])
         ),
         launch_arguments={
             'gz_args': gz_args_val,
@@ -61,19 +59,32 @@ def launch_setup(context, *args, **kwargs):
         }.items()
     )
 
+    # 2. Clock Bridge (Global)
     clock_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
         name='clock_bridge',
         output='screen',
         arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
-        parameters=[{'use_sim_time': True}]
+        parameters=[{'use_sim_time': use_sim_time}]
     )
 
-    # actions : list[Action] = [gz_resource_path, gz_sim, clock_bridge]
-    actions: list[Action] = []
+    # 3. Rviz2 Node
+    rviz2 = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+        arguments=['-d', rviz_config],
+        parameters=[{'use_sim_time': use_sim_time}],
+        condition=IfCondition(run_rviz2)
+    )
 
-    with open(robot_fleet_config, 'r') as f:
+    actions: list[Action] = [gz_resource_path, gz_sim, clock_bridge, rviz2]
+
+    # 4. Load fleet configuration (robots with spawn coordinates)
+    fleet_config_path = LaunchConfiguration('fleet_config').perform(context)
+    with open(fleet_config_path, 'r') as f:
         fleet_data = yaml.safe_load(f)
     robots = fleet_data.get('robots', [])
 
@@ -82,17 +93,137 @@ def launch_setup(context, *args, **kwargs):
         x_pos: str = str(bot.get('x', 0.0))
         y_pos: str = str(bot.get('y', 0.0))
         yaw: str = str(bot.get('yaw', 0.0))
-        config = f"{name}: x: {x_pos} y: {y_pos} yaw: {yaw}\n"
 
-        print(config)
-    
+        # Robot Description with prefix
+        robot_description = ParameterValue(
+            Command([
+                'xacro ', xacro_file,
+                ' prefix:=', name,
+                ' use_lidar:=true',
+                ' use_camera:=false',
+                ' use_imu:=true'
+            ]),
+            value_type=str
+        )
+
+        # Robot State Publisher under namespace
+        rsp_node = Node(
+            package='robot_state_publisher',
+            executable='robot_state_publisher',
+            namespace=name,
+            output='screen',
+            parameters=[{
+                'robot_description': robot_description,
+                'use_sim_time': use_sim_time
+            }],
+            remappings=[
+                ('tf', '/tf'),
+                ('tf_static', '/tf_static'),
+            ]
+        )
+
+        # Spawn entity in Gazebo
+        spawn_node = Node(
+            package='ros_gz_sim',
+            executable='create',
+            output='screen',
+            arguments=[
+                '-name', name,
+                '-x', x_pos,
+                '-y', y_pos,
+                '-z', '0.04',
+                '-Y', yaw,
+                '-topic', f'/{name}/robot_description',
+                '-world', 'empty'
+            ]
+        )
+
+        # Ros-Gz Parameter Bridge for this robot
+        bridge_node = Node(
+            package='ros_gz_bridge',
+            executable='parameter_bridge',
+            name=f'{name}_bridge',
+            output='screen',
+            arguments=[
+                f'/{name}/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
+                f'/{name}/wheel_odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
+                f'/{name}/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
+                f'/{name}/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model',
+                f'/{name}/imu/data@sensor_msgs/msg/Imu[gz.msgs.IMU',
+            ],
+            parameters=[{'use_sim_time': use_sim_time}]
+        )
+
+        # EKF Filter Node for this robot (generated from config/ekf.yaml)
+        ekf_cfg_content = ekf_template_content.replace('{NAME}', name)
+        temp_ekf = tempfile.NamedTemporaryFile(mode='w', prefix=f'ekf_{name}_', suffix='.yaml', delete=False)
+        temp_ekf.write(ekf_cfg_content)
+        temp_ekf.flush()
+        temp_ekf.close()
+
+        ekf_node = Node(
+            package='robot_localization',
+            executable='ekf_node',
+            name='ekf_filter_node',
+            namespace=name,
+            output='screen',
+            parameters=[temp_ekf.name, {'use_sim_time': use_sim_time}],
+            remappings=[
+                ('tf', '/tf'),
+                ('tf_static', '/tf_static'),
+            ]
+        )
+
+        actions.extend([rsp_node, spawn_node, bridge_node, ekf_node])
+
     return actions
 
 
 def generate_launch_description():
+    gizmo_gazebo_dir = get_package_share_directory('gizmo_gazebo')
+    default_fleet_config = os.path.join(gizmo_gazebo_dir, 'config', 'robots_fleet.yaml')
 
+    launch_arg_use_sim_time = DeclareLaunchArgument(
+        'use_sim_time',
+        default_value='true',
+        description='Use simulation time'
+    )
+    use_sim_time = LaunchConfiguration('use_sim_time')
 
+    headless_launch_arg = DeclareLaunchArgument(
+        'headless',
+        default_value='false',
+        description='Run Gazebo in headless mode without GUI if true'
+    )
+
+    fleet_config_arg = DeclareLaunchArgument(
+        'fleet_config',
+        default_value=default_fleet_config,
+        description='Path to fleet configuration yaml defining robots and coordinates'
+    )
+
+    launch_arg_run_rviz2 = DeclareLaunchArgument(
+        'run_rviz2',
+        default_value='false',
+        description='Run RViz2 if true'
+    )
+
+    default_rviz_config = os.path.join(
+        gizmo_gazebo_dir,
+        'rviz',
+        'gazebo.rviz'
+    )
+    launch_arg_rviz_config = DeclareLaunchArgument(
+        'rviz_config',
+        default_value=default_rviz_config,
+        description='Full path to the RViz configuration file.'
+    )
 
     return LaunchDescription([
+        launch_arg_use_sim_time,
+        launch_arg_run_rviz2,
+        launch_arg_rviz_config,
+        headless_launch_arg,
+        fleet_config_arg,
         OpaqueFunction(function=launch_setup)
     ])
