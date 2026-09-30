@@ -9,7 +9,6 @@ from launch.action import Action
 from launch_ros.actions import Node
 from launch.actions import (
     DeclareLaunchArgument,
-    GroupAction,
     IncludeLaunchDescription,
     SetEnvironmentVariable,
     OpaqueFunction,
@@ -17,7 +16,6 @@ from launch.actions import (
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, Command
 from launch_ros.parameter_descriptions import ParameterValue
-from launch.conditions import IfCondition
 
 
 def launch_setup(context, *args, **kwargs):
@@ -25,7 +23,7 @@ def launch_setup(context, *args, **kwargs):
     gizmo_desc_dir = get_package_share_directory('gizmo_description')
     ros_gz_dir = get_package_share_directory('ros_gz_sim')
     use_sim_time = LaunchConfiguration('use_sim_time').perform(context).lower() == 'true'
-    run_rviz2 = LaunchConfiguration('run_rviz2').perform(context)
+    run_rviz2 = LaunchConfiguration('run_rviz2').perform(context).lower() == 'true'
     rviz_config = LaunchConfiguration('rviz_config').perform(context)
     use_camera = LaunchConfiguration('use_camera').perform(context)
     camera_type = LaunchConfiguration('camera_type').perform(context)
@@ -73,18 +71,19 @@ def launch_setup(context, *args, **kwargs):
         parameters=[{'use_sim_time': use_sim_time}]
     )
 
-    # 3. Rviz2 Node
-    rviz2 = Node(
-        package='rviz2',
-        executable='rviz2',
-        name='rviz2',
-        output='screen',
-        arguments=['-d', rviz_config],
-        parameters=[{'use_sim_time': use_sim_time}],
-        condition=IfCondition(run_rviz2)
-    )
+    actions: list[Action] = [gz_resource_path, gz_sim, clock_bridge]
 
-    actions: list[Action] = [gz_resource_path, gz_sim, clock_bridge, rviz2]
+    # 3. Rviz2 Node
+    if run_rviz2:
+        rviz2 = Node(
+            package='rviz2',
+            executable='rviz2',
+            name='rviz2',
+            output='screen',
+            arguments=['-d', rviz_config],
+            parameters=[{'use_sim_time': use_sim_time}],
+        )
+        actions.extend([rviz2])
 
     # 4. Load fleet configuration (robots with spawn coordinates)
     fleet_config_path = LaunchConfiguration('fleet_config').perform(context)
