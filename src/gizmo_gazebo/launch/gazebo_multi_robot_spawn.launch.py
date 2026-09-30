@@ -87,9 +87,14 @@ def launch_setup(context, *args, **kwargs):
 
     # 4. Load fleet configuration (robots with spawn coordinates)
     fleet_config_path = LaunchConfiguration('fleet_config').perform(context)
+    robot_names_str = LaunchConfiguration('robot_names').perform(context).strip()
     with open(fleet_config_path, 'r') as f:
         fleet_data = yaml.safe_load(f)
     robots = fleet_data.get('robots', [])
+
+    if robot_names_str and robot_names_str.lower() != 'all':
+        allowed_names = {name.strip() for name in robot_names_str.split(',') if name.strip()}
+        robots = [bot for bot in robots if bot.get('name') in allowed_names]
 
     for bot in robots:
         name: str = str(bot['name'])
@@ -235,6 +240,12 @@ def generate_launch_description():
         description='Path to fleet configuration yaml defining robots and coordinates'
     )
 
+    robot_names_arg = DeclareLaunchArgument(
+        'robot_names',
+        default_value='all',
+        description='Comma-separated robot names to spawn (e.g. "robot1,robot2") or "all"'
+    )
+
     launch_arg_run_rviz2 = DeclareLaunchArgument(
         'run_rviz2',
         default_value='false',
@@ -263,5 +274,6 @@ def generate_launch_description():
         launch_arg_rviz_config,
         headless_launch_arg,
         fleet_config_arg,
+        robot_names_arg,
         OpaqueFunction(function=launch_setup),
     ])
