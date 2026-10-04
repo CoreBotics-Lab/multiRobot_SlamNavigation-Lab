@@ -1,16 +1,17 @@
 {
   "configurations": [
     {
+      "name": "ROS 2 Lyrical (Pixi)",
       "includePath": [
-        "/root/ros2_ws/install/ros2_interfaces/include/**",
-        "/opt/ros/lyrical/include/**",
-        "/usr/include/**"
+        "${workspaceFolder}/src/**/include/**",
+        "${workspaceFolder}/install/**/include/**",
+        "${workspaceFolder}/.pixi/envs/default/include/**"
       ],
-      "name": "ros2",
-      "intelliSenseMode": "linux-gcc-x64",
-      "compilerPath": "/usr/bin/g++",
+      "compilerPath": "${workspaceFolder}/.pixi/envs/default/bin/g++",
       "cStandard": "c17",
-      "cppStandard": "c++17"
+      "cppStandard": "c++17",
+      "intelliSenseMode": "linux-gcc-x64",
+      "compileCommands": "${workspaceFolder}/build/compile_commands.json"
     }
   ],
   "version": 4

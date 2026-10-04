@@ -10,3 +10,7 @@ __pycache__/
 # IDE database & environment files
 .vscode/browse.vc.db
 .mypy_cache/
+
+# Pixi environments
+.pixi/*
+!.pixi/config.toml
