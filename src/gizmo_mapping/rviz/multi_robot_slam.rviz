@@ -5,6 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /TF1/Frames1
         - /Robot 11/Model1
         - /Robot 21/Model1
         - /Robot 41/LaserScan1
@@ -93,7 +94,7 @@ Visualization Manager:
         robot1/lidar_link:
           Value: false
         robot1/map:
-          Value: false
+          Value: true
         robot1/odom:
           Value: true
         robot1/scan_frame:
@@ -121,7 +122,7 @@ Visualization Manager:
         robot2/lidar_link:
           Value: false
         robot2/map:
-          Value: false
+          Value: true
         robot2/odom:
           Value: true
         robot2/scan_frame:
@@ -149,7 +150,7 @@ Visualization Manager:
         robot3/lidar_link:
           Value: false
         robot3/map:
-          Value: false
+          Value: true
         robot3/odom:
           Value: true
         robot3/scan_frame:
@@ -177,7 +178,7 @@ Visualization Manager:
         robot4/lidar_link:
           Value: false
         robot4/map:
-          Value: false
+          Value: true
         robot4/odom:
           Value: true
         robot4/scan_frame:
@@ -885,16 +886,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 18.69940757751465
+      Distance: 27.217639923095703
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.8223108053207397
-        Y: -1.2492026090621948
-        Z: -2.8084981441497803
+        X: 2.592613935470581
+        Y: -0.4168570339679718
+        Z: -2.228816032409668
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
