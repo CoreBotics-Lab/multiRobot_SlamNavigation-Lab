@@ -56,7 +56,26 @@ def launch_setup(context, *args, **kwargs):
         actions=[multi_slam_launch]
     )
 
-    actions: list[Action] = [gazebo_spawn_launch, delayed_slam_launch]
+    # 3. Multi-Robot Map Merge (fuses /{name}/map into unified /map)
+    map_merge_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(gizmo_mapping_dir, 'launch', 'map_merge.launch.py')
+        ),
+        launch_arguments={
+            'use_sim_time': use_sim_time,
+            'fleet_config': fleet_config,
+            'robot_names': robot_names,
+            'merged_map_topic': '/map',
+            'rate': '1.0',
+        }.items()
+    )
+
+    delayed_merge_launch = TimerAction(
+        period=6.0,
+        actions=[map_merge_launch]
+    )
+
+    actions: list[Action] = [gazebo_spawn_launch, delayed_slam_launch, delayed_merge_launch]
 
     return actions
 

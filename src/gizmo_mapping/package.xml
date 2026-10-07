@@ -15,6 +15,7 @@
   <depend>sensor_msgs</depend>
   <depend>gizmo_description</depend>
 
+  <exec_depend>rclpy</exec_depend>
   <exec_depend>slam_toolbox</exec_depend>
   <exec_depend>nav2_lifecycle_manager</exec_depend>
 

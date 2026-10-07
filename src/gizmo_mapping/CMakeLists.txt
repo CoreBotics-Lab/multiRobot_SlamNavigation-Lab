@@ -10,6 +10,10 @@ find_package(ament_cmake REQUIRED)
 
 install(DIRECTORY config launch rviz
         DESTINATION share/${PROJECT_NAME}/)
+
+install(PROGRAMS
+        scripts/map_merge_node.py
+        DESTINATION lib/${PROJECT_NAME}/)
         
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
