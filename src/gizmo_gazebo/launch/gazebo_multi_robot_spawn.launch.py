@@ -23,8 +23,6 @@ def launch_setup(context, *args, **kwargs):
     gizmo_desc_dir = get_package_share_directory('gizmo_description')
     ros_gz_dir = get_package_share_directory('ros_gz_sim')
     use_sim_time = LaunchConfiguration('use_sim_time').perform(context).lower() == 'true'
-    run_rviz2 = LaunchConfiguration('run_rviz2').perform(context).lower() == 'true'
-    rviz_config = LaunchConfiguration('rviz_config').perform(context)
     use_camera = LaunchConfiguration('use_camera').perform(context)
     camera_type = LaunchConfiguration('camera_type').perform(context)
     use_lidar = LaunchConfiguration('use_lidar').perform(context)
@@ -73,19 +71,7 @@ def launch_setup(context, *args, **kwargs):
 
     actions: list[Action] = [gz_resource_path, gz_sim, clock_bridge]
 
-    # 3. Rviz2 Node
-    if run_rviz2:
-        rviz2 = Node(
-            package='rviz2',
-            executable='rviz2',
-            name='rviz2',
-            output='screen',
-            arguments=['-d', rviz_config],
-            parameters=[{'use_sim_time': use_sim_time}],
-        )
-        actions.extend([rviz2])
-
-    # 4. Load fleet configuration (robots with spawn coordinates)
+    # 3. Load fleet configuration (robots with spawn coordinates)
     fleet_config_path = LaunchConfiguration('fleet_config').perform(context)
     robot_names_str = LaunchConfiguration('robot_names').perform(context).strip()
     with open(fleet_config_path, 'r') as f:
@@ -246,32 +232,12 @@ def generate_launch_description():
         description='Comma-separated robot names to spawn (e.g. "robot1,robot2") or "all"'
     )
 
-    launch_arg_run_rviz2 = DeclareLaunchArgument(
-        'run_rviz2',
-        default_value='false',
-        description='Run RViz2 if true'
-    )
-
-    default_rviz_config = os.path.join(
-        gizmo_gazebo_dir,
-        'rviz',
-        'gazebo.rviz'
-    )
-
-    launch_arg_rviz_config = DeclareLaunchArgument(
-        'rviz_config',
-        default_value=default_rviz_config,
-        description='Full path to the RViz configuration file.'
-    )
-
     return LaunchDescription([
         launch_arg_use_sim_time,
         launch_arg_use_camera,
         launch_arg_camera_type,
         launch_arg_use_lidar,
         launch_arg_use_imu,
-        launch_arg_run_rviz2,
-        launch_arg_rviz_config,
         headless_launch_arg,
         fleet_config_arg,
         robot_names_arg,

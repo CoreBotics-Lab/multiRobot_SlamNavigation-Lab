@@ -4,6 +4,7 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.action import Action
+from launch_ros.actions import Node
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, OpaqueFunction, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
@@ -20,8 +21,9 @@ def launch_setup(context, *args, **kwargs):
     publish_static_map_tf = LaunchConfiguration('publish_static_map_tf').perform(context)
     run_rviz2 = LaunchConfiguration('run_rviz2').perform(context)
     rviz_config = LaunchConfiguration('rviz_config').perform(context)
+    gazebo_delay = float(LaunchConfiguration('gazebo_delay').perform(context))
 
-    # 1. Gazebo Multi-Robot Spawn (spawns Gazebo, clock bridge, RSP, ROS-Gz bridges, EKF, and RViz2)
+    # 1. Gazebo Multi-Robot Spawn (spawns Gazebo, clock bridge, RSP, ROS-Gz bridges, EKF)
     gazebo_spawn_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(gizmo_gazebo_dir, 'launch', 'gazebo_multi_robot_spawn.launch.py')
@@ -31,13 +33,10 @@ def launch_setup(context, *args, **kwargs):
             'headless': headless,
             'fleet_config': fleet_config,
             'robot_names': robot_names,
-            'run_rviz2': run_rviz2,
-            'rviz_config': rviz_config,
         }.items()
     )
 
     # 2. Multi-Robot SLAM (spawns namespaced SLAM Toolbox and Lifecycle Manager per robot)
-    # Delayed slightly to let Gazebo, bridges, RSP, and EKF settle before lifecycle transitions start
     multi_slam_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(gizmo_mapping_dir, 'launch', 'multi_robot_slam.launch.py')
@@ -49,11 +48,6 @@ def launch_setup(context, *args, **kwargs):
             'publish_static_map_tf': publish_static_map_tf,
             'autostart': 'true',
         }.items()
-    )
-
-    delayed_slam_launch = TimerAction(
-        period=4.0,
-        actions=[multi_slam_launch]
     )
 
     # 3. Multi-Robot Map Merge (fuses /{name}/map into unified /map)
@@ -70,14 +64,27 @@ def launch_setup(context, *args, **kwargs):
         }.items()
     )
 
-    delayed_merge_launch = TimerAction(
-        period=6.0,
-        actions=[map_merge_launch]
+    remaining_actions: list[Action] = [multi_slam_launch, map_merge_launch]
+
+    # 4. RViz2 Mapping Visualization Dashboard
+    if run_rviz2.lower() == 'true':
+        rviz_node = Node(
+            package='rviz2',
+            executable='rviz2',
+            name='rviz2_mapping',
+            output='screen',
+            arguments=['-d', rviz_config],
+            parameters=[{'use_sim_time': use_sim_time.lower() == 'true'}]
+        )
+        remaining_actions.extend([rviz_node])
+
+    # Wait until Gazebo has completely loaded and spawned robots before starting the rest of the stack
+    delayed_mapping_stack = TimerAction(
+        period=gazebo_delay,
+        actions=remaining_actions
     )
 
-    actions: list[Action] = [gazebo_spawn_launch, delayed_slam_launch, delayed_merge_launch]
-
-    return actions
+    return [gazebo_spawn_launch, delayed_mapping_stack]
 
 
 def generate_launch_description():
@@ -122,6 +129,11 @@ def generate_launch_description():
             'rviz_config',
             default_value=default_rviz_config,
             description='Full path to the RViz configuration file'
+        ),
+        DeclareLaunchArgument(
+            'gazebo_delay',
+            default_value='7.0',
+            description='Delay in seconds to wait for Gazebo to completely load and spawn robots before launching SLAM, map merge, and RViz2'
         ),
         OpaqueFunction(function=launch_setup),
     ])

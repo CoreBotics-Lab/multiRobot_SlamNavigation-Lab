@@ -6,11 +6,8 @@ Panels:
       Expanded:
         - /Global Options1
         - /TF1/Frames1
-        - /Robot 11/Model1
-        - /Robot 21/Model1
-        - /Robot 41/LaserScan1
       Splitter Ratio: 0.6000000238418579
-    Tree Height: 899
+    Tree Height: 883
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -284,7 +281,7 @@ Visualization Manager:
           Class: rviz_default_plugins/Map
           Color Scheme: map
           Draw Behind: false
-          Enabled: true
+          Enabled: false
           Name: Map
           Topic:
             Depth: 5
@@ -300,7 +297,7 @@ Visualization Manager:
             Reliability Policy: Reliable
             Value: /robot1/map_updates
           Use Timestamp: false
-          Value: true
+          Value: false
         - Alpha: 1
           Class: rviz_default_plugins/RobotModel
           Collision Enabled: false
@@ -428,7 +425,7 @@ Visualization Manager:
           Class: rviz_default_plugins/Map
           Color Scheme: map
           Draw Behind: false
-          Enabled: true
+          Enabled: false
           Name: Map
           Topic:
             Depth: 5
@@ -444,7 +441,7 @@ Visualization Manager:
             Reliability Policy: Reliable
             Value: /robot2/map_updates
           Use Timestamp: false
-          Value: true
+          Value: false
         - Alpha: 1
           Class: rviz_default_plugins/RobotModel
           Collision Enabled: false
@@ -572,7 +569,7 @@ Visualization Manager:
           Class: rviz_default_plugins/Map
           Color Scheme: map
           Draw Behind: false
-          Enabled: true
+          Enabled: false
           Name: Map
           Topic:
             Depth: 5
@@ -588,7 +585,7 @@ Visualization Manager:
             Reliability Policy: Reliable
             Value: /robot3/map_updates
           Use Timestamp: false
-          Value: true
+          Value: false
         - Alpha: 1
           Class: rviz_default_plugins/RobotModel
           Collision Enabled: false
@@ -716,7 +713,7 @@ Visualization Manager:
           Class: rviz_default_plugins/Map
           Color Scheme: map
           Draw Behind: false
-          Enabled: true
+          Enabled: false
           Name: Map
           Topic:
             Depth: 5
@@ -732,7 +729,7 @@ Visualization Manager:
             Reliability Policy: Reliable
             Value: /robot4/map_updates
           Use Timestamp: false
-          Value: true
+          Value: false
         - Alpha: 1
           Class: rviz_default_plugins/RobotModel
           Collision Enabled: false
@@ -886,16 +883,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 27.217639923095703
+      Distance: 24.81427764892578
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 2.592613935470581
-        Y: -0.4168570339679718
-        Z: -2.228816032409668
+        X: 1.955112338066101
+        Y: -1.51375412940979
+        Z: -3.1067376136779785
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -912,13 +909,13 @@ Window Geometry:
   Height: 1904
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd000000010000000000000371000006e0fc0200000005fb000000100044006900730070006c0061007900730100000068000003e50000017600fffffffb0000001200530065006c0065006300740069006f006e000000022a000000c7000000aa00fffffffb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000045900000144000000aa00fffffffb0000000a0056006900650077007301000005a90000019f0000012000fffffffb00000018004e0061007600690067006100740069006f006e0020003200000002d1000004770000000000000000000010ab000006e000000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd000000010000000000000371000006d6fc0200000005fb000000100044006900730070006c006100790073010000006d000003df0000018000fffffffb0000001200530065006c0065006300740069006f006e000000022a000000c7000000af00fffffffb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000045800000142000000af00fffffffb0000000a0056006900650077007301000005a60000019d0000012f00fffffffb00000018004e0061007600690067006100740069006f006e0020003200000002d100000477000000000000000000000b83000006d600000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Tool Properties:
     collapsed: false
   Views:
     collapsed: false
-  Width: 5160
-  X: 3840
+  Width: 3840
+  X: 0
   Y: 64

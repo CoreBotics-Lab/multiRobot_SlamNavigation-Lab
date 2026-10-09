@@ -20,30 +20,11 @@ def generate_launch_description():
     )
     use_sim_time = LaunchConfiguration('use_sim_time')
 
-    launch_arg_run_rviz2 = DeclareLaunchArgument(
-        'run_rviz2',
-        default_value='true',
-        description='Run RViz2 if true'
-    )
-    run_rviz2 = LaunchConfiguration('run_rviz2')
-
     launch_arg_headless = DeclareLaunchArgument(
         'headless',
         default_value='False',
         description='Run Gazebo without the GUI'
     )
-
-    default_rviz_config = os.path.join(
-        gizmo_gazebo_dir,
-        'rviz',
-        'gazebo.rviz'
-    )
-    launch_arg_rviz_config = DeclareLaunchArgument(
-        'rviz_config',
-        default_value=default_rviz_config,
-        description='Full path to the RViz configuration file.'
-    )
-    rviz_config = LaunchConfiguration('rviz_config')
 
     launch_arg_world_file = DeclareLaunchArgument(
         'world_file',
@@ -115,16 +96,6 @@ def generate_launch_description():
         ]
     )
 
-    rviz2 = Node(
-        package='rviz2',
-        executable='rviz2',
-        name='rviz2',
-        output='screen',
-        arguments=['-d', rviz_config],
-        parameters=[{'use_sim_time': use_sim_time}],
-        condition=IfCondition(run_rviz2)
-    )
-
     bridge_config_file = os.path.join(
         gizmo_gazebo_dir,
         'config', 'ros_gz_bridge_config.yaml'
@@ -187,8 +158,6 @@ def generate_launch_description():
 
     return LaunchDescription([
         launch_arg_use_sim_time,
-        launch_arg_run_rviz2,
-        launch_arg_rviz_config,
         launch_arg_headless,
         launch_arg_world_file,
         launch_arg_camera_type,
@@ -197,7 +166,6 @@ def generate_launch_description():
         launch_arg_use_imu,
         env_gz_resource_path,
         robot_state_publisher,
-        rviz2,
         gazebo_clock_bridge,
         gz_sim,
         gz_spawn_entity,
