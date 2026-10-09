@@ -35,4 +35,5 @@ colcon-common-extensions = "*"
 compilers = "*"
 cmake = "*"
 ninja = "*"
+ros-lyrical-navigation2 = "*"
 
