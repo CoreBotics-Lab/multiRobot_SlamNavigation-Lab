@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  CycloneDDS configuration for Gizmo multi-robot ROS 2 system.
+  - Large lease (3600s = 1 hour) prevents stale endpoint GC during idle
+  - Explicit byte units to suppress deprecation warnings
+  - Loopback network interface for reliable IPC
+-->
+<CycloneDDS xmlns="https://cdds.io/config"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="https://cdds.io/config https://raw.githubusercontent.com/eclipse-cyclonedds/cyclonedds/master/etc/cyclonedds.xsd">
+  <Domain id="any">
+    <General>
+      <Interfaces>
+        <NetworkInterface name="lo" multicast="true"/>
+      </Interfaces>
+    </General>
+    <Discovery>
+      <ParticipantIndex>auto</ParticipantIndex>
+      <MaxAutoParticipantIndex>64</MaxAutoParticipantIndex>
+      <!-- 1 hour lease: prevents idle bt_navigator clients from losing planner endpoints -->
+      <LeaseDuration>3600 s</LeaseDuration>
+    </Discovery>
+    <Internal>
+      <SocketReceiveBufferSize min="1 MiB"/>
+    </Internal>
+  </Domain>
+</CycloneDDS>
+

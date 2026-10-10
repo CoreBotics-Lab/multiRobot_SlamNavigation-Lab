@@ -8,6 +8,7 @@ platforms = ["linux-64"]
 scripts = ["scripts/setup_env.sh"]
 
 [activation.env]
+RMW_IMPLEMENTATION = "rmw_cyclonedds_cpp"
 QT_QPA_PLATFORM = "xcb"
 QT_SCREEN_SCALE_FACTORS = "1"
 QT_ENABLE_HIGHDPI_SCALING = "0"

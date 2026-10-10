@@ -1,0 +1,85 @@
+<!--
+  Custom Nav2 Behavior Tree for Gizmo Multi-Robot Navigation
+  Replans the global path at 2.0 Hz using NavfnPlanner (A*) and executes with DWB controller.
+  Includes recovery nodes (costmap clearing, spin, backup, wait).
+  BTCPP v4 format compatible with Nav2 Jazzy and Groot2 visual editor/monitoring.
+-->
+<root BTCPP_format="4" main_tree_to_execute="GizmoNavToPose">
+  <BehaviorTree ID="GizmoNavToPose">
+
+    <!-- Top-level recovery node allowing up to 6 recovery attempts before aborting -->
+    <RecoveryNode number_of_retries="6" name="NavigateRecovery">
+
+      <!-- 1. Primary Navigation Pipeline with Continuous Replanning -->
+      <PipelineSequence name="NavigateWithReplanning">
+
+        <!-- Dynamic Selectors (allow switching plugins dynamically via topic/blackboard) -->
+        <ProgressCheckerSelector selected_progress_checker="{selected_progress_checker}" default_progress_checker="progress_checker" topic_name="progress_checker_selector"/>
+        <GoalCheckerSelector selected_goal_checker="{selected_goal_checker}" default_goal_checker="general_goal_checker" topic_name="goal_checker_selector"/>
+        <PathHandlerSelector selected_path_handler="{selected_path_handler}" default_path_handler="PathHandler" topic_name="path_handler_selector"/>
+        <ControllerSelector selected_controller="{selected_controller}" default_controller="FollowPath" topic_name="controller_selector"/>
+        <PlannerSelector selected_planner="{selected_planner}" default_planner="GridBased" topic_name="planner_selector"/>
+
+        <!-- Global Path Computation (Replans at 2.0 Hz) -->
+        <RateController hz="2.0">
+          <RecoveryNode number_of_retries="1" name="ComputePathToPose">
+            <ComputePathToPose goal="{goal}" path="{path}" planner_id="{selected_planner}" error_code_id="{compute_path_error_code}" error_msg="{compute_path_error_msg}"/>
+            <Sequence>
+              <WouldAPlannerRecoveryHelp error_code="{compute_path_error_code}"/>
+              <ClearEntireCostmap name="ClearGlobalCostmap-Context" service_name="global_costmap/clear_entirely_global_costmap"/>
+            </Sequence>
+          </RecoveryNode>
+        </RateController>
+
+        <!-- Local Path Following & Controller Execution -->
+        <RecoveryNode number_of_retries="1" name="FollowPath">
+          <FollowPath path="{path}" controller_id="{selected_controller}" error_code_id="{follow_path_error_code}" error_msg="{follow_path_error_msg}" tracking_feedback="{tracking_feedback}"/>
+          <Sequence>
+            <WouldAControllerRecoveryHelp error_code="{follow_path_error_code}"/>
+            <ClearEntireCostmap name="ClearLocalCostmap-Context" service_name="local_costmap/clear_entirely_local_costmap"/>
+          </Sequence>
+        </RecoveryNode>
+
+      </PipelineSequence>
+
+      <!-- 2. System Recovery Subtree (Executed when navigation fails) -->
+      <Sequence>
+
+        <!-- Check if recovery can assist with controller or planner errors -->
+        <Fallback>
+          <WouldAControllerRecoveryHelp error_code="{follow_path_error_code}"/>
+          <WouldAPlannerRecoveryHelp error_code="{compute_path_error_code}"/>
+        </Fallback>
+
+        <!-- Reactive Fallback: Cancel recovery immediately if a new goal arrives -->
+        <ReactiveFallback name="RecoveryFallback">
+          <GoalUpdated/>
+
+          <!-- Round-robin sequential recovery behaviors -->
+          <RoundRobin name="RecoveryActions">
+
+            <!-- Step A: Clear both local and global costmaps -->
+            <Sequence name="ClearingActions">
+              <ClearEntireCostmap name="ClearLocalCostmap-Subtree" service_name="local_costmap/clear_entirely_local_costmap"/>
+              <ClearEntireCostmap name="ClearGlobalCostmap-Subtree" service_name="global_costmap/clear_entirely_global_costmap"/>
+            </Sequence>
+
+            <!-- Step B: In-place spin recovery (90 degrees / 1.57 rad) -->
+            <Spin spin_dist="1.57" error_code_id="{spin_error_code}" error_msg="{spin_error_msg}"/>
+
+            <!-- Step C: Pause to allow transient obstacles / other robots to pass -->
+            <Wait wait_duration="5.0" error_code_id="{wait_error_code}" error_msg="{wait_error_msg}"/>
+
+            <!-- Step D: Conservative reverse backup (0.15 m) -->
+            <BackUp backup_dist="0.15" backup_speed="0.25" error_code_id="{backup_error_code}" error_msg="{backup_error_msg}"/>
+
+          </RoundRobin>
+
+        </ReactiveFallback>
+
+      </Sequence>
+
+    </RecoveryNode>
+
+  </BehaviorTree>
+</root>
