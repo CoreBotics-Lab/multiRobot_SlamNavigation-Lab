@@ -18,15 +18,15 @@ fi
 
 # Functions available ONLY inside pixi shell
 build() {
-    source "$WS_DIR/scripts/build.sh" "$@"
+    source "$WS_DIR/bash_scripts/build.sh" "$@"
 }
 
 clean() {
-    source "$WS_DIR/scripts/build.sh" clean "$@"
+    source "$WS_DIR/bash_scripts/build.sh" clean "$@"
 }
 
 debug() {
-    source "$WS_DIR/scripts/build.sh" debug "$@"
+    source "$WS_DIR/bash_scripts/build.sh" debug "$@"
 }
 
 _build_completions()

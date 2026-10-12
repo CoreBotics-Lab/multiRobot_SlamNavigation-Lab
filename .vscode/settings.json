@@ -41,7 +41,6 @@
         "**/.git/objects/**": true,
         "**/.git/subtree-cache/**": true,
         "**/.pixi/**": true,
-        "**/scripts/**": true,
         "**/build/**": true,
         "**/install/**": true,
         "**/log/**": true,
@@ -50,7 +49,7 @@
     },
     "files.exclude": {
         "**/.pixi": true,
-        "**/scripts": true,
+        "**/bash_scripts": true,
         "**/pixi.lock": true,
         "**/.gitattributes": true,
         "**/build": true,
@@ -60,7 +59,7 @@
     },
     "search.exclude": {
         "**/.pixi": true,
-        "**/scripts": true,
+        "**/bash_scripts": true,
         "**/pixi.lock": true,
         "**/build": true,
         "**/install": true,

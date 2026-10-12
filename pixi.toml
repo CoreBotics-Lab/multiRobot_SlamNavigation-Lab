@@ -5,7 +5,7 @@ channels = ["https://prefix.dev/robostack-lyrical", "conda-forge"]
 platforms = ["linux-64"]
 
 [activation]
-scripts = ["scripts/setup_env.sh"]
+scripts = ["bash_scripts/setup_env.sh"]
 
 [activation.env]
 RMW_IMPLEMENTATION = "rmw_cyclonedds_cpp"
@@ -17,8 +17,8 @@ FONTCONFIG_PATH = "/etc/fonts"
 FONTCONFIG_FILE = "/etc/fonts/fonts.conf"
 
 [tasks]
-build = "bash scripts/build.sh"
-clean = "bash scripts/build.sh clean"
+build = "bash bash_scripts/build.sh"
+clean = "bash bash_scripts/build.sh clean"
 test = "colcon test"
 kill-gz = "killall -9 gz-sim-main gz-sim-gui-client 2>/dev/null || true"
 
