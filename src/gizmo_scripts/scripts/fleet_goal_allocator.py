@@ -6,7 +6,13 @@ from rclpy.node import Node
 from rclpy.exceptions import ParameterUninitializedException
 from nav2_simple_commander.robot_navigator import BasicNavigator
 
-from geometry_msgs.msg import PoseStamped
+from geometry_msgs.msg import PoseStamped, TransformStamped
+
+# TF specific imports
+from tf2_ros import TransformListener, Buffer
+from rclpy.time import Time
+from rclpy.clock import ClockType
+from rclpy.duration import Duration
 
 class fleet_goal_allocator(Node):
     def __init__(self):
@@ -41,36 +47,81 @@ class fleet_goal_allocator(Node):
         # Intializing subscription to the 'goal_pose' topic
         self.get_goal_sub = self.create_subscription(PoseStamped, 'goal_pose', self.goal_pose_callback, 10)
 
+        # tf2 buffer and listener initialization
+        self.tf_buffer = Buffer()
+        self.tf_listener = TransformListener(self.tf_buffer, self)
+
+    def get_tf(self,robot_name: str) -> PoseStamped | None:
+        try:
+            trans: TransformStamped = self.tf_buffer.lookup_transform("map", f"{robot_name}/base_footprint",
+                                                    Time(clock_type=ClockType.ROS_TIME),
+                                                    timeout=Duration(seconds=1.0))
+
+            pose = PoseStamped()
+            pose.header = trans.header
+            pose.pose.position.x = trans.transform.translation.x
+            pose.pose.position.y = trans.transform.translation.y
+            pose.pose.position.z = trans.transform.translation.z
+            pose.pose.orientation = trans.transform.rotation
+            return pose
+
+        except Exception as e:
+            self.get_logger().warning(f"Could not get pose for {robot_name}: {e}")
+            return None
+
     def goal_pose_callback(self, msg):
         self.get_logger().info(f"Received goal: X={msg.pose.position.x:.2f}, Y={msg.pose.position.y:.2f}")
+        robot_pose = self.get_tf('robot1')
+
+        if robot_pose is not None:
+            self.get_logger().info(f"Robot1 current pose: X={robot_pose.pose.position.x:.2f}, Y={robot_pose.pose.position.y:.2f}")
         self.nav['robot1'].goToPose(msg)
+
 
 
 def main(args=None):
     rclpy.init(args=args)
-    fleet_allocator_node = fleet_goal_allocator()
-
-    # Add ALL nodes to one executor:
-    executor = rclpy.executors.MultiThreadedExecutor()
-    executor.add_node(fleet_allocator_node)
-
-    for nav_node in fleet_allocator_node.nav.values():
-        executor.add_node(nav_node)
+    fleet_allocator_node = None  # Prevents UnboundLocalError if __init__ exits early
 
     try:
+        fleet_allocator_node = fleet_goal_allocator()
+
+        # Add ALL nodes to one executor:
+        executor = rclpy.executors.MultiThreadedExecutor()
+        executor.add_node(fleet_allocator_node)
+
+        for nav_node in fleet_allocator_node.nav.values():
+            executor.add_node(nav_node)
+
         executor.spin()
+
     except (KeyboardInterrupt, rclpy.executors.ExternalShutdownException):
         pass
+    except SystemExit:
+        pass  # Catches sys.exit(1) from parameter validation cleanly
     finally:
         try:
-            fleet_allocator_node.destroy_node()
-            for nav_node in fleet_allocator_node.nav.values():
-                nav_node.destroy_node()
+            if fleet_allocator_node is not None:
+                fleet_allocator_node.get_logger().info("Shutting down nodes...")
+                # Destroy child navigator nodes first
+                if hasattr(fleet_allocator_node, 'nav'):
+                    for nav_node in fleet_allocator_node.nav.values():
+                        nav_node.destroy_node()
+                # Destroy allocator node
+                fleet_allocator_node.destroy_node()
         except Exception as e:
-            get_logger('fleet_goal_allocator').error(f"Error occurred: {e}")
-       
+            get_logger('fleet_goal_allocator').error(f"Error occurred during teardown: {e}")
+
         if rclpy.ok():
             rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
+
+"""
+Terminal 1:
+ros2 launch gizmo_bringup multi_robot_navigation.launch.py headless:=true robot_names:="robot1,robot2"
+
+Terminal 2:
+ros2 run gizmo_scripts fleet_goal_allocator.py --ros-args -p robot_names:="['robot1','robot2']"
+"""
