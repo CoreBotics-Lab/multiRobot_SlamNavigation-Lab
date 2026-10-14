@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import sys
+import math
 import rclpy
 from rclpy.logging import get_logger
 from rclpy.node import Node
@@ -69,11 +70,24 @@ class fleet_goal_allocator(Node):
             self.get_logger().warning(f"Could not get pose for {robot_name}: {e}")
             return None
 
+    def calculate_path_length(self, path) -> float:
+        if path is None or len(path.poses) < 2:
+            return 0.0
+        total_distance = 0.0
+        for i in range(1, len(path.poses)):
+            p1 = path.poses[i - 1].pose.position
+            p2 = path.poses[i].pose.position
+            total_distance += math.hypot(p2.x - p1.x, p2.y - p1.y)
+        return total_distance
+
     def goal_pose_callback(self, msg):
         self.get_logger().info(f"Received goal: X={msg.pose.position.x:.2f}, Y={msg.pose.position.y:.2f}")
         robot_pose = self.get_tf('robot1')
 
         if robot_pose is not None:
+            get_path = self.nav['robot1'].getPath(robot_pose, msg)
+            if get_path is not None:
+                self.get_logger().info(f"Path length for robot1: {self.calculate_path_length(get_path):.2f} meters")
             self.get_logger().info(f"Robot1 current pose: X={robot_pose.pose.position.x:.2f}, Y={robot_pose.pose.position.y:.2f}")
         self.nav['robot1'].goToPose(msg)
 
