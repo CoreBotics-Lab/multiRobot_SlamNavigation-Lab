@@ -43,6 +43,7 @@ class fleet_goal_allocator(Node):
 
     def goal_pose_callback(self, msg):
         self.get_logger().info(f"Received goal: X={msg.pose.position.x:.2f}, Y={msg.pose.position.y:.2f}")
+        self.nav['robot1'].goToPose(msg)
 
 
 def main(args=None):
