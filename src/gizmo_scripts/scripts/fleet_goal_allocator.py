@@ -1,39 +1,58 @@
 #!/usr/bin/env python3
-
+import sys
 import rclpy
+from rclpy.logging import get_logger
 from rclpy.node import Node
 from rclpy.exceptions import ParameterUninitializedException
+from nav2_simple_commander.robot_navigator import BasicNavigator
 
 class fleet_goal_allocator(Node):
     def __init__(self):
         super().__init__('fleet_goal_allocator')
         self.declare_parameter('robot_names', rclpy.Parameter.Type.STRING_ARRAY)
-
         try:
             param = self.get_parameter('robot_names')
             self.robot_names = list(param.get_parameter_value().string_array_value)
-            for i in range(len(self.robot_names)):
-                print(f"Robot names: {self.robot_names[i]}")
+            for name in self.robot_names:
+                self.get_logger().info(f"Robot names: {name}")
 
         except (ParameterUninitializedException, ValueError) as e:
-            print(f"Error retrieving parameter 'robot_names': {e}")
+            self.get_logger().error(f"Error retrieving parameter 'robot_names': {e}")
             self.destroy_node()
-            exit(1)
+            sys.exit(1)
+
+        self.nav = {}
+        self.status = {}
+        for robot_name in self.robot_names:
+            self.nav[robot_name] = BasicNavigator(node_name=f'{robot_name}_navigator', namespace=robot_name)
+            self.status[robot_name] = 'IDLE'
+
+        self.get_logger().info(f"Navigation nodes initialized: {self.nav}")
+        self.get_logger().info(f"Robot statuses initialized: {self.status}")
 
 def main(args=None):
     rclpy.init(args=args)
     fleet_allocator_node = fleet_goal_allocator()
 
+    # Add ALL nodes to one executor:
+    executor = rclpy.executors.MultiThreadedExecutor()
+    executor.add_node(fleet_allocator_node)
+
+    for nav_node in fleet_allocator_node.nav.values():
+        executor.add_node(nav_node)
+
     try:
-        rclpy.spin(fleet_allocator_node)
+        executor.spin()
     except (KeyboardInterrupt, rclpy.executors.ExternalShutdownException):
         pass
     finally:
         try:
             fleet_allocator_node.destroy_node()
+            for nav_node in fleet_allocator_node.nav.values():
+                nav_node.destroy_node()
         except Exception as e:
-            print(f"Error occurred while destroying node: {e}")
-            
+            get_logger('fleet_goal_allocator').error(f"Error occurred: {e}")
+       
         if rclpy.ok():
             rclpy.shutdown()
 
