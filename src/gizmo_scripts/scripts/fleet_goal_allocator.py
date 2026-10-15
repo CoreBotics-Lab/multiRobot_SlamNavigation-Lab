@@ -82,16 +82,32 @@ class fleet_goal_allocator(Node):
 
     def goal_pose_callback(self, msg):
         self.get_logger().info(f"Received goal: X={msg.pose.position.x:.2f}, Y={msg.pose.position.y:.2f}")
-        robot_pose = self.get_tf('robot1')
+        # robot_pose = self.get_tf('robot1')
 
-        if robot_pose is not None:
-            get_path = self.nav['robot1'].getPath(robot_pose, msg)
-            if get_path is not None:
-                self.get_logger().info(f"Path length for robot1: {self.calculate_path_length(get_path):.2f} meters")
-            self.get_logger().info(f"Robot1 current pose: X={robot_pose.pose.position.x:.2f}, Y={robot_pose.pose.position.y:.2f}")
-        self.nav['robot1'].goToPose(msg)
+        # if robot_pose is not None:
+        #     get_path = self.nav['robot1'].getPath(robot_pose, msg)
+        #     if get_path is not None:
+        #         self.get_logger().info(f"Path length for robot1: {self.calculate_path_length(get_path):.2f} meters")
+        #     self.get_logger().info(f"Robot1 current pose: X={robot_pose.pose.position.x:.2f}, Y={robot_pose.pose.position.y:.2f}")
+        # self.nav['robot1'].goToPose(msg)
 
+        idle_robots = [name for name, status in self.status.items() if status == 'IDLE']
+        if not idle_robots:
+            self.get_logger().info("No idle robots available to assign the goal.")
+            return       
 
+        path_lengths = {}
+        for name in idle_robots:
+            robot_pose = self.get_tf(name)
+            if robot_pose is not None:
+                get_path = self.nav[name].getPath(robot_pose, msg)
+                if get_path is not None:
+                    path_lengths[name] = self.calculate_path_length(get_path)
+                    self.get_logger().info(f"Path length for {name}: {path_lengths[name]:.2f} meters")
+                else:
+                    self.get_logger().warning(f"Could not calculate path for {name}.")
+            else:
+                self.get_logger().warning(f"Could not get current pose for {name}.")
 
 def main(args=None):
     rclpy.init(args=args)
