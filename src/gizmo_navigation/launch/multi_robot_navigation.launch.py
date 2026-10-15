@@ -15,6 +15,7 @@ def launch_setup(context, *args, **kwargs):
     gizmo_gazebo_dir = get_package_share_directory('gizmo_gazebo')
     gizmo_mapping_dir = get_package_share_directory('gizmo_mapping')
     gizmo_nav_dir = get_package_share_directory('gizmo_navigation')
+    nav2_bt_dir = get_package_share_directory('nav2_bt_navigator')
 
     use_sim_time = LaunchConfiguration('use_sim_time').perform(context).lower() == 'true'
     autostart = LaunchConfiguration('autostart').perform(context).lower() == 'true'
@@ -89,6 +90,8 @@ def launch_setup(context, *args, **kwargs):
             .replace('{Y}', y_pos)
             .replace('{YAW}', yaw)
             .replace('{GROOT_PORT}', groot_port)
+            .replace('{NAV2_BT_DIR}', os.path.join(nav2_bt_dir, 'behavior_trees'))
+            .replace('{BT_DIR}', os.path.join(gizmo_nav_dir, 'behavior_trees'))
         )
 
         temp_cfg = tempfile.NamedTemporaryFile(
