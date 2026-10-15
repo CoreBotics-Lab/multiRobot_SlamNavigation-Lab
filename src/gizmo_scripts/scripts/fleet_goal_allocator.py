@@ -36,14 +36,11 @@ class fleet_goal_allocator(Node):
 
         # Initialize navigation nodes and status dictionary for each robot
         self.nav = {}
-        self.status = {}
         for robot_name in self.robot_names:
             self.nav[robot_name] = BasicNavigator(node_name=f'{robot_name}_navigator', namespace=robot_name)
-            self.status[robot_name] = 'IDLE'
             self.nav[robot_name].set_parameters([rclpy.parameter.Parameter('use_sim_time', rclpy.Parameter.Type.BOOL, use_sim_time)])
             
         self.get_logger().info(f"Navigation nodes initialized: {self.nav}")
-        self.get_logger().info(f"Robot statuses initialized: {self.status}")
 
         # Intializing subscription to the 'goal_pose' topic
         self.get_goal_sub = self.create_subscription(PoseStamped, 'goal_pose', self.goal_pose_callback, 10)
@@ -82,16 +79,11 @@ class fleet_goal_allocator(Node):
 
     def goal_pose_callback(self, msg):
         self.get_logger().info(f"Received goal: X={msg.pose.position.x:.2f}, Y={msg.pose.position.y:.2f}")
-        # robot_pose = self.get_tf('robot1')
 
-        # if robot_pose is not None:
-        #     get_path = self.nav['robot1'].getPath(robot_pose, msg)
-        #     if get_path is not None:
-        #         self.get_logger().info(f"Path length for robot1: {self.calculate_path_length(get_path):.2f} meters")
-        #     self.get_logger().info(f"Robot1 current pose: X={robot_pose.pose.position.x:.2f}, Y={robot_pose.pose.position.y:.2f}")
-        # self.nav['robot1'].goToPose(msg)
+        idle_robots = [name for name in self.robot_names if self.nav[name].isTaskComplete()]
 
-        idle_robots = [name for name, status in self.status.items() if status == 'IDLE']
+        # idle_robots.clear() # This line is for testing purposes to simulate a scenario where no robots are idle.
+        # idle_robots.pop(0)  # This line is for testing purposes to simulate a scenario where one robot is busy.
         if not idle_robots:
             self.get_logger().info("No idle robots available to assign the goal.")
             return       
