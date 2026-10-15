@@ -101,6 +101,14 @@ class fleet_goal_allocator(Node):
             else:
                 self.get_logger().warning(f"Could not get current pose for {name}.")
 
+        if not path_lengths:
+            self.get_logger().info("No valid paths found for any idle robots.")
+            return
+
+        best_robot = min(path_lengths, key=lambda name: path_lengths[name])
+        self.get_logger().info(f"Assigning goal to {best_robot} with path length {path_lengths[best_robot]:.2f} meters")
+        self.nav[best_robot].goToPose(msg)
+
 def main(args=None):
     rclpy.init(args=args)
     fleet_allocator_node = None  # Prevents UnboundLocalError if __init__ exits early
