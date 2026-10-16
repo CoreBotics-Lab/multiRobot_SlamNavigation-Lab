@@ -2,7 +2,7 @@
 
 import os
 import tempfile
-import yaml
+import yaml #type: ignore
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.action import Action
