@@ -116,7 +116,8 @@ class fleet_goal_allocator(Node):
                 self.get_logger().warning(f"Could not get current pose for {name}.")
 
         if not path_lengths:
-            self.get_logger().info("No valid paths found for any idle robots.")
+            self.get_logger().info("No valid paths found for any idle robots. Dropping unreachable goal.")
+            self.goal_queue.pop(0)  # Remove the goal from the queue since no robot can take it
             return
 
         best_robot = min(path_lengths, key=lambda name: path_lengths[name])
