@@ -92,6 +92,24 @@ class fleet_goal_allocator(Node):
         if not self.goal_queue:
             return
 
+        target_goal = self.goal_queue[0]
+
+        # Reject goal if it is placed directly on top of ANY robot in the fleet
+        min_clearance = 0.12  # meters (robot radius is 0.10m, so 0.12m gives safe cushion)
+        for name in self.robot_names:
+            pose = self.get_tf(name)
+            if pose is not None:
+                dist_to_bot = math.hypot(
+                    target_goal.pose.position.x - pose.pose.position.x,
+                    target_goal.pose.position.y - pose.pose.position.y
+                )
+                if dist_to_bot < min_clearance:
+                    self.get_logger().warning(
+                        f"Goal is too close to {name} ({dist_to_bot:.2f}m < {min_clearance}m). Rejecting goal."
+                    )
+                    self.goal_queue.pop(0)
+                    return
+
         idle_robots = [name for name in self.robot_names if self.nav[name].isTaskComplete()]
 
         # idle_robots.clear() # This line is for testing purposes to simulate a scenario where no robots are idle.
@@ -99,8 +117,6 @@ class fleet_goal_allocator(Node):
         if not idle_robots:
             # self.get_logger().info(f"No idle robots available to assign the goal.")
             return       
-
-        target_goal = self.goal_queue[0]
 
         path_lengths = {}
         for name in idle_robots:
