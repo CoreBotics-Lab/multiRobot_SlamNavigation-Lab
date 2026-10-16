@@ -51,6 +51,7 @@ class fleet_goal_allocator(Node):
 
         # goal queueing
         self.goal_queue = [] 
+        self.goal_queue_timer = self.create_timer(1.0, self.process_queue)
 
     def get_tf(self,robot_name: str) -> PoseStamped | None:
         try:
@@ -86,7 +87,7 @@ class fleet_goal_allocator(Node):
         self.goal_queue.append(msg)  # Add the received goal to the queue
         self.get_logger().info(f"Goal added to queue. Total queued: {len(self.goal_queue)}")
         self.process_queue()
-        
+
     def process_queue(self):
         if not self.goal_queue:
             return
@@ -96,7 +97,7 @@ class fleet_goal_allocator(Node):
         # idle_robots.clear() # This line is for testing purposes to simulate a scenario where no robots are idle.
         # idle_robots.pop(0)  # This line is for testing purposes to simulate a scenario where one robot is busy.
         if not idle_robots:
-            self.get_logger().info("No idle robots available to assign the goal.")
+            self.get_logger().info(f"No idle robots available to assign the goal.")
             return       
 
         target_goal = self.goal_queue[0]
