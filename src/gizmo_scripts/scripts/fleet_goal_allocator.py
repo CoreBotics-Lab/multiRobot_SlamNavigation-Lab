@@ -49,6 +49,9 @@ class fleet_goal_allocator(Node):
         self.tf_buffer = Buffer()
         self.tf_listener = TransformListener(self.tf_buffer, self)
 
+        # goal queueing
+        self.goal_queue = [] 
+
     def get_tf(self,robot_name: str) -> PoseStamped | None:
         try:
             trans: TransformStamped = self.tf_buffer.lookup_transform("map", f"{robot_name}/base_footprint",
@@ -80,6 +83,14 @@ class fleet_goal_allocator(Node):
     def goal_pose_callback(self, msg):
         self.get_logger().info(f"Received goal: X={msg.pose.position.x:.2f}, Y={msg.pose.position.y:.2f}")
 
+        self.goal_queue.append(msg)  # Add the received goal to the queue
+        self.get_logger().info(f"Goal added to queue. Total queued: {len(self.goal_queue)}")
+        self.process_queue()
+        
+    def process_queue(self):
+        if not self.goal_queue:
+            return
+
         idle_robots = [name for name in self.robot_names if self.nav[name].isTaskComplete()]
 
         # idle_robots.clear() # This line is for testing purposes to simulate a scenario where no robots are idle.
@@ -88,11 +99,13 @@ class fleet_goal_allocator(Node):
             self.get_logger().info("No idle robots available to assign the goal.")
             return       
 
+        target_goal = self.goal_queue[0]
+
         path_lengths = {}
         for name in idle_robots:
             robot_pose = self.get_tf(name)
             if robot_pose is not None:
-                get_path = self.nav[name].getPath(robot_pose, msg)
+                get_path = self.nav[name].getPath(robot_pose, target_goal)
                 if get_path is not None:
                     path_lengths[name] = self.calculate_path_length(get_path)
                     self.get_logger().info(f"Path length for {name}: {path_lengths[name]:.2f} meters")
@@ -107,7 +120,8 @@ class fleet_goal_allocator(Node):
 
         best_robot = min(path_lengths, key=lambda name: path_lengths[name])
         self.get_logger().info(f"Assigning goal to {best_robot} with path length {path_lengths[best_robot]:.2f} meters")
-        self.nav[best_robot].goToPose(msg)
+        self.goal_queue.pop(0)
+        self.nav[best_robot].goToPose(target_goal)
 
 def main(args=None):
     rclpy.init(args=args)
