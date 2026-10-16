@@ -139,10 +139,10 @@
       introspection_mode: "disabled"
       GridBased:
         plugin: "nav2_navfn_planner::NavfnPlanner"
-        tolerance: 0.25
+        tolerance: 0.00
         use_astar: true
         max_cycles_factor: 10
-        allow_unknown: true
+        allow_unknown: false
 
   local_costmap:
     local_costmap:
