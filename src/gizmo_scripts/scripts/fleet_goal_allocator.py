@@ -8,6 +8,7 @@ from rclpy.exceptions import ParameterUninitializedException
 from nav2_simple_commander.robot_navigator import BasicNavigator
 
 from geometry_msgs.msg import PoseStamped, TransformStamped
+from nav_msgs.msg import Path
 
 # TF specific imports
 from tf2_ros import TransformListener, Buffer
@@ -34,12 +35,14 @@ class fleet_goal_allocator(Node):
             self.destroy_node()
             sys.exit(1)
 
-        # Initialize navigation nodes and status dictionary for each robot
+        # Initialize navigation nodes and publisher for empty paths for each robot
         self.nav = {}
+        self.plan_pubs = {}
         for robot_name in self.robot_names:
             self.nav[robot_name] = BasicNavigator(node_name=f'{robot_name}_navigator', namespace=robot_name)
             self.nav[robot_name].set_parameters([rclpy.parameter.Parameter('use_sim_time', rclpy.Parameter.Type.BOOL, use_sim_time)])
-            
+            self.plan_pubs[robot_name] = self.create_publisher(Path, f'{robot_name}/plan', 10)
+
         self.get_logger().info(f"Navigation nodes initialized: {self.nav}")
 
         # Intializing subscription to the 'goal_pose' topic
@@ -110,6 +113,7 @@ class fleet_goal_allocator(Node):
                     self.goal_queue.pop(0)
                     return
 
+        # Identify idle robots before getting their paths to the target goal. so that you dont have to calculate paths for busy robots.
         idle_robots = [name for name in self.robot_names if self.nav[name].isTaskComplete()]
 
         # idle_robots.clear() # This line is for testing purposes to simulate a scenario where no robots are idle.
@@ -118,6 +122,7 @@ class fleet_goal_allocator(Node):
             # self.get_logger().info(f"No idle robots available to assign the goal.")
             return       
 
+        # Calculate path lengths for all idle robots to the target goal
         path_lengths = {}
         for name in idle_robots:
             robot_pose = self.get_tf(name)
@@ -136,7 +141,19 @@ class fleet_goal_allocator(Node):
             self.goal_queue.pop(0)  # Remove the goal from the queue since no robot can take it
             return
 
+        # Get the robot with the shortest path to the goal
         best_robot = min(path_lengths, key=lambda name: path_lengths[name])
+        
+        # Publish an empty path to all other robots to clear their previous plans
+        empty_path = Path()
+        empty_path.header.frame_id = 'map'
+        empty_path.header.stamp = self.get_clock().now().to_msg()
+
+        for name in self.robot_names:
+            if name != best_robot:
+                self.plan_pubs[name].publish(empty_path)
+
+        # Assign the goal to the best robot
         self.get_logger().info(f"Assigning goal to {best_robot} with path length {path_lengths[best_robot]:.2f} meters")
         self.goal_queue.pop(0)
         self.nav[best_robot].goToPose(target_goal)
