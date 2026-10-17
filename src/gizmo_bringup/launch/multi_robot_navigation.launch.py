@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import yaml # type: ignore
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.action import Action
@@ -27,6 +28,20 @@ def launch_setup(context, *args, **kwargs):
     run_rviz2 = LaunchConfiguration('run_rviz2').perform(context)
     rviz_config = LaunchConfiguration('rviz_config').perform(context)
     gazebo_delay = float(LaunchConfiguration('gazebo_delay').perform(context))
+
+    run_allocator = LaunchConfiguration('run_allocator').perform(context)
+    allocator_delay = float(LaunchConfiguration('allocator_delay').perform(context))
+
+    # Resolve active robot names from fleet configuration
+    with open(fleet_config, 'r') as f:
+        fleet_data = yaml.safe_load(f)
+    robots = fleet_data.get('robots', [])
+    robot_names_str = robot_names.strip()
+    if robot_names_str and robot_names_str.lower() != 'all':
+        allowed = {n.strip() for n in robot_names_str.split(',') if n.strip()}
+        active_robot_names = [bot['name'] for bot in robots if bot.get('name') in allowed]
+    else:
+        active_robot_names = [bot['name'] for bot in robots]
 
     # 1. Gazebo Multi-Robot Spawn (spawns Gazebo, clock bridge, RSP, ROS-Gz bridges, EKF)
     gazebo_spawn_launch = IncludeLaunchDescription(
@@ -75,8 +90,27 @@ def launch_setup(context, *args, **kwargs):
         actions=remaining_actions
     )
 
-    return [set_rmw, set_cyclonedds_uri, gazebo_spawn_launch, delayed_nav_stack]
+    actions: list[Action] = [set_cyclonedds_uri, set_rmw, gazebo_spawn_launch, delayed_nav_stack]
 
+    # 4. Delayed Fleet Goal Allocator
+    if run_allocator.lower() == 'true':
+        allocator_node = Node(
+            package='gizmo_scripts',
+            executable='fleet_goal_allocator.py',
+            name='fleet_goal_allocator',
+            output='screen',
+            parameters=[{
+                'use_sim_time': use_sim_time.lower() == 'true',
+                'robot_names': active_robot_names,
+            }]
+        )
+        delayed_allocator = TimerAction(
+            period=gazebo_delay + allocator_delay,
+            actions=[allocator_node]
+        )
+        actions.extend([delayed_allocator])
+        
+    return actions
 
 def generate_launch_description():
     gizmo_gazebo_dir = get_package_share_directory('gizmo_gazebo')
@@ -127,6 +161,16 @@ def generate_launch_description():
             'gazebo_delay',
             default_value='7.0',
             description='Delay in seconds to wait for Gazebo to completely load and spawn robots before launching navigation and RViz2'
+        ),
+        DeclareLaunchArgument(
+            'run_allocator',
+            default_value='true',
+            description='Launch the fleet goal allocator node automatically'
+        ),
+        DeclareLaunchArgument(
+            'allocator_delay',
+            default_value='3.0',
+            description='Delay after navigation launch before starting the allocator node'
         ),
         OpaqueFunction(function=launch_setup),
     ])
