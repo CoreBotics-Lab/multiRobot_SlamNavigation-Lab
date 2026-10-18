@@ -107,8 +107,7 @@ def launch_setup(context, *args, **kwargs):
             'controller_server',
             'planner_server',
             'behavior_server',
-            'bt_navigator',
-            'waypoint_follower'
+            'bt_navigator'
         ]
 
         amcl_node = Node(
@@ -176,16 +175,6 @@ def launch_setup(context, *args, **kwargs):
             ]
         )
 
-        wp_node = Node(
-            package='nav2_waypoint_follower',
-            executable='waypoint_follower',
-            name='waypoint_follower',
-            namespace=name,
-            output='screen',
-            parameters=[cfg, {'use_sim_time': use_sim_time}],
-            remappings=shared_remappings
-        )
-
         lifecycle_mgr_loc = Node(
             package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
@@ -231,7 +220,6 @@ def launch_setup(context, *args, **kwargs):
                 planner_node,
                 behavior_node,
                 bt_node,
-                wp_node,
                 lifecycle_mgr_loc,
                 delayed_nav_mgr
             ]
