@@ -1,6 +1,6 @@
 <!--
   Custom Nav2 Behavior Tree for Gizmo Multi-Robot Navigation
-  Replans the global path at 2.0 Hz using NavfnPlanner (A*) and executes with DWB controller.
+  Replans the global path at 2.0 Hz using NavfnPlanner (A*) and executes with RPP controller.
   Includes recovery nodes (costmap clearing, spin, backup, wait).
   BTCPP v4 format compatible with Nav2 Jazzy and Groot2 visual editor/monitoring.
 -->
