@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import yaml # type: ignore
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.action import Action
@@ -22,6 +23,20 @@ def launch_setup(context, *args, **kwargs):
     run_rviz2 = LaunchConfiguration('run_rviz2').perform(context)
     rviz_config = LaunchConfiguration('rviz_config').perform(context)
     gazebo_delay = float(LaunchConfiguration('gazebo_delay').perform(context))
+
+    run_teleop = LaunchConfiguration('run_teleop').perform(context)
+
+    # Resolve active robot names from fleet configuration
+    with open(fleet_config, 'r') as f:
+        fleet_data = yaml.safe_load(f)
+    robots = fleet_data.get('robots', [])
+    robot_names_str = robot_names.strip()
+    if robot_names_str and robot_names_str.lower() != 'all':
+        allowed = {n.strip() for n in robot_names_str.split(',') if n.strip()}
+        active_robot_names = [bot['name'] for bot in robots if bot.get('name') in allowed]
+    else:
+        active_robot_names = [bot['name'] for bot in robots]
+
 
     # 1. Gazebo Multi-Robot Spawn (spawns Gazebo, clock bridge, RSP, ROS-Gz bridges, EKF)
     gazebo_spawn_launch = IncludeLaunchDescription(
@@ -84,7 +99,28 @@ def launch_setup(context, *args, **kwargs):
         actions=remaining_actions
     )
 
-    return [gazebo_spawn_launch, delayed_mapping_stack]
+    actions: list[Action] = [gazebo_spawn_launch, delayed_mapping_stack]
+
+    # 4. teleop node for controlling the robots
+
+    if run_teleop.lower() == 'true':
+        for name in active_robot_names:
+            teleop_gui_node = Node(
+                package='gizmo_teleop',
+                executable='joystick_gui',
+                name=f'joy_{name}_node',
+                output='screen',
+                parameters=[{
+                    'topic_name': f'/{name}/cmd_vel',
+                    'max_linear': 0.73,
+                    'max_angular': 3.14159,
+                    'twistStamped': False,
+                    'publish_rate_hz': 10.0,
+                }]
+            )
+            actions.extend([teleop_gui_node])
+        
+    return actions 
 
 
 def generate_launch_description():
@@ -134,6 +170,11 @@ def generate_launch_description():
             'gazebo_delay',
             default_value='7.0',
             description='Delay in seconds to wait for Gazebo to completely load and spawn robots before launching SLAM, map merge, and RViz2'
+        ),
+        DeclareLaunchArgument(
+            'run_teleop',
+            default_value='true',
+            description='Launch the joystick GUI node automatically'
         ),
         OpaqueFunction(function=launch_setup),
     ])
