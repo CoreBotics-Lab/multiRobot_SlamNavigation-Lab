@@ -19,14 +19,30 @@ MainWindow::MainWindow(std::shared_ptr<JoyNode> node)
   // --- Topic Row ---
   auto * topic_layout = new QHBoxLayout();
   auto * topic_label = new QLabel("Topic:", this);
-  topic_input_ = new QLineEdit(QString::fromStdString(node_->topic_name_), this);
-  
+  bool multi_topic = node_->topic_list_.size() > 1;
+  topic_input_ = new TopicSpinBox(this);
+  topic_input_->setMultiTopic(multi_topic);
+  topic_input_->setText(QString::fromStdString(node_->topic_name_));
+  if (multi_topic) {
+    topic_input_->setToolTip("Robot cmd_vel topic (Use arrows, Q/E, or -/+ to switch)");
+  } else {
+    topic_input_->setToolTip("Robot cmd_vel topic");
+  }
+  connect(topic_input_, &TopicSpinBox::stepped, this, [this](int steps) {
+    if (steps > 0) {
+      switchToNextTopic();
+    } else if (steps < 0) {
+      switchToPrevTopic();
+    }
+  });
+  connect(topic_input_->lineEdit(), &QLineEdit::returnPressed, this, &MainWindow::onTopicUpdate);
+
   auto * update_btn = new QPushButton("Update", this);
   update_btn->setFocusPolicy(Qt::NoFocus);
   connect(update_btn, &QPushButton::clicked, this, &MainWindow::onTopicUpdate);
 
   topic_layout->addWidget(topic_label);
-  topic_layout->addWidget(topic_input_);
+  topic_layout->addWidget(topic_input_, 1);
   topic_layout->addWidget(update_btn);
 
   settings_btn_ = new QPushButton("⚙️ Settings", this);
@@ -35,6 +51,15 @@ MainWindow::MainWindow(std::shared_ptr<JoyNode> node)
   topic_layout->addWidget(settings_btn_);
 
   layout->addLayout(topic_layout);
+
+  // Initialize current topic index in topic_list_
+  current_topic_idx_ = 0;
+  for (size_t i = 0; i < node_->topic_list_.size(); ++i) {
+    if (node_->topic_list_[i] == node_->topic_name_) {
+      current_topic_idx_ = static_cast<int>(i);
+      break;
+    }
+  }
 
   // --- Settings Panel ---
   settings_panel_ = new QFrame(this, Qt::Tool | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
@@ -98,16 +123,29 @@ MainWindow::MainWindow(std::shared_ptr<JoyNode> node)
   connect(joystick_, &JoystickWidget::joystickMoved, this, &MainWindow::onJoystickMoved);
   layout->addWidget(joystick_);
 
-  auto * controls_label = new QLabel("Controls: w↑ s↓ a← d→ wd↗ ds↘ sa↙ aw↖  (space: stop)", this);
-  controls_label->setStyleSheet("color: gray; font-size: 11px;");
-  layout->addWidget(controls_label);
+  QString controls_text = (node_->topic_list_.size() > 1)
+    ? "Controls: w↑ s↓ a← d→  (space: stop, q/e or -/+: switch robot)"
+    : "Controls: w↑ s↓ a← d→  (space: stop)";
+  controls_label_ = new QLabel(controls_text, this);
+  controls_label_->setStyleSheet("color: #666; font-size: 23px;");
+  layout->addWidget(controls_label_);
 
   setCentralWidget(main_widget);
-  setFixedSize(sizeHint());
+  QSize win_size = sizeHint();
+  if (win_size.width() < 670) {
+    win_size.setWidth(670);
+  }
+  setFixedSize(win_size);
 
   // Node callbacks
   node_->gui_update_topic_cb = [this](const std::string & topic) {
     topic_input_->setText(QString::fromStdString(topic));
+    for (size_t i = 0; i < node_->topic_list_.size(); ++i) {
+      if (node_->topic_list_[i] == topic) {
+        current_topic_idx_ = static_cast<int>(i);
+        break;
+      }
+    }
   };
   node_->gui_update_linear_cb = [this](double val) {
     if (std::abs(linear_input_->value() - val) > 1e-4) {
@@ -167,17 +205,73 @@ void MainWindow::onJoystickMoved(double x, double y)
 
 void MainWindow::onTopicUpdate()
 {
-  std::string new_topic = topic_input_->text().trimmed().toStdString();
+  QString raw_text = topic_input_->text().trimmed();
+  if (raw_text.contains(',')) {
+    QStringList parts = raw_text.split(',', Qt::SkipEmptyParts);
+    std::vector<std::string> new_list;
+    for (const auto & part : parts) {
+      std::string t = part.trimmed().toStdString();
+      if (!t.empty()) {
+        new_list.push_back(t);
+      }
+    }
+    if (!new_list.empty()) {
+      node_->topic_list_ = new_list;
+      current_topic_idx_ = 0;
+      bool multi = node_->topic_list_.size() > 1;
+      topic_input_->setMultiTopic(multi);
+      if (controls_label_) {
+        controls_label_->setText(multi
+          ? "Controls: w↑ s↓ a← d→  (space: stop, q/e or -/+: switch robot)"
+          : "Controls: w↑ s↓ a← d→  (space: stop)");
+      }
+      std::string first_topic = new_list[0];
+      topic_input_->setText(QString::fromStdString(first_topic));
+      node_->set_parameters({rclcpp::Parameter("topic_name", first_topic)});
+      setFocus();
+      return;
+    }
+  }
+
+  std::string new_topic = raw_text.toStdString();
+  for (size_t i = 0; i < node_->topic_list_.size(); ++i) {
+    if (node_->topic_list_[i] == new_topic) {
+      current_topic_idx_ = static_cast<int>(i);
+      break;
+    }
+  }
   node_->set_parameters({rclcpp::Parameter("topic_name", new_topic)});
   setFocus();
+}
+
+void MainWindow::switchToNextTopic()
+{
+  if (node_->topic_list_.size() <= 1) return;
+  current_topic_idx_ = (current_topic_idx_ + 1) % static_cast<int>(node_->topic_list_.size());
+  std::string new_topic = node_->topic_list_[current_topic_idx_];
+  topic_input_->setText(QString::fromStdString(new_topic));
+  node_->set_parameters({rclcpp::Parameter("topic_name", new_topic)});
+}
+
+void MainWindow::switchToPrevTopic()
+{
+  if (node_->topic_list_.size() <= 1) return;
+  int n = static_cast<int>(node_->topic_list_.size());
+  current_topic_idx_ = (current_topic_idx_ - 1 + n) % n;
+  std::string new_topic = node_->topic_list_[current_topic_idx_];
+  topic_input_->setText(QString::fromStdString(new_topic));
+  node_->set_parameters({rclcpp::Parameter("topic_name", new_topic)});
 }
 
 bool MainWindow::eventFilter(QObject * source, QEvent * event)
 {
   if (event->type() == QEvent::KeyPress) {
     auto * k = static_cast<QKeyEvent *>(event);
-    if (k->key() == Qt::Key_W || k->key() == Qt::Key_A || k->key() == Qt::Key_S ||
-        k->key() == Qt::Key_D || k->key() == Qt::Key_Space) {
+    int key = k->key();
+    if (key == Qt::Key_W || key == Qt::Key_A || key == Qt::Key_S ||
+        key == Qt::Key_D || key == Qt::Key_Space ||
+        key == Qt::Key_Q || key == Qt::Key_E ||
+        key == Qt::Key_Minus || key == Qt::Key_Plus || key == Qt::Key_Equal) {
       keyPressEvent(k);
       return true;
     }
@@ -266,6 +360,10 @@ void MainWindow::keyPressEvent(QKeyEvent * event)
   if (key == Qt::Key_W || key == Qt::Key_A || key == Qt::Key_S || key == Qt::Key_D || key == Qt::Key_Space) {
     keys_pressed_.insert(key);
     updateJoystickFromKeys();
+  } else if (key == Qt::Key_Q || key == Qt::Key_Minus) {
+    switchToPrevTopic();
+  } else if (key == Qt::Key_E || key == Qt::Key_Plus || key == Qt::Key_Equal) {
+    switchToNextTopic();
   } else {
     QMainWindow::keyPressEvent(event);
   }

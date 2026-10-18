@@ -4,6 +4,10 @@ JoyNode::JoyNode()
 : Node("joy_gui_node")
 {
   topic_name_ = this->declare_parameter<std::string>("topic_name", "cmd_vel");
+  topic_list_ = this->declare_parameter<std::vector<std::string>>("topic_list", std::vector<std::string>{});
+  if (topic_list_.empty()) {
+    topic_list_.push_back(topic_name_);
+  }
   use_twist_stamped_ = this->declare_parameter<bool>("twistStamped", false);
   max_linear_ = this->declare_parameter<double>("max_linear", 1.0);
   max_angular_ = this->declare_parameter<double>("max_angular", 3.14);
@@ -70,19 +74,50 @@ rcl_interfaces::msg::SetParametersResult JoyNode::parameterCallback(
 void JoyNode::changeTopic(const std::string & new_topic)
 {
   if (!new_topic.empty() && new_topic != topic_name_) {
-    topic_name_ = new_topic;
-    publisher_twist_.reset();
-    publisher_twist_stamped_.reset();
-
+    // Send zero velocity to current robot before switching
     if (use_twist_stamped_) {
-      publisher_twist_stamped_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(topic_name_, 10);
+      if (publisher_twist_stamped_) {
+        geometry_msgs::msg::TwistStamped stop_msg;
+        stop_msg.header.stamp = this->now();
+        stop_msg.header.frame_id = "base_footprint";
+        publisher_twist_stamped_->publish(stop_msg);
+      }
     } else {
-      publisher_twist_ = this->create_publisher<geometry_msgs::msg::Twist>(topic_name_, 10);
+      if (publisher_twist_) {
+        geometry_msgs::msg::Twist stop_msg;
+        publisher_twist_->publish(stop_msg);
+      }
     }
 
-    RCLCPP_INFO(this->get_logger(), "Changed publisher topic to: %s", topic_name_.c_str());
-    if (gui_update_topic_cb) {
-      gui_update_topic_cb(topic_name_);
+    std::string old_topic = topic_name_;
+    try {
+      topic_name_ = new_topic;
+      publisher_twist_.reset();
+      publisher_twist_stamped_.reset();
+
+      if (use_twist_stamped_) {
+        publisher_twist_stamped_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(topic_name_, 10);
+      } else {
+        publisher_twist_ = this->create_publisher<geometry_msgs::msg::Twist>(topic_name_, 10);
+      }
+
+      RCLCPP_INFO(this->get_logger(), "Changed publisher topic to: %s", topic_name_.c_str());
+      if (gui_update_topic_cb) {
+        gui_update_topic_cb(topic_name_);
+      }
+    } catch (const std::exception & e) {
+      RCLCPP_ERROR(this->get_logger(), "Invalid topic name '%s': %s", new_topic.c_str(), e.what());
+      topic_name_ = old_topic;
+      try {
+        if (use_twist_stamped_) {
+          publisher_twist_stamped_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(topic_name_, 10);
+        } else {
+          publisher_twist_ = this->create_publisher<geometry_msgs::msg::Twist>(topic_name_, 10);
+        }
+      } catch (...) {}
+      if (gui_update_topic_cb) {
+        gui_update_topic_cb(topic_name_);
+      }
     }
   }
 }

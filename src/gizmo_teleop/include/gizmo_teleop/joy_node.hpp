@@ -26,6 +26,7 @@ public:
   std::function<void(bool)> gui_update_twist_stamped_cb;
 
   std::string topic_name_{"cmd_vel"};
+  std::vector<std::string> topic_list_{};
   bool use_twist_stamped_{false};
 
   geometry_msgs::msg::Twist twist_msg_{};

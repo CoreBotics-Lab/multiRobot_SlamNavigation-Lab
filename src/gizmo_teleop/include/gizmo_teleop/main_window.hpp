@@ -4,18 +4,79 @@
 #include <QMainWindow>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QAbstractSpinBox>
 #include <QDoubleSpinBox>
 #include <QCheckBox>
 #include <QLabel>
 #include <QFrame>
 #include <QTimer>
 #include <QSet>
+#include <QMouseEvent>
 #include <memory>
 
 #include "gizmo_teleop/joy_node.hpp"
 #include "gizmo_teleop/joystick_widget.hpp"
 
 #include <rclcpp/executors/single_threaded_executor.hpp>
+
+class TopicSpinBox : public QAbstractSpinBox
+{
+  Q_OBJECT
+
+public:
+  explicit TopicSpinBox(QWidget * parent = nullptr)
+  : QAbstractSpinBox(parent)
+  {
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+  }
+
+  QSize sizeHint() const override
+  {
+    QSize s = QAbstractSpinBox::sizeHint();
+    if (s.width() < 240) {
+      s.setWidth(240);
+    }
+    return s;
+  }
+
+  void stepBy(int steps) override
+  {
+    emit stepped(steps);
+  }
+
+  void setMultiTopic(bool enable)
+  {
+    multi_topic_ = enable;
+    setButtonSymbols(enable ? UpDownArrows : NoButtons);
+  }
+
+  StepEnabled stepEnabled() const override
+  {
+    if (!multi_topic_) {
+      return StepNone;
+    }
+    return StepEnabled(StepUpEnabled | StepDownEnabled);
+  }
+
+  QLineEdit * lineEdit() const { return QAbstractSpinBox::lineEdit(); }
+  QString text() const { return lineEdit()->text(); }
+  void setText(const QString & text) { lineEdit()->setText(text); }
+
+protected:
+  void mouseReleaseEvent(QMouseEvent * event) override
+  {
+    QAbstractSpinBox::mouseReleaseEvent(event);
+    if (window()) {
+      window()->setFocus();
+    }
+  }
+
+signals:
+  void stepped(int steps);
+
+private:
+  bool multi_topic_{true};
+};
 
 class MainWindow : public QMainWindow
 {
@@ -34,6 +95,8 @@ protected:
 private slots:
   void onJoystickMoved(double x, double y);
   void onTopicUpdate();
+  void switchToNextTopic();
+  void switchToPrevTopic();
   void onSpeedUpdate();
   void toggleSettings();
   void hideSettings();
@@ -48,7 +111,8 @@ private:
 
   std::shared_ptr<JoyNode> node_;
 
-  QLineEdit * topic_input_{nullptr};
+  TopicSpinBox * topic_input_{nullptr};
+  int current_topic_idx_{0};
   QPushButton * settings_btn_{nullptr};
   QFrame * settings_panel_{nullptr};
   QCheckBox * inv_lin_cb_{nullptr};
@@ -62,6 +126,7 @@ private:
   QPushButton * rabbit_btn_{nullptr};
 
   QLabel * label_{nullptr};
+  QLabel * controls_label_{nullptr};
   JoystickWidget * joystick_{nullptr};
 
   QTimer ros_timer_;
