@@ -103,22 +103,23 @@ def launch_setup(context, *args, **kwargs):
 
     # 4. teleop node for controlling the robots
 
-    if run_teleop.lower() == 'true':
-        for name in active_robot_names:
-            teleop_gui_node = Node(
-                package='gizmo_teleop',
-                executable='joystick_gui',
-                name=f'joy_{name}_node',
-                output='screen',
-                parameters=[{
-                    'topic_name': f'/{name}/cmd_vel',
-                    'max_linear': 0.73,
-                    'max_angular': 3.14159,
-                    'twistStamped': False,
-                    'publish_rate_hz': 10.0,
-                }]
-            )
-            actions.extend([teleop_gui_node])
+    if run_teleop.lower() == 'true' and active_robot_names:
+        cmd_vel_topics = [f'/{name}/cmd_vel' for name in active_robot_names]
+        teleop_gui_node = Node(
+            package='gizmo_teleop',
+            executable='joystick_gui',
+            name='joy_gui_node',
+            output='screen',
+            parameters=[{
+                'topic_name': cmd_vel_topics[0],
+                'topic_list': cmd_vel_topics,
+                'max_linear': 0.73,
+                'max_angular': 3.14159,
+                'twistStamped': False,
+                'publish_rate_hz': 10.0,
+            }]
+        )
+        actions.extend([teleop_gui_node])
         
     return actions 
 
