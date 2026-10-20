@@ -21,7 +21,7 @@ find_package(std_srvs REQUIRED)
 find_package(tf2_ros REQUIRED)
 
 # Install Python scripts from scripts/ directory
-file(GLOB PYTHON_SCRIPTS "scripts/*.py")
+file(GLOB PYTHON_SCRIPTS CONFIGURE_DEPENDS "scripts/*.py")
 if(PYTHON_SCRIPTS)
   install(PROGRAMS
     ${PYTHON_SCRIPTS}

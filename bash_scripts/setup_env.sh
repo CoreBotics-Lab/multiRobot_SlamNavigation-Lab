@@ -5,8 +5,10 @@ if [ -n "$CONDA_PREFIX" ] && [ -n "$PIXI_PROJECT_ROOT" ]; then
     cp -f "$PIXI_PROJECT_ROOT/bash_scripts/pixi_shell_init.sh" "$CONDA_PREFIX/share/bash-completion/completions/build"
 fi
 
-# Automatically source built workspace overlay for both 'pixi run' and 'pixi shell'
-if [ -n "$PIXI_PROJECT_ROOT" ] && [ -f "$PIXI_PROJECT_ROOT/install/setup.bash" ]; then
+# Source workspace helper functions and overlay
+if [ -n "$PIXI_PROJECT_ROOT" ] && [ -f "$PIXI_PROJECT_ROOT/bash_scripts/pixi_shell_init.sh" ]; then
+    source "$PIXI_PROJECT_ROOT/bash_scripts/pixi_shell_init.sh"
+elif [ -n "$PIXI_PROJECT_ROOT" ] && [ -f "$PIXI_PROJECT_ROOT/install/setup.bash" ]; then
     source "$PIXI_PROJECT_ROOT/install/setup.bash"
 fi
 

@@ -16,7 +16,7 @@ if command -v nvidia-smi &>/dev/null || (command -v lspci &>/dev/null && lspci 2
     export __NV_PRIME_RENDER_OFFLOAD="1"
 fi
 
-# Functions available ONLY inside pixi shell
+# Functions available inside pixi shell
 build() {
     source "$WS_DIR/bash_scripts/build.sh" "$@"
 }
@@ -28,6 +28,10 @@ clean() {
 debug() {
     source "$WS_DIR/bash_scripts/build.sh" debug "$@"
 }
+
+export -f build
+export -f clean
+export -f debug
 
 _build_completions()
 {
