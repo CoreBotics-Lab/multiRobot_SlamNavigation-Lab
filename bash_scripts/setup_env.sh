@@ -14,6 +14,6 @@ fi
 
 # Use CycloneDDS for robust multi-robot ROS 2 communication (prevents FastDDS localhost service timeouts)
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-if [ -n "$PIXI_PROJECT_ROOT" ] && [ -f "$PIXI_PROJECT_ROOT/src/gizmo_bringup/config/cyclonedds.xml" ]; then
-    export CYCLONEDDS_URI="$PIXI_PROJECT_ROOT/src/gizmo_bringup/config/cyclonedds.xml"
+if [ -n "$PIXI_PROJECT_ROOT" ] && [ -f "$PIXI_PROJECT_ROOT/dds_config/cyclonedds.xml" ]; then
+    export CYCLONEDDS_URI="$PIXI_PROJECT_ROOT/dds_config/cyclonedds.xml"
 fi

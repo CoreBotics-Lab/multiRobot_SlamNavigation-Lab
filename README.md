@@ -20,7 +20,7 @@ pixi run colcon build --symlink-install
 pixi shell
 ```
 
-> **Note**: CycloneDDS (`rmw_cyclonedds_cpp`) is configured via `src/gizmo_bringup/config/cyclonedds.xml` to prevent discovery storms and local service timeouts across multi-robot namespaces.
+> **Note**: CycloneDDS (`rmw_cyclonedds_cpp`) is configured via `dds_config/cyclonedds.xml` to prevent discovery storms and local service timeouts across multi-robot namespaces.
 
 ---
 
@@ -272,10 +272,11 @@ Rather than evaluating a discrete grid of trajectory rollouts via the Dynamic Wi
 
 ```text
 ├── bash_scripts/          # Environment activation and build helpers
+├── dds_config/            # Workspace infrastructure configurations (CycloneDDS)
 ├── media/                 # System demonstration recordings and GIFs
 ├── notes/                 # System architecture diagrams (.excalidraw.svg)
 ├── src/
-│   ├── gizmo_bringup/     # Top-level launch files for mapping, navigation, and DDS config
+│   ├── gizmo_bringup/     # Top-level launch files for mapping and navigation
 │   ├── gizmo_description/ # Gizmo differential-drive robot URDF/Xacro and sensors
 │   ├── gizmo_gazebo/      # Gazebo simulation worlds, fleet YAML, and EKF config
 │   ├── gizmo_mapping/     # SLAM Toolbox configs, map merge node, and saved maps

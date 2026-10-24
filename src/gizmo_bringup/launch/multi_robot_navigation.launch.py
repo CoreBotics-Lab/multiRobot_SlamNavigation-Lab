@@ -16,8 +16,9 @@ def launch_setup(context, *args, **kwargs):
     gizmo_gazebo_dir = get_package_share_directory('gizmo_gazebo')
     gizmo_nav_dir = get_package_share_directory('gizmo_navigation')
 
-    cyclonedds_config = os.path.join(gizmo_bringup_dir, 'config', 'cyclonedds.xml')
-    set_cyclonedds_uri = SetEnvironmentVariable('CYCLONEDDS_URI', cyclonedds_config)
+    dds_config = os.path.join(os.environ.get('PIXI_PROJECT_ROOT', ''), 'dds_config', 'cyclonedds.xml')
+
+    set_cyclonedds_uri = SetEnvironmentVariable('CYCLONEDDS_URI', dds_config)
     set_rmw = SetEnvironmentVariable('RMW_IMPLEMENTATION', 'rmw_cyclonedds_cpp')
 
     use_sim_time = LaunchConfiguration('use_sim_time').perform(context)
