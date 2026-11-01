@@ -7,12 +7,12 @@
     "python.REPL.enableREPLSmartSend": false,
     "python.analysis.diagnosticsSource": "Pylance + Pyrefly",
     "python.autoComplete.extraPaths": [
-        "${workspaceFolder}/install/**/lib/python3.14/site-packages",
-        "${workspaceFolder}/.pixi/envs/default/lib/python3.14/site-packages"
+        "${workspaceFolder}/install/**/lib/python3.*/site-packages",
+        "${workspaceFolder}/.pixi/envs/default/lib/python3.*/site-packages"
     ],
     "python.analysis.extraPaths": [
-        "${workspaceFolder}/install/**/lib/python3.14/site-packages",
-        "${workspaceFolder}/.pixi/envs/default/lib/python3.14/site-packages"
+        "${workspaceFolder}/install/**/lib/python3.*/site-packages",
+        "${workspaceFolder}/.pixi/envs/default/lib/python3.*/site-packages"
     ],
 
     // --- Pixi Code Extension ---
