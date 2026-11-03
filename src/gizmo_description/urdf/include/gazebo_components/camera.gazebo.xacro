@@ -22,11 +22,11 @@
             <visualize>true</visualize>
 
             <camera>
-                <!-- Intel RealSense D435 RGB Specs: 69 deg H-FOV (1.20427 rad), 42 deg V-FOV -->
-                <horizontal_fov>1.20427</horizontal_fov>
+                <!-- Wide-Angle Lens Specs: 110 deg H-FOV (1.91986 rad) at 720p (1280x720) -->
+                <horizontal_fov>1.91986</horizontal_fov>
                 <image>
-                    <width>640</width>
-                    <height>480</height>
+                    <width>1280</width>
+                    <height>720</height>
                     <format>R8G8B8</format>
                 </image>
                 <clip>
