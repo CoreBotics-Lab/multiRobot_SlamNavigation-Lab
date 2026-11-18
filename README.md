@@ -202,7 +202,7 @@ To ensure deterministic multi-agent behavior and reproducible state estimation, 
 ### Nonholonomic Kinematics & Coordinate Frames
 Each Gizmo agent operates under a **nonholonomic differential-drive (unicycle) kinematic model** subject to pure rolling and no-slip constraints:
 
-$$
+```math
 \begin{bmatrix}
 \dot{x} \\
 \dot{y} \\
@@ -218,7 +218,7 @@ $$
 v \\
 \omega
 \end{bmatrix}
-$$
+```
 
 Spatial coordinate frames strictly conform to **REP-105** (Metric Coordinate Frames for Mobile Platforms):
 - `map`: Global, earth-fixed world frame. Discrete drift corrections are published by `slam_toolbox` or `amcl` to maintain global consistency.
