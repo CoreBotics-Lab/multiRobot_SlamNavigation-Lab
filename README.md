@@ -50,27 +50,12 @@ ros2 launch gizmo_bringup multi_robot_navigation.launch.py
 * When RViz opens, select the **2D Goal Pose** tool on the top toolbar and click anywhere on the global map.
 * The **Fleet Goal Allocator** intercepts the target pose, computes feasible Nav2 global paths across all available idle robots, and dispatches the task to the optimal agent with the shortest path.
 * Incoming goals placed while all robots are busy are automatically held in an asynchronous FIFO queue and dispatched as robots finish their tasks.
-* *(Note: Gazebo can be executed in headless mode with `headless:=true` to eliminate GUI rendering overhead during multi-agent simulation, as shown in the demonstration).*
 
 <p align="center">
   <img src="media/multi_robot_navigation.gif" alt="Multi-Robot Nav2 Autonomous Navigation" width="100%">
   <br>
-  <em>Figure 2: Multi-Robot Nav2 Autonomous Fleet Navigation (demonstrated with Gazebo running in headless mode). Demonstrating asynchronous goal queuing, intelligent task dispatching via the Fleet Goal Allocator, dynamic costmap-based obstacle avoidance, and decentralized Regulated Pure Pursuit (RPP) path tracking across a shared global map.</em>
+  <em>Figure 2: Multi-Robot Nav2 Autonomous Fleet Navigation. Left: Gazebo Sim 3D physical world and obstacle layout. Right: RViz2 fleet telemetry demonstrating asynchronous goal queuing, intelligent task dispatching via the Fleet Goal Allocator, dynamic costmap-based obstacle avoidance, and decentralized Regulated Pure Pursuit (RPP) path tracking across a shared global map.</em>
 </p>
-
-Dispatching goals via the ROS 2 command line:
-```bash
-# Publish a target pose to the Fleet Goal Allocator
-ros2 topic pub --once /goal_pose geometry_msgs/msg/PoseStamped '{
-  header: {frame_id: "map"},
-  pose: {position: {x: 2.5, y: 1.0, z: 0.0}, orientation: {w: 1.0}}
-}'
-
-# Or command a specific robot directly via its Nav2 action interface
-ros2 action send_goal /robot1/navigate_to_pose nav2_msgs/action/NavigateToPose '{
-  pose: {header: {frame_id: "map"}, pose: {position: {x: 2.0, y: 3.0, z: 0.0}, orientation: {w: 1.0}}}
-}'
-```
 
 ---
 
