@@ -207,8 +207,7 @@ $$
 \dot{x} \\
 \dot{y} \\
 \dot{\theta}
-\end{bmatrix}
-=
+\end{bmatrix} =
 \begin{bmatrix}
 \cos\theta & 0 \\
 \sin\theta & 0 \\
@@ -233,38 +232,38 @@ map ──(discrete SLAM/AMCL correction update)──> {NAME}/odom ──(conti
 ### Local Control: Regulated Pure Pursuit (RPP) vs. DWB
 Rather than evaluating a discrete grid of trajectory rollouts via the Dynamic Window Approach (DWB)—which introduces heuristic scoring instabilities in narrow corridors—local path tracking is handled by the **Regulated Pure Pursuit (RPP)** controller:
 
-1. **Path Curvature Computation**: The controller dynamically extracts an adaptive lookahead point on the global path at distance $L$ and determines target path curvature:
+**Path Curvature Computation**: The controller dynamically extracts an adaptive lookahead point on the global path at distance $L$ and determines target path curvature:
 
-   $$
-   \kappa = \frac{2 \sin \alpha}{L}
-   $$
+$$
+\kappa = \frac{2 \sin \alpha}{L}
+$$
 
-   where $\alpha$ is the vehicle heading error relative to the lookahead vector.
+where $\alpha$ is the vehicle heading error relative to the lookahead vector.
 
-2. **Adaptive Velocity Regulation**: Forward velocity is strictly constrained as an inverse function of instantaneous curvature and proximity to dynamic obstacles:
+**Adaptive Velocity Regulation**: Forward velocity is strictly constrained as an inverse function of instantaneous curvature and proximity to dynamic obstacles:
 
-   $$
-   v = \frac{v_{\text{max}}}{1 + k \cdot |\kappa|}
-   $$
+$$
+v = \frac{v_{\text{max}}}{1 + k \cdot |\kappa|}
+$$
 
-   This guarantees asymptotic convergence to the planned global path, prevents nonholonomic overshoot on sharp turns, and stabilizes multi-robot passing maneuvers.
+This guarantees asymptotic convergence to the planned global path, prevents nonholonomic overshoot on sharp turns, and stabilizes multi-robot passing maneuvers.
 
 ### Graph-Based SLAM & Rigid 2D Map Alignment
-- **Pose-Graph Optimization**: Each robot executes asynchronous 2D LiDAR SLAM via `slam_toolbox`, constructing a dynamic pose graph where nodes denote 2D robot poses $x_i = [x, y, \theta]^T$ and edges denote spatial constraints derived from scan-to-scan correlative scan matching:
+**Pose-Graph Optimization**: Each robot executes asynchronous 2D LiDAR SLAM via `slam_toolbox`, constructing a dynamic pose graph where nodes denote 2D robot poses $x_i = [x, y, \theta]^T$ and edges denote spatial constraints derived from scan-to-scan correlative scan matching:
 
-  $$
-  F(x) = \sum_{ij} e(x_i, x_j, z_{ij})^T \Omega_{ij} \, e(x_i, x_j, z_{ij})
-  $$
+$$
+F(x) = \sum_{ij} e(x_i, x_j, z_{ij})^T \Omega_{ij} \, e(x_i, x_j, z_{ij})
+$$
 
-  Loop closures and constraint graphs are optimized using Ceres non-linear least-squares.
+Loop closures and constraint graphs are optimized using Ceres non-linear least-squares.
 
-- **Global Map Merging**: Submaps generated under local origins are aligned into a common global coordinate system via rigid 2D planar transformations:
+**Global Map Merging**: Submaps generated under local origins are aligned into a common global coordinate system via rigid 2D planar transformations:
 
-  $$
-  T_{\text{global}} = T_{\text{spawn}} \cdot T_{\text{local}}
-  $$
+$$
+T_{\text{global}} = T_{\text{spawn}} \cdot T_{\text{local}}
+$$
 
-  This avoids costly iterative scan correlation across fleets by leveraging deterministic fleet spawn kinematics.
+This avoids costly iterative scan correlation across fleets by leveraging deterministic fleet spawn kinematics.
 
 ---
 
