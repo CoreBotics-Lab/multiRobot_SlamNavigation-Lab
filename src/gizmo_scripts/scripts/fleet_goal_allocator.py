@@ -160,8 +160,8 @@ class fleet_goal_allocator(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    fleet_allocator_node = None  # Prevents UnboundLocalError if __init__ exits early
-
+    fleet_allocator_node = None
+    executor = None
     try:
         fleet_allocator_node = fleet_goal_allocator()
 
@@ -180,6 +180,9 @@ def main(args=None):
         pass  # Catches sys.exit(1) from parameter validation cleanly
     finally:
         try:
+            if executor is not None:
+                executor.shutdown()
+
             if fleet_allocator_node is not None:
                 fleet_allocator_node.get_logger().info("Shutting down nodes...")
                 # Destroy child navigator nodes first
