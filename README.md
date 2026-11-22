@@ -1,206 +1,253 @@
-# Multi-Robot Fleet Management & Navigation Lab
+# Multi-Robot Fleet SLAM & Autonomous Navigation Lab (`multiRobot_SlamNavigation-Lab`)
 
-Welcome to the **Multi-Robot Fleet Management & Navigation Lab** workspace. This repository contains an end-to-end multi-robot autonomous system built on ROS 2, Gazebo Sim, SLAM Toolbox, Nav2, and custom Behavior Trees.
+An autonomous mobile robotics engineering repository for **Multi-Robot 2D Graph SLAM**, **Occupancy Grid Map Merging**, **Namespaced Nav2 Autonomous Fleet Navigation**, and **Decentralized Task Allocation** on the **Gizmo 2WD Differential Drive Robot** using **ROS 2 Lyrical** and **CycloneDDS**.
 
 ---
 
-## Environment & Build Setup
+## Quickstart Guide
 
-This repository uses [Pixi](https://pixi.sh) to manage an isolated, reproducible ROS 2 environment with RoboStack and Gazebo Sim.
-
+### 1. Build the Workspace
+Build all workspace packages using Pixi:
 ```bash
-# Clone the repository
-git clone https://github.com/CoreBotics-Lab/multiRobot_SlamNavigation-Lab.git
-cd multiRobot_SlamNavigation-Lab
-
-# Build the workspace
 pixi run colcon build --symlink-install
-
-# Enter the isolated environment
-pixi shell
 ```
 
-> **Note**: CycloneDDS (`rmw_cyclonedds_cpp`) is configured via `dds_config/cyclonedds.xml` to prevent discovery storms and local service timeouts across multi-robot namespaces.
+> **Note**: CycloneDDS (`rmw_cyclonedds_cpp`) is configured via `dds_config/cyclonedds.xml` to isolate discovery domains and eliminate multicast discovery storms across multi-robot namespaces.
 
 ---
 
-## 1. Multi-Robot Simultaneous Mapping (SLAM)
+### 2. Multi-Robot Simultaneous Mapping and Map Merging (Mapping Mode)
+Launch the complete simulation, namespaced SLAM Toolbox instances, and dynamic map merge node:
+```bash
+ros2 launch gizmo_bringup multi_robot_mapping.launch.py
+```
+* When RViz opens, each robot publishes its local occupancy grid (`/{NAME}/map`).
+* The `map_merge_node` dynamically transforms and fuses all local submaps into a unified global occupancy grid on `/map`.
+* Drive individual robots using the teleoperation interface launched automatically with mapping (or run standalone via `ros2 launch gizmo_teleop teleop.launch.py`) using `W/A/S/D` to drive and `Q`/`E` or the Topic selector to switch between active robots in the fleet.
+* *(Note: Gazebo can be executed in headless mode with `headless:=true` to eliminate GUI rendering overhead during multi-agent simulation, as shown in the demonstration).*
+* *(Optional)* To save the merged global map or individual submaps once the arena is fully mapped:
+  ```bash
+  # Save the unified global map (used by Nav2)
+  ros2 run nav2_map_server map_saver_cli -f src/gizmo_mapping/maps/simple_bigger_world_map --ros-args -p map_topic:=/map
 
-The mapping stack enables multiple robots to independently explore and map unknown environments simultaneously using LiDAR-based SLAM.
-
-### Architecture Overview
-- **Per-Robot Namespaced SLAM**: Each robot runs an isolated asynchronous `slam_toolbox` instance (`/{NAME}/slam_toolbox`) publishing to `/{NAME}/map`.
-- **State Estimation**: Fuses wheel odometry (`/{NAME}/wheel_odom`) and IMU (`/{NAME}/imu/data`) through an Extended Kalman Filter (`robot_localization`) publishing high-rate `odom -> base_footprint` TF.
-- **Global Map Merging**: `map_merge_node` subscribes to all `/{NAME}/map` topics, aligns them using fleet spawn offsets, and publishes a unified global occupancy grid on `/map`.
+  # Save an individual robot's local map
+  ros2 run nav2_map_server map_saver_cli -f src/gizmo_mapping/maps/robot1_map --ros-args -p map_topic:=/robot1/map
+  ```
 
 <p align="center">
   <img src="media/multi_robot_mapping_merge.gif" alt="Multi-Robot SLAM and Global Map Merging" width="100%">
   <br>
-  <em>Figure 1: Live Multi-Robot SLAM & Map Merging. Left: Four independent robot map streams running simultaneously. Right: Unified global occupancy grid dynamically merged on <code>/map</code>.</em>
+  <em>Figure 1: Live Multi-Robot SLAM and Map Merging (demonstrated with Gazebo running in headless mode). Multiple autonomous agents explore the environment in parallel while Karto-based graph SLAM solvers optimize local pose graphs. The global map merging node dynamically transforms and stitches namespaced occupancy grids into a unified /map representation.</em>
 </p>
-
-### Launching Mapping
-
-To launch the complete simulation, multi-robot SLAM stack, and RViz dashboard:
-
-```bash
-# Launch mapping for all robots in the fleet
-ros2 launch gizmo_bringup multi_robot_mapping.launch.py
-
-# Launch mapping for specific robots (e.g., robot1 and robot2 only)
-ros2 launch gizmo_bringup multi_robot_mapping.launch.py robot_names:="robot1,robot2"
-
-# Headless mode (no Gazebo GUI, saves GPU/CPU resources)
-ros2 launch gizmo_bringup multi_robot_mapping.launch.py headless:=true
-```
-
-### Launch Arguments
-
-| Argument | Default | Description |
-| :--- | :--- | :--- |
-| `robot_names` | `all` | Comma-separated robot names (e.g. `robot1,robot2`) or `all` |
-| `fleet_config` | `robots_fleet.yaml` | Path to fleet configuration defining spawn poses `(x, y, yaw)` |
-| `headless` | `false` | Run Gazebo in headless mode |
-| `run_rviz2` | `true` | Launch RViz2 pre-configured for multi-robot SLAM visualization |
-| `run_teleop` | `true` | Launch the teleoperation interface for driving the robots |
-| `gazebo_delay` | `7.0` | Startup grace period (seconds) for Gazebo to load before launching SLAM |
-
-### Teleoperation Controls
-- **Drive Controls**: `W` (Forward), `S` (Backward), `A` (Turn Left), `D` (Turn Right), `Space` (Emergency Stop)
-- **Robot Switching**:
-  - `Q` or `-` : Switch to **previous** robot in the fleet
-  - `E` or `+` / `=` : Switch to **next** robot in the fleet
-  - Or click the **up/down stepper arrows** directly inside the `Topic:` input box
-- **Mouse Control**: Drag the virtual joystick knob with your mouse for proportional velocity control
-- **Speed Limits**: Adjust *Max Linear* and *Max Angular* limits dynamically from the GUI or settings drawer
-
-### Saving the Generated Map
-
-Once the environment has been fully explored:
-
-```bash
-# Save the unified global map (default map used by Nav2)
-ros2 run nav2_map_server map_saver_cli -f src/gizmo_mapping/maps/simple_bigger_world_map --ros-args -p map_topic:=/map
-
-# Save an individual robot's local map (optional)
-ros2 run nav2_map_server map_saver_cli -f src/gizmo_mapping/maps/robot1_map --ros-args -p map_topic:=/robot1/map
-```
 
 ---
 
-## 2. Multi-Robot Autonomous Navigation (Nav2)
-
-The navigation stack coordinates autonomous multi-agent navigation across a shared global map using namespaced Nav2 stacks, custom Behavior Trees, and an intelligent fleet task allocator.
+### 3. Multi-Robot Autonomous Fleet Navigation & Goal Allocation (Navigation Mode)
+Launch multi-robot Nav2 autonomous navigation with the centralized Fleet Goal Allocator:
+```bash
+ros2 launch gizmo_bringup multi_robot_navigation.launch.py
+```
+* When RViz opens, select the **2D Goal Pose** tool on the top toolbar and click anywhere on the global map.
+* The **Fleet Goal Allocator** intercepts the target pose, computes feasible Nav2 global paths across all available idle robots, and dispatches the task to the optimal agent with the shortest path.
+* Incoming goals placed while all robots are busy are automatically held in an asynchronous FIFO queue and dispatched as robots finish their tasks.
+* *(Note: Gazebo can be executed in headless mode with `headless:=true` to eliminate GUI rendering overhead during multi-agent simulation, as shown in the demonstration).*
 
 <p align="center">
   <img src="media/multi_robot_navigation.gif" alt="Multi-Robot Nav2 Autonomous Navigation" width="100%">
   <br>
-  <em>Figure 2: Multi-Robot Nav2 Autonomous Fleet Navigation. Demonstrating asynchronous goal queuing, intelligent task dispatching via the Fleet Goal Allocator, dynamic costmap-based obstacle avoidance, and decentralized RPP path tracking across a shared global map.</em>
+  <em>Figure 2: Multi-Robot Nav2 Autonomous Fleet Navigation (demonstrated with Gazebo running in headless mode). Demonstrating asynchronous goal queuing, intelligent task dispatching via the Fleet Goal Allocator, dynamic costmap-based obstacle avoidance, and decentralized Regulated Pure Pursuit (RPP) path tracking across a shared global map.</em>
 </p>
 
-### Namespaced Node Architecture
+Dispatching goals via the ROS 2 command line:
+```bash
+# Publish a target pose to the Fleet Goal Allocator
+ros2 topic pub --once /goal_pose geometry_msgs/msg/PoseStamped '{
+  header: {frame_id: "map"},
+  pose: {position: {x: 2.5, y: 1.0, z: 0.0}, orientation: {w: 1.0}}
+}'
 
-Each robot in the fleet operates within its own dedicated namespace (`/{NAME}/`) running an isolated Nav2 navigation stack:
+# Or command a specific robot directly via its Nav2 action interface
+ros2 action send_goal /robot1/navigate_to_pose nav2_msgs/action/NavigateToPose '{
+  pose: {header: {frame_id: "map"}, pose: {position: {x: 2.0, y: 3.0, z: 0.0}, orientation: {w: 1.0}}}
+}'
+```
 
-- **Planner Server (`nav2_planner::PlannerServer`)**:
-  - Implements global path planning using the `nav2_navfn_planner::NavfnPlanner` plugin with A* heuristic search.
-  - Evaluates the 2D Global Costmap (static map layer + obstacle inflation) and publishes collision-free paths via the `/{NAME}/compute_path_to_pose` action interface.
-- **Controller Server (`nav2_controller::ControllerServer`)**:
-  - Implements high-rate (20 Hz) local path tracking using `nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController` (RPP).
-  - Subscribes to the `/{NAME}/follow_path` action server, using adaptive lookahead distance and curvature velocity regulation to slow down on sharp turns and anticipate forward collisions on the Local Costmap.
-  - Publishes real-time velocity commands directly to `/{NAME}/cmd_vel`.
-- **Behavior Server (`nav2_behaviors::BehaviorServer`)**:
-  - Hosts dedicated recovery and contingency action servers (`/{NAME}/clear_costmap`, `/{NAME}/spin`, `/{NAME}/wait`, and `/{NAME}/backup`).
-  - Executed whenever the planner fails to find a valid route or the controller detects an impending blockage.
-- **BT Navigator (`nav2_bt_navigator::BtNavigator`)**:
-  - The central coordinator node hosting the `/{NAME}/navigate_to_pose` action server.
-  - Orchestrates the Planner, Controller, and Behavior servers by evaluating the custom XML behavior tree (`gizmo_nav_to_pose.xml`) at runtime.
-- **Lifecycle Manager (`nav2_lifecycle_manager::LifecycleManager`)**:
-  - Deterministically transitions all managed navigation nodes (`planner_server`, `controller_server`, `behavior_server`, `bt_navigator`) through ROS 2 lifecycle states (`Unconfigured` -> `Inactive` -> `Active`).
-  - Establishes heartbeat bonds to monitor node health and ensures navigation nodes only activate after AMCL localization has stabilized coordinate frames.
+---
 
-### Behavior Tree Orchestration (`gizmo_nav_to_pose.xml`)
+## Architectural Overview
 
-The custom behavior tree binds the Planner, Controller, and Behavior servers into a robust, self-healing execution pipeline:
+The multi-robot architecture provides namespaced decentralization for high-rate perception, state estimation, and path tracking, combined with centralized fleet orchestration for global map merging and goal dispatching:
+
+```text
+                                [Fleet Operator / RViz2 Dashboard]
+                                                │
+                       ┌────────────────────────┴────────────────────────┐
+                       │ (/goal_pose)                                    │ (Display streams)
+                       ▼                                                 ▼
+             [fleet_goal_allocator]                             [rviz2_dashboard]
+             (Dynamic FIFO Queue &                               (Namespaced TF,
+              Shortest Path Dispatch)                             Paths, & Costmaps)
+                       │
+       ┌───────────────┼───────────────┐ (Action Dispatch: /{NAME}/navigate_to_pose)
+       ▼                               ▼
+ [robot1 Namespace]             [robot2 Namespace]             [robotN Namespace]
+┌─────────────────────────┐    ┌─────────────────────────┐    ┌─────────────────────────┐
+│ • bt_navigator          │    │ • bt_navigator          │    │ • bt_navigator          │
+│ • planner_server (NavFn)│    │ • planner_server (NavFn)│    │ • planner_server (NavFn)│
+│ • controller_server(RPP)│    │ • controller_server(RPP)│    │ • controller_server(RPP)│
+│ • behavior_server       │    │ • behavior_server       │    │ • behavior_server       │
+│ • slam_toolbox / amcl   │    │ • slam_toolbox / amcl   │    │ • slam_toolbox / amcl   │
+└────────────┬────────────┘    └────────────┬────────────┘    └────────────┬────────────┘
+             │ /{NAME}/map                  │ /{NAME}/map                  │ /{NAME}/map
+             └──────────────────────┬───────┴──────────────────────────────┘
+                                    ▼
+                            [map_merge_node]
+                     (Rigid 2D Planar Alignment)
+                                    │
+                                    ▼
+                         Unified Global Map (/map)
+```
+
+### Behavior Tree Execution Architecture (`gizmo_nav_to_pose.xml`)
+
+Each robot evaluates a dedicated Behavior Tree coordinating path planning, tracking, and recovery:
 
 <p align="center">
   <img src="media/gizmo_nav_to_pose.excalidraw.svg" alt="Gizmo Nav2 Behavior Tree & Navigation Architecture" width="100%">
 </p>
 
-1. **Concurrent Planning and Control (`PipelineSequence`)**:
-   - Executes global path computation and local path tracking in parallel.
-   - A `RateController` continuously triggers the **Planner Server** at 2.0 Hz to replan around transient dynamic obstacles.
-   - The **Controller Server** tracks the latest path segment to maintain smooth continuous motion.
-2. **Multi-Stage Recovery Pipeline (`ReactiveFallback` / `RecoveryNode`)**:
-   - If planning or path tracking encounters an obstacle deadlock, execution automatically triggers the **Behavior Server**:
-     - **Stage 1 (Costmap Clear)**: Clears transient dynamic obstacles from the local costmap.
-     - **Stage 2 (In-Place Spin)**: Executes a 90-degree rotation to widen LiDAR scan visibility and eliminate blind spots.
-     - **Stage 3 (Wait)**: Pauses velocity commands for 5.0 seconds to yield right-of-way and let crossing fleet robots pass.
-     - **Stage 4 (BackUp)**: Reverses the robot by -0.15 m to safely dislodge from tight pinch points.
-
-### Fleet Goal Allocator (`fleet_goal_allocator.py`)
-- Centralized dispatcher that listens to the global `/goal_pose` topic (e.g. from RViz *2D Goal Pose* tool).
-- **Asynchronous Goal Queuing**: Incoming target goals are buffered into an internal FIFO queue (`goal_queue`), allowing operators to continuously queue multiple targets without stalling or dropping goals while robots are actively executing tasks.
-- **Dynamic Queue Processing**: Periodically evaluates idle robots (`isTaskComplete()`), querying true path length (`getPath()`) from Nav2 rather than naive Euclidean distance.
-- **Footprint Collision Rejection**: Automatically verifies goal validity, rejecting targets placed within collision threshold of existing robot resting positions, and dispatches each queued goal to the optimal available robot with the shortest feasible path.
-
-### Launching Navigation
-
-```bash
-# Launch multi-robot navigation for all robots with RViz and Fleet Goal Allocator
-ros2 launch gizmo_bringup multi_robot_navigation.launch.py
-
-# Launch navigation for specific robots
-ros2 launch gizmo_bringup multi_robot_navigation.launch.py robot_names:="robot1,robot2"
-
-# Use a custom map file
-ros2 launch gizmo_bringup multi_robot_navigation.launch.py map:=/path/to/my_map.yaml
-```
-
-### Launch Arguments
-
-| Argument | Default | Description |
-| :--- | :--- | :--- |
-| `robot_names` | `all` | Comma-separated robot names or `all` |
-| `map` | `simple_bigger_world_map.yaml` | Path to the map `.yaml` file |
-| `fleet_config` | `robots_fleet.yaml` | Path to fleet configuration defining initial spawn poses |
-| `headless` | `false` | Run Gazebo in headless mode |
-| `run_rviz2` | `true` | Launch RViz2 pre-configured with multi-robot Nav2 displays |
-| `run_allocator`| `true` | Automatically start the Fleet Goal Allocator node |
-| `gazebo_delay` | `7.0` | Seconds to wait for Gazebo spawn before launching Nav2 |
-| `allocator_delay` | `3.0` | Seconds to wait after Nav2 startup before starting the allocator |
-
-### Dispatching Goals to the Fleet
-
-You can dispatch goals using either RViz or the ROS 2 CLI:
-
-1. **Via RViz2**:
-   - Click the **2D Goal Pose** tool in the RViz toolbar.
-   - Click and drag anywhere on the map to set the target position and orientation.
-   - The **Fleet Goal Allocator** automatically calculates feasible paths for all idle robots and assigns the goal to the closest available robot.
-
-2. **Via Command Line**:
-   ```bash
-   # Send a goal to the fleet allocator
-   ros2 topic pub --once /goal_pose geometry_msgs/msg/PoseStamped '{
-     header: {frame_id: "map"},
-     pose: {position: {x: 2.5, y: 1.0, z: 0.0}, orientation: {w: 1.0}}
-   }'
-
-   # Or send a goal directly to a specific robot's Nav2 action server
-   ros2 action send_goal /robot1/navigate_to_pose nav2_msgs/action/NavigateToPose '{
-     pose: {header: {frame_id: "map"}, pose: {position: {x: 2.0, y: 3.0, z: 0.0}, orientation: {w: 1.0}}}
-   }'
-   ```
+* **Concurrent Planning and Control (`PipelineSequence`)**: Continuously evaluates global route replanning at 2.0 Hz while the controller tracks the active path segment at 20.0 Hz.
+* **Deterministic Fallback Recovery (`RecoveryNode`)**: When deadlocks or dynamic obstacles occur, the Behavior Server steps through clear-costmap, in-place spin (to broaden LiDAR perception), 5-second wait (yielding right-of-way to crossing fleet agents), and linear backup maneuvers.
 
 ---
 
-## 3. Theoretical Foundations & Control Architecture
+## Workspace Packages
 
-To ensure deterministic multi-agent behavior and reproducible state estimation, the system implements formal kinematic, localization, and control models:
+The repository is organized into 7 modular ROS 2 packages inside `src/`:
+
+| Package | Build Type | Primary Responsibility |
+| :--- | :--- | :--- |
+| **`gizmo_description`** | `ament_cmake` | Robot kinematics URDF/Xacro, visual and collision geometry, inertial parameters, and sensor frame definitions. |
+| **`gizmo_gazebo`** | `ament_cmake` | Gazebo simulation worlds (`simpleBiggerWorld.sdf`), fleet configuration (`robots_fleet.yaml`), and multi-robot entity spawners. |
+| **`gizmo_teleop`** | `ament_cmake` | Teleoperation node with dynamic multi-robot topic switching, safety clamping, and proportional joystick controls. |
+| **`gizmo_mapping`** | `ament_cmake` | Namespaced SLAM Toolbox configurations, 2D occupancy grid maps, and real-time rigid map merge node (`map_merge_node.py`). |
+| **`gizmo_navigation`** | `ament_cmake` | Namespaced Nav2 parameter files (`nav2_namespaced.yaml`), custom Behavior Trees (`gizmo_nav_to_pose.xml`), and multi-robot RViz dashboards. |
+| **`gizmo_bringup`** | `ament_cmake` | Top-level system orchestrators coordinating simulation, namespaced mapping, and multi-robot autonomous navigation. |
+| **`gizmo_scripts`** | `ament_python` | Centralized Fleet Goal Allocator (`fleet_goal_allocator.py`) supporting asynchronous goal queuing, path length optimization, and footprint clearance checks. |
+
+---
+
+## Launch Architecture
+
+The workspace provides launch pipelines structured across 3 architectural layers:
+
+```text
+[Layer 3: Master Bringup & Fleet Orchestration]
+  ├── multi_robot_mapping.launch.py    (Full simulation + Namespaced SLAM + Map Merge + Teleop + RViz2)
+  ├── multi_robot_navigation.launch.py (Full simulation + Namespaced Nav2 + Fleet Goal Allocator + RViz2)
+  ├── single_robot_mapping.launch.py   (Single-agent SLAM baseline)
+  └── single_robot_navigation.launch.py(Single-agent Nav2 baseline)
+
+[Layer 2: Core Subsystems]
+  ├── multi_robot_slam.launch.py       (Dynamic loop spawning isolated slam_toolbox instances per robot)
+  ├── map_merge.launch.py              (Dynamic rigid 2D alignment fusing /{NAME}/map into /map)
+  └── navigation.launch.py             (Namespaced 4-server Nav2 stack + lifecycle managers)
+
+[Layer 1: Simulation & Kinematics]
+  ├── gazebo_multi_robot_spawn.launch.py (Gazebo simulator + fleet entity spawners + clock/sensor bridges)
+  ├── gazebo.launch.py                   (Single-robot base simulator spawner)
+  ├── display.launch.py                  (URDF kinematic transform tree verification in RViz)
+  └── teleop.launch.py                   (Interactive velocity command publisher)
+```
+
+---
+
+### Layer 3: Master Bringup & Fleet Orchestration
+
+#### 1. `multi_robot_mapping.launch.py` (`gizmo_bringup`)
+* **Purpose**: Coordinates full multi-robot SLAM simulation. Launches Gazebo, spawns fleet robots with sensor bridges, executes namespaced SLAM Toolbox nodes, starts map merging, and brings up the visualization dashboard.
+* **Mechanism**:
+  1. Spawns Gazebo and fleet entities via `gazebo_multi_robot_spawn.launch.py` based on `robots_fleet.yaml`.
+  2. Applies a `TimerAction(period=gazebo_delay)` (default 7.0s) allowing Gazebo physics, sensor topics, and EKF transforms to stabilize.
+  3. Launches namespaced `slam_toolbox` instances for all active agents via `multi_robot_slam.launch.py`.
+  4. Launches `map_merge_node.py` to aggregate submaps into `/map`.
+  5. Spawns RViz2 configured with multi-robot occupancy displays and the multi-topic teleoperation interface.
+* **Key Commands**:
+  ```bash
+  # Launch mapping for all robots in the fleet
+  ros2 launch gizmo_bringup multi_robot_mapping.launch.py
+
+  # Launch mapping for a subset of robots
+  ros2 launch gizmo_bringup multi_robot_mapping.launch.py robot_names:="robot1,robot2"
+
+  # Headless mode (no Gazebo GUI, reduces CPU/GPU overhead)
+  ros2 launch gizmo_bringup multi_robot_mapping.launch.py headless:=true
+  ```
+
+---
+
+#### 2. `multi_robot_navigation.launch.py` (`gizmo_bringup`)
+* **Purpose**: Coordinates multi-robot autonomous navigation across a shared pre-built map.
+* **Mechanism**:
+  1. Launches Gazebo physics and spawns fleet robots at predefined initial coordinates.
+  2. Waits for Gazebo initialization (`gazebo_delay:=7.0`), then initializes namespaced Nav2 stacks (`planner_server`, `controller_server`, `behavior_server`, `bt_navigator`) for each robot.
+  3. Launches the **Fleet Goal Allocator** after Nav2 servers transition to active (`allocator_delay:=3.0`).
+  4. Launches RViz2 with multi-robot costmaps, local plans, and goal injection tools.
+* **Key Commands**:
+  ```bash
+  # Launch multi-robot navigation for the entire fleet
+  ros2 launch gizmo_bringup multi_robot_navigation.launch.py
+
+  # Launch navigation with a custom pre-built map
+  ros2 launch gizmo_bringup multi_robot_navigation.launch.py map:=/path/to/my_map.yaml
+
+  # Launch navigation for specific robots only
+  ros2 launch gizmo_bringup multi_robot_navigation.launch.py robot_names:="robot1,robot2"
+  ```
+
+---
+
+### Layer 2: Core Subsystems
+
+#### 3. `multi_robot_slam.launch.py` (`gizmo_mapping`)
+* **Purpose**: Spawns isolated, namespaced SLAM Toolbox instances for each designated robot.
+* **Mechanism**: Parses `robots_fleet.yaml`, generates a temporary parameter file for each robot replacing `{NAME}` tokens, and remaps local `map` and `map_metadata` topics to prevent cross-namespace collision.
+
+#### 4. `map_merge.launch.py` (`gizmo_mapping`)
+* **Purpose**: Aggregates distributed submaps into a coherent global occupancy grid.
+* **Mechanism**: Subscribes to `/{NAME}/map` updates, projects submap occupancy data onto the global `/map` frame using rigid planar spawn transformations, and resolves conflicting cell states via probabilistic occupancy fusion.
+
+#### 5. `fleet_goal_allocator.py` (`gizmo_scripts`)
+* **Purpose**: High-level decentralized goal dispatcher and priority queue manager.
+* **Mechanism**:
+  * Subscribes to global `/goal_pose` inputs.
+  * Rejects candidate goals placed within robot collision clearance zones.
+  * Queries actual Nav2 plan lengths (`getPath()`) from idle candidates rather than naive Euclidean distance.
+  * Dispatches target goals to the optimal candidate and buffers excess requests in a thread-safe FIFO queue.
+
+---
+
+### Layer 1: Simulation & Kinematics
+
+#### 6. `gazebo_multi_robot_spawn.launch.py` (`gizmo_gazebo`)
+* **Purpose**: Base physics simulation engine and fleet entity spawning pipeline.
+* **Mechanism**: Starts Gazebo Sim, loads the designated world (`simpleBiggerWorld.sdf`), initializes bidirectional `/clock` and sensor bridges (`/scan`, `/imu/data`), publishes robot URDF models via `robot_state_publisher`, and executes namespaced EKF nodes (`robot_localization`).
+
+#### 7. `teleop.launch.py` (`gizmo_teleop`)
+* **Purpose**: Standalone velocity command teleoperation interface with dynamic topic switching.
+* **Mechanism**: Spawns the joystick teleoperation interface for manual velocity command injection with safety limits (`max_linear: 0.73` m/s, `max_angular: 3.14` rad/s), keyboard driving (`W/A/S/D`), and fleet robot switching (`Q`/`E` or Topic spinbox).
+* **Command**:
+  ```bash
+  # Launch teleoperation interface for manual driving
+  ros2 launch gizmo_teleop teleop.launch.py
+  ```
+
+---
+
+## Theoretical Foundations & Control Architecture
 
 ### Nonholonomic Kinematics & Coordinate Frames
-Each Gizmo agent operates under a **nonholonomic differential-drive (unicycle) kinematic model** subject to pure rolling and no-slip constraints:
+Each Gizmo robot operates under differential-drive nonholonomic kinematic constraints with pure rolling and zero lateral slip:
 
 $$
 \begin{bmatrix}
@@ -219,51 +266,57 @@ v \\
 \end{bmatrix}
 $$
 
-Spatial coordinate frames strictly conform to **REP-105** (Metric Coordinate Frames for Mobile Platforms):
-- `map`: Global, earth-fixed world frame. Discrete drift corrections are published by `slam_toolbox` or `amcl` to maintain global consistency.
-- `odom`: Continuous, locally smooth, high-rate (50 Hz) odometry frame generated by Extended Kalman Filter (`robot_localization`) fusing wheel kinematics and IMU angular velocities.
-- `base_footprint`: 2D ground projection of the mobile base center of rotation.
-- `base_link`: Rigidly attached 3D coordinate origin of the vehicle chassis.
+Spatial coordinate frames strictly conform to **REP-105**:
+* `map`: Earth-fixed global world frame shared across the fleet.
+* `{NAME}/odom`: Continuous, locally smooth odometry frame estimated by Extended Kalman Filter (`robot_localization`) fusing wheel kinematics and IMU sensor streams.
+* `{NAME}/base_footprint`: 2D ground projection of the mobile robot center of rotation.
+* `{NAME}/base_link`: Rigidly attached 3D origin of the vehicle chassis.
 
 ```text
-map ──(discrete SLAM/AMCL correction update)──> {NAME}/odom ──(continuous EKF)──> {NAME}/base_footprint ──> {NAME}/base_link
+map ──(discrete SLAM/AMCL update)──> {NAME}/odom ──(continuous EKF)──> {NAME}/base_footprint ──> {NAME}/base_link
 ```
 
-### Local Control: Regulated Pure Pursuit (RPP) vs. DWB
-Rather than evaluating a discrete grid of trajectory rollouts via the Dynamic Window Approach (DWB)—which introduces heuristic scoring instabilities in narrow corridors—local path tracking is handled by the **Regulated Pure Pursuit (RPP)** controller:
+---
 
-**Path Curvature Computation**: The controller dynamically extracts an adaptive lookahead point on the global path at distance $L$ and determines target path curvature:
+### Path Tracking & Velocity Regulation (Regulated Pure Pursuit)
+To prevent control instability in narrow corridors and tight passages, local trajectory tracking is governed by the **Regulated Pure Pursuit (RPP)** controller:
+
+**Target Path Curvature**:
+The controller continuously extracts a lookahead point on the global path at distance $L$ and computes the circular arc curvature:
 
 $$
 \kappa = \frac{2 \sin \alpha}{L}
 $$
 
-where $\alpha$ is the vehicle heading error relative to the lookahead vector.
+where $\alpha$ is the heading error between the vehicle orientation and the lookahead vector.
 
-**Adaptive Velocity Regulation**: Forward velocity is strictly constrained as an inverse function of instantaneous curvature and proximity to dynamic obstacles:
+**Adaptive Curvature Regulation**:
+Linear velocity is regulated dynamically as an inverse function of instantaneous curvature:
 
 $$
 v = \frac{v_{\text{max}}}{1 + k \cdot |\kappa|}
 $$
 
-This guarantees asymptotic convergence to the planned global path, prevents nonholonomic overshoot on sharp turns, and stabilizes multi-robot passing maneuvers.
+This guarantees bounded lateral acceleration on tight corners, prevents path overshoot, and stabilizes multi-agent intersection clearance.
 
-### Graph-Based SLAM & Rigid 2D Map Alignment
-**Pose-Graph Optimization**: Each robot executes asynchronous 2D LiDAR SLAM via `slam_toolbox`, constructing a dynamic pose graph where nodes denote 2D robot poses $x_i = [x, y, \theta]^T$ and edges denote spatial constraints derived from scan-to-scan correlative scan matching:
+---
+
+### Rigid 2D Planar Map Merging & Pose-Graph Optimization
+**Pose-Graph SLAM**:
+Each robot runs asynchronous 2D LiDAR SLAM via `slam_toolbox`, constructing a dynamic pose graph where nodes denote 2D vehicle poses $x_i = [x, y, \theta]^T$ and edges denote spatial constraints from scan matching:
 
 $$
 F(x) = \sum_{ij} e(x_i, x_j, z_{ij})^T \Omega_{ij} \, e(x_i, x_j, z_{ij})
 $$
 
-Loop closures and constraint graphs are optimized using Ceres non-linear least-squares.
+Loop closures and constraint graphs are optimized using Ceres non-linear least squares.
 
-**Global Map Merging**: Submaps generated under local origins are aligned into a common global coordinate system via rigid 2D planar transformations:
+**Deterministic Map Alignment**:
+Because fleet initial spawn coordinates are known from `robots_fleet.yaml`, local submaps are projected onto the global frame through rigid 2D planar transformations without requiring computationally prohibitive cross-fleet scan matching:
 
 $$
 T_{\text{global}} = T_{\text{spawn}} \cdot T_{\text{local}}
 $$
-
-This avoids costly iterative scan correlation across fleets by leveraging deterministic fleet spawn kinematics.
 
 ---
 
@@ -271,17 +324,17 @@ This avoids costly iterative scan correlation across fleets by leveraging determ
 
 ```text
 ├── bash_scripts/          # Environment activation and build helpers
-├── dds_config/            # Workspace infrastructure configurations (CycloneDDS)
-├── media/                 # System demonstration recordings and GIFs
+├── dds_config/            # CycloneDDS configuration (cyclonedds.xml)
+├── media/                 # High-fidelity demonstration recordings and GIFs
 ├── notes/                 # System architecture diagrams (.excalidraw.svg)
 ├── src/
-│   ├── gizmo_bringup/     # Top-level launch files for mapping and navigation
-│   ├── gizmo_description/ # Gizmo differential-drive robot URDF/Xacro and sensors
-│   ├── gizmo_gazebo/      # Gazebo simulation worlds, fleet YAML, and EKF config
-│   ├── gizmo_mapping/     # SLAM Toolbox configs, map merge node, and saved maps
+│   ├── gizmo_bringup/     # Master launch files for fleet mapping and navigation
+│   ├── gizmo_description/ # Differential-drive URDF/Xacro models and sensor frames
+│   ├── gizmo_gazebo/      # Simulation worlds, fleet spawn configs, and bridges
+│   ├── gizmo_mapping/     # Namespaced SLAM configs and rigid map merge node
 │   ├── gizmo_navigation/  # Nav2 parameters, custom Behavior Trees, and RViz configs
-│   ├── gizmo_scripts/     # Fleet goal allocator node and high-level mission scripts
-│   └── gizmo_teleop/      # Teleoperation node for manual fleet control
-├── pixi.toml              # Pixi environment and dependency configuration
+│   ├── gizmo_scripts/     # Centralized Fleet Goal Allocator and task dispatchers
+│   └── gizmo_teleop/      # Multi-robot teleoperation GUI node
+├── pixi.toml              # Pixi environment and dependency specification
 └── README.md
 ```
