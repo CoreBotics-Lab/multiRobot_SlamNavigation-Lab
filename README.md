@@ -24,7 +24,6 @@ ros2 launch gizmo_bringup multi_robot_mapping.launch.py
 * When RViz opens, each robot publishes its local occupancy grid (`/{NAME}/map`).
 * The `map_merge_node` dynamically transforms and fuses all local submaps into a unified global occupancy grid on `/map`.
 * Drive individual robots using the teleoperation interface launched automatically with mapping (or run standalone via `ros2 launch gizmo_teleop teleop.launch.py`) using `W/A/S/D` to drive and `Q`/`E` or the Topic selector to switch between active robots in the fleet.
-* *(Note: Gazebo can be executed in headless mode with `headless:=true` to eliminate GUI rendering overhead during multi-agent simulation, as shown in the demonstration).*
 * *(Optional)* To save the merged global map or individual submaps once the arena is fully mapped:
   ```bash
   # Save the unified global map (used by Nav2)
@@ -37,7 +36,7 @@ ros2 launch gizmo_bringup multi_robot_mapping.launch.py
 <p align="center">
   <img src="media/multi_robot_mapping_merge.gif" alt="Multi-Robot SLAM and Global Map Merging" width="100%">
   <br>
-  <em>Figure 1: Live Multi-Robot SLAM and Map Merging (demonstrated with Gazebo running in headless mode). Multiple autonomous agents explore the environment in parallel while Karto-based graph SLAM solvers optimize local pose graphs. The global map merging node dynamically transforms and stitches namespaced occupancy grids into a unified /map representation.</em>
+  <em>Figure 1: Live Multi-Robot SLAM and Map Merging. Left: Gazebo Sim multi-robot physical arena. Right: RViz2 live mapping telemetry with multiple autonomous agents exploring in parallel while the global map merging node dynamically transforms and stitches namespaced occupancy grids into a unified /map representation.</em>
 </p>
 
 ---
