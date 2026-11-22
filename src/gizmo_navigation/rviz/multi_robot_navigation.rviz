@@ -5,12 +5,11 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /TF1/Tree1/map1
-        - /Robot 11/Model1
+        - /Robot 21/Global Costmap1
         - /Robot 21/Model1
         - /Robot 41/LaserScan1
       Splitter Ratio: 0.6000000238418579
-    Tree Height: 899
+    Tree Height: 883
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -43,7 +42,7 @@ Visualization Manager:
       Plane Cell Count: 20
       Reference Frame: <Fixed Frame>
       Value: true
-    - Alpha: 0.699999988079071
+    - Alpha: 1
       Binary representation: false
       Binary threshold: 100
       Class: rviz_default_plugins/Map
@@ -93,8 +92,6 @@ Visualization Manager:
           Value: false
         robot1/lidar_link:
           Value: false
-        robot1/map:
-          Value: false
         robot1/odom:
           Value: false
         robot1/scan_frame:
@@ -120,8 +117,6 @@ Visualization Manager:
         robot2/imu_link:
           Value: false
         robot2/lidar_link:
-          Value: false
-        robot2/map:
           Value: false
         robot2/odom:
           Value: false
@@ -149,8 +144,6 @@ Visualization Manager:
           Value: false
         robot3/lidar_link:
           Value: false
-        robot3/map:
-          Value: false
         robot3/odom:
           Value: false
         robot3/scan_frame:
@@ -177,8 +170,6 @@ Visualization Manager:
           Value: false
         robot4/lidar_link:
           Value: false
-        robot4/map:
-          Value: false
         robot4/odom:
           Value: false
         robot4/scan_frame:
@@ -194,97 +185,116 @@ Visualization Manager:
       Show Names: true
       Tree:
         map:
-          robot1/map:
-            robot1/odom:
-              robot1/base_footprint:
-                robot1/base_floor1:
-                  robot1/base_floor2:
-                    robot1/base_floor3:
-                      robot1/camera_link:
-                        robot1/camera_optical_frame:
-                          {}
-                      robot1/lidar_link:
-                        robot1/scan_frame:
-                          {}
-                  robot1/caster_wheel:
-                    {}
-                  robot1/imu_link:
-                    {}
-                  robot1/wheel_left:
-                    {}
-                  robot1/wheel_right:
-                    {}
-          robot2/map:
-            robot2/odom:
-              robot2/base_footprint:
-                robot2/base_floor1:
-                  robot2/base_floor2:
-                    robot2/base_floor3:
-                      robot2/camera_link:
-                        robot2/camera_optical_frame:
-                          {}
-                      robot2/lidar_link:
-                        robot2/scan_frame:
-                          {}
-                  robot2/caster_wheel:
-                    {}
-                  robot2/imu_link:
-                    {}
-                  robot2/wheel_left:
-                    {}
-                  robot2/wheel_right:
-                    {}
-          robot3/map:
-            robot3/odom:
-              robot3/base_footprint:
-                robot3/base_floor1:
-                  robot3/base_floor2:
-                    robot3/base_floor3:
-                      robot3/camera_link:
-                        robot3/camera_optical_frame:
-                          {}
-                      robot3/lidar_link:
-                        robot3/scan_frame:
-                          {}
-                  robot3/caster_wheel:
-                    {}
-                  robot3/imu_link:
-                    {}
-                  robot3/wheel_left:
-                    {}
-                  robot3/wheel_right:
-                    {}
-          robot4/map:
-            robot4/odom:
-              robot4/base_footprint:
-                robot4/base_floor1:
-                  robot4/base_floor2:
-                    robot4/base_floor3:
-                      robot4/camera_link:
-                        robot4/camera_optical_frame:
-                          {}
-                      robot4/lidar_link:
-                        robot4/scan_frame:
-                          {}
-                  robot4/caster_wheel:
-                    {}
-                  robot4/imu_link:
-                    {}
-                  robot4/wheel_left:
-                    {}
-                  robot4/wheel_right:
-                    {}
+          robot1/odom:
+            robot1/base_footprint:
+              robot1/base_floor1:
+                robot1/base_floor2:
+                  robot1/base_floor3:
+                    robot1/camera_link:
+                      robot1/camera_optical_frame:
+                        {}
+                    robot1/lidar_link:
+                      robot1/scan_frame:
+                        {}
+                robot1/caster_wheel:
+                  {}
+                robot1/imu_link:
+                  {}
+                robot1/wheel_left:
+                  {}
+                robot1/wheel_right:
+                  {}
+          robot2/odom:
+            robot2/base_footprint:
+              robot2/base_floor1:
+                robot2/base_floor2:
+                  robot2/base_floor3:
+                    robot2/camera_link:
+                      robot2/camera_optical_frame:
+                        {}
+                    robot2/lidar_link:
+                      robot2/scan_frame:
+                        {}
+                robot2/caster_wheel:
+                  {}
+                robot2/imu_link:
+                  {}
+                robot2/wheel_left:
+                  {}
+                robot2/wheel_right:
+                  {}
+          robot3/odom:
+            robot3/base_footprint:
+              robot3/base_floor1:
+                robot3/base_floor2:
+                  robot3/base_floor3:
+                    robot3/camera_link:
+                      robot3/camera_optical_frame:
+                        {}
+                    robot3/lidar_link:
+                      robot3/scan_frame:
+                        {}
+                robot3/caster_wheel:
+                  {}
+                robot3/imu_link:
+                  {}
+                robot3/wheel_left:
+                  {}
+                robot3/wheel_right:
+                  {}
+          robot4/odom:
+            robot4/base_footprint:
+              robot4/base_floor1:
+                robot4/base_floor2:
+                  robot4/base_floor3:
+                    robot4/camera_link:
+                      robot4/camera_optical_frame:
+                        {}
+                    robot4/lidar_link:
+                      robot4/scan_frame:
+                        {}
+                robot4/caster_wheel:
+                  {}
+                robot4/imu_link:
+                  {}
+                robot4/wheel_left:
+                  {}
+                robot4/wheel_right:
+                  {}
       Update Interval: 0
       Value: true
     - Class: rviz_common/Group
       Displays:
+        - Alpha: 0.30000001192092896
+          Binary representation: false
+          Binary threshold: 100
+          Class: rviz_default_plugins/Map
+          Color Scheme: costmap
+          Draw Behind: false
+          Enabled: false
+          Name: Global Costmap
+          Topic:
+            Depth: 1
+            Durability Policy: Transient Local
+            Filter size: 10
+            History Policy: Keep Last
+            Reliability Policy: Reliable
+            Value: /robot1/global_costmap/costmap
+          Update Topic:
+            Depth: 5
+            Durability Policy: Volatile
+            History Policy: Keep Last
+            Reliability Policy: Reliable
+            Value: /robot1/global_costmap/costmap_updates
+          Use Timestamp: false
+          Value: false
         - Alpha: 0.699999988079071
           Binary representation: false
           Binary threshold: 100
           Class: rviz_default_plugins/Map
           Color Scheme: map
           Draw Behind: false
-          Enabled: true
+          Enabled: false
           Name: Map
           Topic:
             Depth: 5
@@ -300,7 +310,7 @@ Visualization Manager:
             Reliability Policy: Reliable
             Value: /robot1/map_updates
           Use Timestamp: false
-          Value: true
+          Value: false
         - Alpha: 1
           Class: rviz_default_plugins/RobotModel
           Collision Enabled: false
@@ -418,7 +428,7 @@ Visualization Manager:
           Use Fixed Frame: true
           Use rainbow: true
           Value: true
-        - Alpha: 0.4000000059604645
+        - Alpha: 0.699999988079071
           Binary representation: false
           Binary threshold: 100
           Class: rviz_default_plugins/Map
@@ -514,13 +524,36 @@ Visualization Manager:
       Name: Robot 1
     - Class: rviz_common/Group
       Displays:
+        - Alpha: 0.30000001192092896
+          Binary representation: false
+          Binary threshold: 100
+          Class: rviz_default_plugins/Map
+          Color Scheme: costmap
+          Draw Behind: false
+          Enabled: true
+          Name: Global Costmap
+          Topic:
+            Depth: 1
+            Durability Policy: Transient Local
+            Filter size: 10
+            History Policy: Keep Last
+            Reliability Policy: Reliable
+            Value: /robot2/global_costmap/costmap
+          Update Topic:
+            Depth: 5
+            Durability Policy: Volatile
+            History Policy: Keep Last
+            Reliability Policy: Reliable
+            Value: /robot2/global_costmap/costmap_updates
+          Use Timestamp: false
+          Value: true
         - Alpha: 0.699999988079071
           Binary representation: false
           Binary threshold: 100
           Class: rviz_default_plugins/Map
           Color Scheme: map
           Draw Behind: false
-          Enabled: true
+          Enabled: false
           Name: Map
           Topic:
             Depth: 5
@@ -536,7 +569,7 @@ Visualization Manager:
             Reliability Policy: Reliable
             Value: /robot2/map_updates
           Use Timestamp: false
-          Value: true
+          Value: false
         - Alpha: 1
           Class: rviz_default_plugins/RobotModel
           Collision Enabled: false
@@ -654,7 +687,7 @@ Visualization Manager:
           Use Fixed Frame: true
           Use rainbow: true
           Value: true
-        - Alpha: 0.4000000059604645
+        - Alpha: 0.699999988079071
           Binary representation: false
           Binary threshold: 100
           Class: rviz_default_plugins/Map
@@ -750,13 +783,36 @@ Visualization Manager:
       Name: Robot 2
     - Class: rviz_common/Group
       Displays:
+        - Alpha: 0.30000001192092896
+          Binary representation: false
+          Binary threshold: 100
+          Class: rviz_default_plugins/Map
+          Color Scheme: costmap
+          Draw Behind: false
+          Enabled: false
+          Name: Global Costmap
+          Topic:
+            Depth: 1
+            Durability Policy: Transient Local
+            Filter size: 10
+            History Policy: Keep Last
+            Reliability Policy: Reliable
+            Value: /robot3/global_costmap/costmap
+          Update Topic:
+            Depth: 5
+            Durability Policy: Volatile
+            History Policy: Keep Last
+            Reliability Policy: Reliable
+            Value: /robot3/global_costmap/costmap_updates
+          Use Timestamp: false
+          Value: false
         - Alpha: 0.699999988079071
           Binary representation: false
           Binary threshold: 100
           Class: rviz_default_plugins/Map
           Color Scheme: map
           Draw Behind: false
-          Enabled: true
+          Enabled: false
           Name: Map
           Topic:
             Depth: 5
@@ -772,7 +828,7 @@ Visualization Manager:
             Reliability Policy: Reliable
             Value: /robot3/map_updates
           Use Timestamp: false
-          Value: true
+          Value: false
         - Alpha: 1
           Class: rviz_default_plugins/RobotModel
           Collision Enabled: false
@@ -890,7 +946,7 @@ Visualization Manager:
           Use Fixed Frame: true
           Use rainbow: true
           Value: true
-        - Alpha: 0.4000000059604645
+        - Alpha: 0.699999988079071
           Binary representation: false
           Binary threshold: 100
           Class: rviz_default_plugins/Map
@@ -986,13 +1042,36 @@ Visualization Manager:
       Name: Robot 3
     - Class: rviz_common/Group
       Displays:
+        - Alpha: 0.30000001192092896
+          Binary representation: false
+          Binary threshold: 100
+          Class: rviz_default_plugins/Map
+          Color Scheme: costmap
+          Draw Behind: false
+          Enabled: false
+          Name: Global Costmap
+          Topic:
+            Depth: 1
+            Durability Policy: Transient Local
+            Filter size: 10
+            History Policy: Keep Last
+            Reliability Policy: Reliable
+            Value: /robot4/global_costmap/costmap
+          Update Topic:
+            Depth: 5
+            Durability Policy: Volatile
+            History Policy: Keep Last
+            Reliability Policy: Reliable
+            Value: /robot4/global_costmap/costmap_updates
+          Use Timestamp: false
+          Value: false
         - Alpha: 0.699999988079071
           Binary representation: false
           Binary threshold: 100
           Class: rviz_default_plugins/Map
           Color Scheme: map
           Draw Behind: false
-          Enabled: true
+          Enabled: false
           Name: Map
           Topic:
             Depth: 5
@@ -1008,7 +1087,7 @@ Visualization Manager:
             Reliability Policy: Reliable
             Value: /robot4/map_updates
           Use Timestamp: false
-          Value: true
+          Value: false
         - Alpha: 1
           Class: rviz_default_plugins/RobotModel
           Collision Enabled: false
@@ -1126,7 +1205,7 @@ Visualization Manager:
           Use Fixed Frame: true
           Use rainbow: true
           Value: true
-        - Alpha: 0.4000000059604645
+        - Alpha: 0.699999988079071
           Binary representation: false
           Binary threshold: 100
           Class: rviz_default_plugins/Map
@@ -1254,7 +1333,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 19.841169357299805
+      Distance: 23.422304153442383
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -1280,9 +1359,7 @@ Window Geometry:
   Height: 1904
   Hide Left Dock: false
   Hide Right Dock: false
-  Navigation 2:
-    collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000004d7000006e0fc0200000005fb000000100044006900730070006c0061007900730100000068000003e50000017600fffffffb0000001200530065006c0065006300740069006f006e000000022a000000c7000000aa00fffffffb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000045900000144000000aa00fffffffb0000000a0056006900650077007301000005a90000019f0000012000fffffffb00000018004e0061007600690067006100740069006f006e0020003200000002d100000477000000ce00ffffff00000f45000006e000000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000004d7000006d6fc0200000005fb000000100044006900730070006c006100790073010000006d000003df0000018000fffffffb0000001200530065006c0065006300740069006f006e000000022a000000c7000000af00fffffffb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000045800000142000000af00fffffffb0000000a0056006900650077007301000005a60000019d0000012f00fffffffb00000018004e0061007600690067006100740069006f006e0020003200000002d100000477000000000000000000000f45000006d600000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Tool Properties:
