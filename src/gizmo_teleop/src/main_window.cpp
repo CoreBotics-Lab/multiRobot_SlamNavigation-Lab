@@ -1,16 +1,44 @@
 #include "gizmo_teleop/main_window.hpp"
+#include <QApplication>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QKeyEvent>
 #include <QEvent>
 
+#ifdef __linux__
+#include <dlfcn.h>
+typedef void * (*XOpenDisplay_fn)(const char *);
+typedef int (*XCloseDisplay_fn)(void *);
+typedef int (*XQueryKeymap_fn)(void *, char[32]);
+typedef unsigned char (*XKeysymToKeycode_fn)(void *, unsigned long);
+
+#ifndef XK_w
+#define XK_w 0x0077
+#define XK_s 0x0073
+#define XK_a 0x0061
+#define XK_d 0x0064
+#define XK_space 0x0020
+#define XK_q 0x0071
+#define XK_e 0x0065
+#define XK_minus 0x002d
+#define XK_plus 0x002b
+#define XK_equal 0x003d
+#define XK_KP_Subtract 0xffad
+#define XK_KP_Add 0xffab
+#endif
+#elif defined(_WIN32)
+#include <windows.h>
+#endif
+
 MainWindow::MainWindow(std::shared_ptr<JoyNode> node)
 : node_(node)
 {
   executor_.add_node(node_);
+  initGlobalInput();
   setWindowTitle("ROS 2 Qt6 Joystick (C++)");
   setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint | Qt::MSWindowsFixedSizeDialogHint);
   setFocusPolicy(Qt::StrongFocus);
+  qApp->installEventFilter(this);
 
   auto * main_widget = new QWidget(this);
   auto * layout = new QVBoxLayout(main_widget);
@@ -35,7 +63,16 @@ MainWindow::MainWindow(std::shared_ptr<JoyNode> node)
       switchToPrevTopic();
     }
   });
-  connect(topic_input_->lineEdit(), &QLineEdit::returnPressed, this, &MainWindow::onTopicUpdate);
+  connect(topic_input_->lineEdit(), &QLineEdit::returnPressed, this, &MainWindow::stopTopicEditing);
+  connect(qApp, &QApplication::focusChanged, this, [this](QWidget * old, QWidget * now) {
+    bool was_in_topic = (topic_input_ && (old == topic_input_ || old == topic_input_->lineEdit()));
+    bool is_in_topic = (topic_input_ && (now == topic_input_ || now == topic_input_->lineEdit()));
+    if (!was_in_topic && is_in_topic) {
+      startTopicEditing();
+    } else if (was_in_topic && !is_in_topic) {
+      stopTopicEditing();
+    }
+  });
 
   auto * update_btn = new QPushButton("Update", this);
   update_btn->setFocusPolicy(Qt::NoFocus);
@@ -73,8 +110,10 @@ MainWindow::MainWindow(std::shared_ptr<JoyNode> node)
   twist_stamped_cb_->setChecked(node_->use_twist_stamped_);
   ontop_cb_ = new QCheckBox("Always on Top", settings_panel_);
   ontop_cb_->setChecked(true);
+  global_input_cb_ = new QCheckBox("Global Keys", settings_panel_);
+  global_input_cb_->setChecked(true);
 
-  for (auto * cb : {inv_lin_cb_, inv_ang_cb_, twist_stamped_cb_, ontop_cb_}) {
+  for (auto * cb : {inv_lin_cb_, inv_ang_cb_, twist_stamped_cb_, ontop_cb_, global_input_cb_}) {
     connect(cb, &QCheckBox::clicked, this, &MainWindow::onSettingsInteracted);
     settings_layout->addWidget(cb);
   }
@@ -84,6 +123,7 @@ MainWindow::MainWindow(std::shared_ptr<JoyNode> node)
   connect(inv_ang_cb_, &QCheckBox::clicked, this, &MainWindow::onInvAngChanged);
   connect(twist_stamped_cb_, &QCheckBox::clicked, this, &MainWindow::onTwistStampedChanged);
   connect(ontop_cb_, &QCheckBox::clicked, this, &MainWindow::onOntopChanged);
+  connect(global_input_cb_, &QCheckBox::clicked, this, &MainWindow::onGlobalInputChanged);
 
   settings_panel_->setLayout(settings_layout);
   settings_panel_->setVisible(false);
@@ -176,6 +216,9 @@ MainWindow::MainWindow(std::shared_ptr<JoyNode> node)
       return;
     }
     executor_.spin_some();
+    if (global_input_enabled_) {
+      checkGlobalKeys();
+    }
   });
   ros_timer_.start(10);  // 100Hz spin
 
@@ -183,6 +226,14 @@ MainWindow::MainWindow(std::shared_ptr<JoyNode> node)
   connect(&settings_timer_, &QTimer::timeout, this, &MainWindow::hideSettings);
 
   setFocus();
+}
+
+MainWindow::~MainWindow()
+{
+  if (qApp) {
+    qApp->removeEventFilter(this);
+  }
+  cleanupGlobalInput();
 }
 
 void MainWindow::onJoystickMoved(double x, double y)
@@ -217,6 +268,13 @@ void MainWindow::onTopicUpdate()
     }
     if (!new_list.empty()) {
       node_->topic_list_ = new_list;
+      for (const auto & t : new_list) {
+        if (node_->use_twist_stamped_) {
+          node_->getTwistStampedPublisher(t);
+        } else {
+          node_->getTwistPublisher(t);
+        }
+      }
       current_topic_idx_ = 0;
       bool multi = node_->topic_list_.size() > 1;
       topic_input_->setMultiTopic(multi);
@@ -228,12 +286,26 @@ void MainWindow::onTopicUpdate()
       std::string first_topic = new_list[0];
       topic_input_->setText(QString::fromStdString(first_topic));
       node_->set_parameters({rclcpp::Parameter("topic_name", first_topic)});
+      topic_editing_active_ = false;
+      if (joystick_) {
+        joystick_->setEnabled(true);
+      }
       setFocus();
       return;
     }
   }
 
   std::string new_topic = raw_text.toStdString();
+  if (new_topic.empty()) {
+    new_topic = node_->topic_name_;
+    topic_input_->setText(QString::fromStdString(new_topic));
+  } else {
+    if (node_->use_twist_stamped_) {
+      node_->getTwistStampedPublisher(new_topic);
+    } else {
+      node_->getTwistPublisher(new_topic);
+    }
+  }
   for (size_t i = 0; i < node_->topic_list_.size(); ++i) {
     if (node_->topic_list_[i] == new_topic) {
       current_topic_idx_ = static_cast<int>(i);
@@ -241,6 +313,40 @@ void MainWindow::onTopicUpdate()
     }
   }
   node_->set_parameters({rclcpp::Parameter("topic_name", new_topic)});
+  topic_editing_active_ = false;
+  if (joystick_) {
+    joystick_->setEnabled(true);
+  }
+  setFocus();
+}
+
+void MainWindow::startTopicEditing()
+{
+  if (topic_editing_active_) return;
+  topic_editing_active_ = true;
+  if (joystick_) {
+    joystick_->setEnabled(false);
+    joystick_->setNormalizedPosition(0.0, 0.0);
+  }
+  node_->updateTwist(0.0, 0.0);
+  node_->publishTwist();
+  keys_pressed_.clear();
+}
+
+void MainWindow::stopTopicEditing()
+{
+  if (!topic_editing_active_) return;
+  topic_editing_active_ = false;
+  onTopicUpdate();
+  if (topic_input_) {
+    topic_input_->clearFocus();
+    if (topic_input_->lineEdit()) {
+      topic_input_->lineEdit()->clearFocus();
+    }
+  }
+  if (joystick_) {
+    joystick_->setEnabled(true);
+  }
   setFocus();
 }
 
@@ -265,22 +371,49 @@ void MainWindow::switchToPrevTopic()
 
 bool MainWindow::eventFilter(QObject * source, QEvent * event)
 {
+  if (event->type() == QEvent::MouseButtonPress) {
+    if (topic_editing_active_ && topic_input_) {
+      QWidget * clicked = qobject_cast<QWidget *>(source);
+      if (clicked && clicked != topic_input_ && !topic_input_->isAncestorOf(clicked)) {
+        stopTopicEditing();
+        setFocus();
+      }
+    }
+  }
+
+  if (topic_editing_active_) {
+    if (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease) {
+      auto * k = static_cast<QKeyEvent *>(event);
+      if (k->key() == Qt::Key_Return || k->key() == Qt::Key_Enter) {
+        stopTopicEditing();
+        setFocus();
+        return true;
+      }
+      return false;
+    }
+  }
+
   if (event->type() == QEvent::KeyPress) {
     auto * k = static_cast<QKeyEvent *>(event);
-    int key = k->key();
-    if (key == Qt::Key_W || key == Qt::Key_A || key == Qt::Key_S ||
-        key == Qt::Key_D || key == Qt::Key_Space ||
-        key == Qt::Key_Q || key == Qt::Key_E ||
-        key == Qt::Key_Minus || key == Qt::Key_Plus || key == Qt::Key_Equal) {
-      keyPressEvent(k);
-      return true;
+    if (!k->isAutoRepeat()) {
+      int key = k->key();
+      if (key == Qt::Key_W || key == Qt::Key_A || key == Qt::Key_S ||
+          key == Qt::Key_D || key == Qt::Key_Space ||
+          key == Qt::Key_Q || key == Qt::Key_E ||
+          key == Qt::Key_Minus || key == Qt::Key_Plus || key == Qt::Key_Equal) {
+        keyPressEvent(k);
+        return true;
+      }
     }
   } else if (event->type() == QEvent::KeyRelease) {
     auto * k = static_cast<QKeyEvent *>(event);
-    if (k->key() == Qt::Key_W || k->key() == Qt::Key_A || k->key() == Qt::Key_S ||
-        k->key() == Qt::Key_D || k->key() == Qt::Key_Space) {
-      keyReleaseEvent(k);
-      return true;
+    if (!k->isAutoRepeat()) {
+      int key = k->key();
+      if (key == Qt::Key_W || key == Qt::Key_A || key == Qt::Key_S ||
+          key == Qt::Key_D || key == Qt::Key_Space) {
+        keyReleaseEvent(k);
+        return true;
+      }
     }
   }
   return QMainWindow::eventFilter(source, event);
@@ -356,29 +489,31 @@ void MainWindow::onOntopChanged()
 void MainWindow::keyPressEvent(QKeyEvent * event)
 {
   if (event->isAutoRepeat()) return;
-  int key = event->key();
-  if (key == Qt::Key_W || key == Qt::Key_A || key == Qt::Key_S || key == Qt::Key_D || key == Qt::Key_Space) {
-    keys_pressed_.insert(key);
-    updateJoystickFromKeys();
-  } else if (key == Qt::Key_Q || key == Qt::Key_Minus) {
-    switchToPrevTopic();
-  } else if (key == Qt::Key_E || key == Qt::Key_Plus || key == Qt::Key_Equal) {
-    switchToNextTopic();
-  } else {
-    QMainWindow::keyPressEvent(event);
+  if (!global_input_enabled_) {
+    int key = event->key();
+    if (key == Qt::Key_W || key == Qt::Key_A || key == Qt::Key_S || key == Qt::Key_D || key == Qt::Key_Space) {
+      keys_pressed_.insert(key);
+      updateJoystickFromKeys();
+    } else if (key == Qt::Key_Q || key == Qt::Key_Minus) {
+      switchToPrevTopic();
+    } else if (key == Qt::Key_E || key == Qt::Key_Plus || key == Qt::Key_Equal) {
+      switchToNextTopic();
+    }
   }
+  QMainWindow::keyPressEvent(event);
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent * event)
 {
   if (event->isAutoRepeat()) return;
-  int key = event->key();
-  if (key == Qt::Key_W || key == Qt::Key_A || key == Qt::Key_S || key == Qt::Key_D || key == Qt::Key_Space) {
-    keys_pressed_.remove(key);
-    updateJoystickFromKeys();
-  } else {
-    QMainWindow::keyReleaseEvent(event);
+  if (!global_input_enabled_) {
+    int key = event->key();
+    if (key == Qt::Key_W || key == Qt::Key_A || key == Qt::Key_S || key == Qt::Key_D || key == Qt::Key_Space) {
+      keys_pressed_.remove(key);
+      updateJoystickFromKeys();
+    }
   }
+  QMainWindow::keyReleaseEvent(event);
 }
 
 void MainWindow::updateJoystickFromKeys()
@@ -419,4 +554,195 @@ void MainWindow::moveEvent(QMoveEvent * event)
     QRect geo = geometry();
     settings_panel_->move(geo.right() + 5, geo.top());
   }
+}
+
+void MainWindow::changeEvent(QEvent * event)
+{
+  if (event->type() == QEvent::ActivationChange) {
+    if (global_input_enabled_) {
+      checkGlobalKeys();
+    }
+  }
+  QMainWindow::changeEvent(event);
+}
+
+void MainWindow::onGlobalInputChanged()
+{
+  global_input_enabled_ = global_input_cb_->isChecked();
+  if (!global_input_enabled_) {
+    if (!keys_pressed_.isEmpty()) {
+      keys_pressed_.clear();
+      updateJoystickFromKeys();
+    }
+  }
+}
+
+void MainWindow::initGlobalInput()
+{
+#ifdef __linux__
+  x11_handle_ = dlopen("libX11.so.6", RTLD_LAZY);
+  if (!x11_handle_) {
+    x11_handle_ = dlopen("libX11.so", RTLD_LAZY);
+  }
+  if (!x11_handle_) {
+    return;
+  }
+
+  auto pXOpenDisplay = reinterpret_cast<XOpenDisplay_fn>(dlsym(x11_handle_, "XOpenDisplay"));
+  auto pXKeysymToKeycode = reinterpret_cast<XKeysymToKeycode_fn>(dlsym(x11_handle_, "XKeysymToKeycode"));
+  p_query_keymap_ = dlsym(x11_handle_, "XQueryKeymap");
+
+  if (!pXOpenDisplay || !pXKeysymToKeycode || !p_query_keymap_) {
+    dlclose(x11_handle_);
+    x11_handle_ = nullptr;
+    p_query_keymap_ = nullptr;
+    return;
+  }
+
+  x11_display_ = pXOpenDisplay(nullptr);
+  if (!x11_display_) {
+    dlclose(x11_handle_);
+    x11_handle_ = nullptr;
+    p_query_keymap_ = nullptr;
+    return;
+  }
+
+  kc_w_ = pXKeysymToKeycode(x11_display_, XK_w);
+  kc_s_ = pXKeysymToKeycode(x11_display_, XK_s);
+  kc_a_ = pXKeysymToKeycode(x11_display_, XK_a);
+  kc_d_ = pXKeysymToKeycode(x11_display_, XK_d);
+  kc_space_ = pXKeysymToKeycode(x11_display_, XK_space);
+  kc_q_ = pXKeysymToKeycode(x11_display_, XK_q);
+  kc_e_ = pXKeysymToKeycode(x11_display_, XK_e);
+  kc_minus_ = pXKeysymToKeycode(x11_display_, XK_minus);
+  kc_kp_subtract_ = pXKeysymToKeycode(x11_display_, XK_KP_Subtract);
+  kc_equal_ = pXKeysymToKeycode(x11_display_, XK_equal);
+  kc_plus_ = pXKeysymToKeycode(x11_display_, XK_plus);
+  kc_kp_add_ = pXKeysymToKeycode(x11_display_, XK_KP_Add);
+#endif
+}
+
+void MainWindow::cleanupGlobalInput()
+{
+#ifdef __linux__
+  if (x11_handle_) {
+    if (x11_display_) {
+      auto pXCloseDisplay = reinterpret_cast<XCloseDisplay_fn>(dlsym(x11_handle_, "XCloseDisplay"));
+      if (pXCloseDisplay) {
+        pXCloseDisplay(x11_display_);
+      }
+      x11_display_ = nullptr;
+    }
+    dlclose(x11_handle_);
+    x11_handle_ = nullptr;
+    p_query_keymap_ = nullptr;
+  }
+#endif
+}
+
+void MainWindow::checkGlobalKeys()
+{
+  if (topic_editing_active_) {
+    return;
+  }
+  if (topic_input_ && (topic_input_->hasFocus() || (topic_input_->lineEdit() && topic_input_->lineEdit()->hasFocus()))) {
+    return;
+  }
+  if (joystick_ && !joystick_->isEnabled()) {
+    return;
+  }
+#ifdef __linux__
+  if (!x11_handle_ || !x11_display_ || !p_query_keymap_) {
+    return;
+  }
+
+  char keys[32];
+  reinterpret_cast<XQueryKeymap_fn>(p_query_keymap_)(x11_display_, keys);
+
+  auto is_down = [&](unsigned char kc) -> bool {
+    if (kc == 0) return false;
+    return (keys[kc / 8] & (1 << (kc % 8))) != 0;
+  };
+
+  bool changed = false;
+  auto sync_key = [&](int qt_key, bool down) {
+    if (down) {
+      if (!keys_pressed_.contains(qt_key)) {
+        keys_pressed_.insert(qt_key);
+        changed = true;
+      }
+    } else {
+      if (keys_pressed_.contains(qt_key)) {
+        keys_pressed_.remove(qt_key);
+        changed = true;
+      }
+    }
+  };
+
+  sync_key(Qt::Key_W, is_down(kc_w_));
+  sync_key(Qt::Key_S, is_down(kc_s_));
+  sync_key(Qt::Key_A, is_down(kc_a_));
+  sync_key(Qt::Key_D, is_down(kc_d_));
+  sync_key(Qt::Key_Space, is_down(kc_space_));
+
+  if (changed) {
+    updateJoystickFromKeys();
+  }
+
+  // Previous topic: Q, main keyboard minus, or numpad minus
+  bool prev_down = is_down(kc_q_) || is_down(kc_minus_) || is_down(kc_kp_subtract_);
+  if (prev_down && !was_prev_pressed_) {
+    switchToPrevTopic();
+  }
+  was_prev_pressed_ = prev_down;
+
+  // Next topic: E, main keyboard equal/plus, or numpad plus
+  bool next_down = is_down(kc_e_) || is_down(kc_equal_) || is_down(kc_plus_) || is_down(kc_kp_add_);
+  if (next_down && !was_next_pressed_) {
+    switchToNextTopic();
+  }
+  was_next_pressed_ = next_down;
+
+#elif defined(_WIN32)
+  auto is_down = [](int vkey) -> bool {
+    return (GetAsyncKeyState(vkey) & 0x8000) != 0;
+  };
+
+  bool changed = false;
+  auto sync_key = [&](int qt_key, bool down) {
+    if (down) {
+      if (!keys_pressed_.contains(qt_key)) {
+        keys_pressed_.insert(qt_key);
+        changed = true;
+      }
+    } else {
+      if (keys_pressed_.contains(qt_key)) {
+        keys_pressed_.remove(qt_key);
+        changed = true;
+      }
+    }
+  };
+
+  sync_key(Qt::Key_W, is_down('W'));
+  sync_key(Qt::Key_S, is_down('S'));
+  sync_key(Qt::Key_A, is_down('A'));
+  sync_key(Qt::Key_D, is_down('D'));
+  sync_key(Qt::Key_Space, is_down(VK_SPACE));
+
+  if (changed) {
+    updateJoystickFromKeys();
+  }
+
+  bool prev_down = is_down('Q') || is_down(VK_OEM_MINUS) || is_down(VK_SUBTRACT);
+  if (prev_down && !was_prev_pressed_) {
+    switchToPrevTopic();
+  }
+  was_prev_pressed_ = prev_down;
+
+  bool next_down = is_down('E') || is_down(VK_OEM_PLUS) || is_down(VK_ADD);
+  if (next_down && !was_next_pressed_) {
+    switchToNextTopic();
+  }
+  was_next_pressed_ = next_down;
+#endif
 }

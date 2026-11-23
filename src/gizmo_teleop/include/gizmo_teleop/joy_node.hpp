@@ -8,6 +8,7 @@
 #include <string>
 #include <functional>
 #include <vector>
+#include <unordered_map>
 
 class JoyNode : public rclcpp::Node
 {
@@ -18,6 +19,9 @@ public:
   void setTwistStamped(bool enabled);
   void updateTwist(double norm_x, double norm_y);
   void publishTwist();
+
+  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr getTwistPublisher(const std::string & topic);
+  rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr getTwistStampedPublisher(const std::string & topic);
 
   // Callbacks for GUI synchronization
   std::function<void(const std::string &)> gui_update_topic_cb;
@@ -47,6 +51,8 @@ private:
 
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_twist_;
   rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr publisher_twist_stamped_;
+  std::unordered_map<std::string, rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr> twist_pubs_;
+  std::unordered_map<std::string, rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr> twist_stamped_pubs_;
   rclcpp::TimerBase::SharedPtr timer_;
   OnSetParametersCallbackHandle::SharedPtr param_callback_handle_;
 };

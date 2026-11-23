@@ -15,15 +15,24 @@ void JoystickWidget::paintEvent(QPaintEvent * /*event*/)
   painter.setRenderHint(QPainter::Antialiasing);
 
   // Draw background boundary ring
-  painter.setPen(QPen(QColor(100, 100, 100), 3));
-  painter.setBrush(QBrush(QColor(220, 220, 220)));
+  if (!isEnabled()) {
+    painter.setPen(QPen(QColor(160, 160, 160), 2, Qt::DashLine));
+    painter.setBrush(QBrush(QColor(240, 240, 240)));
+  } else {
+    painter.setPen(QPen(QColor(100, 100, 100), 3));
+    painter.setBrush(QBrush(QColor(220, 220, 220)));
+  }
   painter.drawEllipse(center_, max_distance_, max_distance_);
 
   // Draw draggable puck (radius = 25px)
-  painter.setPen(QPen(QColor(20, 20, 20), 2));
-  if (e_stop_active_) {
+  if (!isEnabled()) {
+    painter.setPen(QPen(QColor(140, 140, 140), 2));
+    painter.setBrush(QBrush(QColor(180, 180, 180))); // Grey when disabled
+  } else if (e_stop_active_) {
+    painter.setPen(QPen(QColor(20, 20, 20), 2));
     painter.setBrush(QBrush(QColor(255, 50, 50)));  // Red for E-Stop
   } else {
+    painter.setPen(QPen(QColor(20, 20, 20), 2));
     painter.setBrush(QBrush(QColor(50, 150, 255))); // Blue
   }
   painter.drawEllipse(puck_pos_, 25, 25);
@@ -39,12 +48,14 @@ void JoystickWidget::resizeEvent(QResizeEvent * event)
 
 void JoystickWidget::mousePressEvent(QMouseEvent * event)
 {
+  if (!isEnabled()) return;
   pressed_ = true;
   updatePuck(event->position());
 }
 
 void JoystickWidget::mouseMoveEvent(QMouseEvent * event)
 {
+  if (!isEnabled()) return;
   if (pressed_) {
     updatePuck(event->position());
   }
@@ -53,6 +64,7 @@ void JoystickWidget::mouseMoveEvent(QMouseEvent * event)
 void JoystickWidget::mouseReleaseEvent(QMouseEvent * event)
 {
   (void)event;
+  if (!isEnabled()) return;
   pressed_ = false;
   puck_pos_ = center_;
   update();

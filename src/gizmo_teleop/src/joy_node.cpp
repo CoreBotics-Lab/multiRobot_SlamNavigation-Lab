@@ -16,9 +16,19 @@ JoyNode::JoyNode()
   publish_rate_hz_ = this->declare_parameter<double>("publish_rate_hz", 10.0);
 
   if (use_twist_stamped_) {
-    publisher_twist_stamped_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(topic_name_, 10);
+    for (const auto & t : topic_list_) {
+      if (!t.empty()) {
+        twist_stamped_pubs_[t] = this->create_publisher<geometry_msgs::msg::TwistStamped>(t, 10);
+      }
+    }
+    publisher_twist_stamped_ = getTwistStampedPublisher(topic_name_);
   } else {
-    publisher_twist_ = this->create_publisher<geometry_msgs::msg::Twist>(topic_name_, 10);
+    for (const auto & t : topic_list_) {
+      if (!t.empty()) {
+        twist_pubs_[t] = this->create_publisher<geometry_msgs::msg::Twist>(t, 10);
+      }
+    }
+    publisher_twist_ = getTwistPublisher(topic_name_);
   }
 
   double timer_period = (publish_rate_hz_ > 0.0) ? (1.0 / publish_rate_hz_) : 0.1;
@@ -89,35 +99,23 @@ void JoyNode::changeTopic(const std::string & new_topic)
       }
     }
 
-    std::string old_topic = topic_name_;
     try {
       topic_name_ = new_topic;
-      publisher_twist_.reset();
-      publisher_twist_stamped_.reset();
-
       if (use_twist_stamped_) {
-        publisher_twist_stamped_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(topic_name_, 10);
+        publisher_twist_stamped_ = getTwistStampedPublisher(topic_name_);
       } else {
-        publisher_twist_ = this->create_publisher<geometry_msgs::msg::Twist>(topic_name_, 10);
+        publisher_twist_ = getTwistPublisher(topic_name_);
       }
 
-      RCLCPP_INFO(this->get_logger(), "Changed publisher topic to: %s", topic_name_.c_str());
+      // Instantly push current twist state to the new robot with zero latency
+      publishTwist();
+
+      RCLCPP_INFO(this->get_logger(), "Instantly switched publisher topic to: %s", topic_name_.c_str());
       if (gui_update_topic_cb) {
         gui_update_topic_cb(topic_name_);
       }
     } catch (const std::exception & e) {
-      RCLCPP_ERROR(this->get_logger(), "Invalid topic name '%s': %s", new_topic.c_str(), e.what());
-      topic_name_ = old_topic;
-      try {
-        if (use_twist_stamped_) {
-          publisher_twist_stamped_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(topic_name_, 10);
-        } else {
-          publisher_twist_ = this->create_publisher<geometry_msgs::msg::Twist>(topic_name_, 10);
-        }
-      } catch (...) {}
-      if (gui_update_topic_cb) {
-        gui_update_topic_cb(topic_name_);
-      }
+      RCLCPP_ERROR(this->get_logger(), "Error switching topic to '%s': %s", new_topic.c_str(), e.what());
     }
   }
 }
@@ -126,14 +124,21 @@ void JoyNode::setTwistStamped(bool enabled)
 {
   if (use_twist_stamped_ != enabled) {
     use_twist_stamped_ = enabled;
-    publisher_twist_.reset();
-    publisher_twist_stamped_.reset();
-
     if (use_twist_stamped_) {
-      publisher_twist_stamped_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(topic_name_, 10);
+      twist_pubs_.clear();
+      publisher_twist_.reset();
+      for (const auto & t : topic_list_) {
+        if (!t.empty()) getTwistStampedPublisher(t);
+      }
+      publisher_twist_stamped_ = getTwistStampedPublisher(topic_name_);
       RCLCPP_INFO(this->get_logger(), "Switched publisher mode to: TwistStamped");
     } else {
-      publisher_twist_ = this->create_publisher<geometry_msgs::msg::Twist>(topic_name_, 10);
+      twist_stamped_pubs_.clear();
+      publisher_twist_stamped_.reset();
+      for (const auto & t : topic_list_) {
+        if (!t.empty()) getTwistPublisher(t);
+      }
+      publisher_twist_ = getTwistPublisher(topic_name_);
       RCLCPP_INFO(this->get_logger(), "Switched publisher mode to: Twist");
     }
 
@@ -141,6 +146,28 @@ void JoyNode::setTwistStamped(bool enabled)
       gui_update_twist_stamped_cb(use_twist_stamped_);
     }
   }
+}
+
+rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr JoyNode::getTwistPublisher(const std::string & topic)
+{
+  auto it = twist_pubs_.find(topic);
+  if (it != twist_pubs_.end()) {
+    return it->second;
+  }
+  auto pub = this->create_publisher<geometry_msgs::msg::Twist>(topic, 10);
+  twist_pubs_[topic] = pub;
+  return pub;
+}
+
+rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr JoyNode::getTwistStampedPublisher(const std::string & topic)
+{
+  auto it = twist_stamped_pubs_.find(topic);
+  if (it != twist_stamped_pubs_.end()) {
+    return it->second;
+  }
+  auto pub = this->create_publisher<geometry_msgs::msg::TwistStamped>(topic, 10);
+  twist_stamped_pubs_[topic] = pub;
+  return pub;
 }
 
 void JoyNode::updateTwist(double norm_x, double norm_y)
