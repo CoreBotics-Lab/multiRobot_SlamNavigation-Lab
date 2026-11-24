@@ -16,6 +16,8 @@ from rclpy.time import Time
 from rclpy.clock import ClockType
 from rclpy.duration import Duration
 
+from pynput import keyboard
+
 class fleet_goal_allocator(Node):
     def __init__(self):
         super().__init__('fleet_goal_allocator')
@@ -34,6 +36,12 @@ class fleet_goal_allocator(Node):
             self.get_logger().error(f"Error retrieving parameter 'robot_names': {e}")
             self.destroy_node()
             sys.exit(1)
+
+        # get keystroke combination
+        self.hotkey_listener = keyboard.GlobalHotKeys({
+            '<ctrl>+<enter>': self._on_emergency_stop
+        })
+        self.hotkey_listener.start()
 
         # Initialize navigation nodes and publisher for empty paths for each robot
         self.nav = {}
@@ -95,7 +103,10 @@ class fleet_goal_allocator(Node):
         if not self.goal_queue:
             return
 
-        target_goal = self.goal_queue[0]
+        try:
+            target_goal = self.goal_queue[0]
+        except IndexError:
+            return
 
         # Reject goal if it is placed directly on top of ANY robot in the fleet
         min_clearance = 0.12  # meters (robot radius is 0.10m, so 0.12m gives safe cushion)
@@ -110,7 +121,8 @@ class fleet_goal_allocator(Node):
                     self.get_logger().warning(
                         f"Goal is too close to {name} ({dist_to_bot:.2f}m < {min_clearance}m). Rejecting goal."
                     )
-                    self.goal_queue.pop(0)
+                    if self.goal_queue:
+                        self.goal_queue.pop(0)
                     return
 
         # Identify idle robots before getting their paths to the target goal. so that you dont have to calculate paths for busy robots.
@@ -138,7 +150,8 @@ class fleet_goal_allocator(Node):
 
         if not path_lengths:
             self.get_logger().info("No valid paths found for any idle robots. Dropping unreachable goal.")
-            self.goal_queue.pop(0)  # Remove the goal from the queue since no robot can take it
+            if self.goal_queue:
+                self.goal_queue.pop(0)  # Remove the goal from the queue since no robot can take it
             return
 
         # Get the robot with the shortest path to the goal
@@ -155,8 +168,43 @@ class fleet_goal_allocator(Node):
 
         # Assign the goal to the best robot
         self.get_logger().info(f"Assigning goal to {best_robot} with path length {path_lengths[best_robot]:.2f} meters")
+        if not self.goal_queue:
+            return
         self.goal_queue.pop(0)
         self.nav[best_robot].goToPose(target_goal)
+        
+    def _on_emergency_stop(self):
+        try:
+            self.get_logger().warning("Emergency Stop command detected: Stopping and cancelling all fleet goals!")
+            self.stop_and_cancel()
+        except Exception as e:
+            self.get_logger().error(f"Error handling emergency stop: {e}")
+
+    def stop_and_cancel(self):
+        # Clear pending queue
+        self.goal_queue.clear()
+
+        # Asynchronously cancel active goals without blocking the pynput thread
+        for name in self.robot_names:
+            try:
+                nav = self.nav[name]
+                is_active = (
+                    nav.goal_handle is not None and
+                    nav.result_future is not None and
+                    not nav.result_future.done()
+                )
+                if is_active:
+                    self.get_logger().info(f"Cancelling active goal for {name}...")
+                    nav.goal_handle.cancel_goal_async()
+                    nav.clearPreviousState()
+                    self.get_logger().info(f"{name} goal has been cancelled")
+            except Exception as e:
+                self.get_logger().warning(f"Failed to cancel goal for {name}: {e}")
+
+    def destroy_all(self):
+        if hasattr(self, 'hotkey_listener') and self.hotkey_listener.is_alive():
+            self.hotkey_listener.stop()
+        super().destroy_node()
 
 def main(args=None):
     rclpy.init(args=args)
@@ -176,6 +224,7 @@ def main(args=None):
 
     except (KeyboardInterrupt, rclpy.executors.ExternalShutdownException):
         pass
+
     except SystemExit:
         pass  # Catches sys.exit(1) from parameter validation cleanly
     finally:
@@ -190,7 +239,7 @@ def main(args=None):
                     for nav_node in fleet_allocator_node.nav.values():
                         nav_node.destroy_node()
                 # Destroy allocator node
-                fleet_allocator_node.destroy_node()
+                fleet_allocator_node.destroy_all()
         except Exception as e:
             get_logger('fleet_goal_allocator').error(f"Error occurred during teardown: {e}")
 
