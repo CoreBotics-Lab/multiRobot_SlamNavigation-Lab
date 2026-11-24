@@ -201,6 +201,13 @@ class fleet_goal_allocator(Node):
             except Exception as e:
                 self.get_logger().warning(f"Failed to cancel goal for {name}: {e}")
 
+        # Clear path visualization on all robots
+        empty_path = Path()
+        empty_path.header.frame_id = 'map'
+        empty_path.header.stamp = self.get_clock().now().to_msg()
+        for name in self.robot_names:
+            self.plan_pubs[name].publish(empty_path)
+
     def destroy_all(self):
         if hasattr(self, 'hotkey_listener') and self.hotkey_listener.is_alive():
             self.hotkey_listener.stop()
