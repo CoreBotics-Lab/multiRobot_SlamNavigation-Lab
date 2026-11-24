@@ -62,6 +62,7 @@ environments:
       - conda: https://prefix.dev/conda-forge/linux-64/eigen-abi-devel-5.0.1.100-h2fbfb1f_3.conda
       - conda: https://prefix.dev/conda-forge/linux-64/elfutils-0.196-h03e2bf6_0.conda
       - conda: https://prefix.dev/conda-forge/linux-64/epoxy-1.5.10-hb03c661_2.conda
+      - conda: https://prefix.dev/conda-forge/linux-64/evdev-2.0.0-py314h89acca1_1.conda
       - conda: https://prefix.dev/conda-forge/linux-64/expat-2.8.5-hd2095e1_0.conda
       - conda: https://prefix.dev/conda-forge/linux-64/fcl-0.7.0-hf5102b8_9.conda
       - conda: https://prefix.dev/conda-forge/linux-64/ffmpeg-9.0.2-gpl_h2f7cf13_903.conda
@@ -376,6 +377,7 @@ environments:
       - conda: https://prefix.dev/conda-forge/linux-64/pycairo-1.29.1-py314hb1bbd57_2.conda
       - conda: https://prefix.dev/conda-forge/linux-64/pydantic-core-2.46.5-py314h7e8cd81_2.conda
       - conda: https://prefix.dev/conda-forge/linux-64/pygraphviz-2.0.3-py314h232d59a_0.conda
+      - conda: https://prefix.dev/conda-forge/linux-64/pynput-1.8.2-py314hdafbbf9_1.conda
       - conda: https://prefix.dev/conda-forge/linux-64/pyqt6-6.11.0-py314hab09b3e_2.conda
       - conda: https://prefix.dev/conda-forge/linux-64/pyqt6-sip-13.10.0-py314ha160325_2.conda
       - conda: https://prefix.dev/conda-forge/linux-64/python-3.14.7-hcd007b5_106_cp314.conda
@@ -554,6 +556,7 @@ environments:
       - conda: https://prefix.dev/conda-forge/noarch/pytest-rerunfailures-16.6.1-pyhd8ed1ab_0.conda
       - conda: https://prefix.dev/conda-forge/noarch/python-dateutil-2.9.0.post0-pyhe01879c_2.conda
       - conda: https://prefix.dev/conda-forge/noarch/python-gil-3.14.7-h4df99d1_106.conda
+      - conda: https://prefix.dev/conda-forge/noarch/python-xlib-0.33-pyhff2d567_1.conda
       - conda: https://prefix.dev/conda-forge/noarch/python_abi-3.14-9_cp314.conda
       - conda: https://prefix.dev/conda-forge/noarch/rosdistro-1.1.0-pyhd8ed1ab_0.conda
       - conda: https://prefix.dev/conda-forge/noarch/rospkg-1.6.3-pyh5ded981_0.conda
@@ -982,6 +985,7 @@ packages:
   - openmp_impl <0.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     strong:
     - _openmp_mutex >=4.5
@@ -995,6 +999,7 @@ packages:
   - libgcc >=15
   license: LGPL-2.1-or-later
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - alsa-lib >=1.2.16.1,<1.3.0a0
@@ -1010,6 +1015,7 @@ packages:
   constrains:
   - ampl-mp >=4.0.0
   license: BSD-3-Clause AND SMLNJ
+  purls: []
   run_exports:
     weak:
     - ampl-asl >=1.0.0,<1.0.1.0a0
@@ -1024,6 +1030,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: BSD-2-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - aom >=3.14.1,<3.15.0a0
@@ -1040,6 +1047,7 @@ packages:
   - zlib
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - assimp >=6.0.5,<7.0a0
@@ -1059,6 +1067,8 @@ packages:
   - __glibc >=2.17
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/ast-serialize?source=compressed-mapping
   run_exports: {}
   size: 1154045
   timestamp: 1790973761571
@@ -1073,6 +1083,7 @@ packages:
   - libglib >=2.68.1,<3.0a0
   license: LGPL-2.1-or-later
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - at-spi2-atk >=2.38.0,<3.0a0
@@ -1090,6 +1101,7 @@ packages:
   - xorg-libxtst
   license: LGPL-2.1-or-later
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - at-spi2-core >=2.40.3,<2.41.0a0
@@ -1106,6 +1118,7 @@ packages:
   - atk-1.0 2.38.0
   license: LGPL-2.0-or-later
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - atk-1.0 >=2.38.0
@@ -1120,6 +1133,7 @@ packages:
   - libstdcxx >=14
   license: Apache-2.0
   license_family: Apache
+  purls: []
   run_exports: {}
   size: 290910
   timestamp: 1769116980221
@@ -1130,6 +1144,7 @@ packages:
   - binutils_impl_linux-64 >=2.46.1,<2.46.2.0a0
   license: GPL-3.0-only
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 35399
   timestamp: 1784214547142
@@ -1142,6 +1157,7 @@ packages:
   - zstd >=1.5.7,<1.6.0a0
   license: GPL-3.0-only
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 3713752
   timestamp: 1784214522814
@@ -1157,6 +1173,7 @@ packages:
   - liblapacke 3.11.0 *_netlib
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 17753
   timestamp: 1789061070079
@@ -1168,6 +1185,7 @@ packages:
   - libgcc >=14
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 4088372
   timestamp: 1779857224405
@@ -1184,6 +1202,7 @@ packages:
   - zstd >=1.5.6,<1.6.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - blosc >=1.21.6,<2.0a0
@@ -1199,6 +1218,7 @@ packages:
   - libbrotlienc 1.2.0 h018ffa1_4
   - libgcc >=15
   license: MIT
+  purls: []
   run_exports:
     weak:
     - libbrotlicommon >=1.2.0,<1.3.0a0
@@ -1216,6 +1236,7 @@ packages:
   - libgcc >=15
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 21601
   timestamp: 1788480392621
@@ -1228,6 +1249,7 @@ packages:
   - pybullet 3.25 py314h61d0147_5
   - python
   license: Zlib
+  purls: []
   run_exports: {}
   size: 11616
   timestamp: 1761044683757
@@ -1244,6 +1266,7 @@ packages:
   - xorg-libx11 >=1.8.12,<2.0a0
   - xorg-libxext >=1.3.6,<2.0a0
   license: Zlib
+  purls: []
   run_exports:
     weak:
     - bullet-cpp >=3.25,<3.26.0a0
@@ -1257,6 +1280,7 @@ packages:
   - libgcc >=14
   license: bzip2-1.0.6
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - bzip2 >=1.0.8,<2.0a0
@@ -1270,6 +1294,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - c-ares >=1.34.8,<2.0a0
@@ -1282,6 +1307,7 @@ packages:
   - gcc 15.*
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 7017
   timestamp: 1786642183250
@@ -1309,6 +1335,7 @@ packages:
   - xorg-libxext >=1.3.7,<2.0a0
   - xorg-libxrender >=0.9.12,<0.10.0a0
   license: LGPL-2.1-only or MPL-1.1
+  purls: []
   run_exports:
     weak:
     - cairo >=1.18.6,<2.0a0
@@ -1344,6 +1371,7 @@ packages:
   - suitesparse >=7.10.1,<8.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - ceres-solver >=2.2.0,<2.3.0a0
@@ -1362,6 +1390,8 @@ packages:
   - python_abi 3.14.* *_cp314
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/cffi?source=hash-mapping
   run_exports: {}
   size: 307262
   timestamp: 1788485305536
@@ -1374,6 +1404,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 103234
   timestamp: 1785918340763
@@ -1395,6 +1426,7 @@ packages:
   - bzip2 >=1.0.8,<2.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 26080138
   timestamp: 1791001096509
@@ -1425,6 +1457,8 @@ packages:
   - python_abi 3.14.* *_cp314
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-common-extensions?source=compressed-mapping
   run_exports: {}
   size: 17872
   timestamp: 1789827913278
@@ -1444,6 +1478,7 @@ packages:
   - libxml2-16 >=2.14.6
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - collada-dom >=2.5.0,<2.6.0a0
@@ -1458,6 +1493,7 @@ packages:
   - fortran-compiler 2.0.0 h0f4f740_0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 6939
   timestamp: 1786642183951
@@ -1468,6 +1504,7 @@ packages:
   - gcc_impl_linux-64 >=15.3.0,<15.3.1.0a0
   license: GPL-3.0-only WITH GCC-exception-3.1
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 32760
   timestamp: 1790302817774
@@ -1479,6 +1516,7 @@ packages:
   - libstdcxx-ng >=10.3.0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - console_bridge >=1.0.2,<1.1.0a0
@@ -1496,6 +1534,8 @@ packages:
   - python_abi 3.14.* *_cp314
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/contourpy?source=compressed-mapping
   run_exports: {}
   size: 331601
   timestamp: 1789746783338
@@ -1509,6 +1549,8 @@ packages:
   - python_abi 3.14.* *_cp314
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/coverage?source=compressed-mapping
   run_exports: {}
   size: 446880
   timestamp: 1790542080154
@@ -1526,6 +1568,8 @@ packages:
   - pcre >=8.45,<9.0a0
   license: GPL-3.0-or-later
   license_family: GPL
+  purls:
+  - pkg:pypi/cppcheck?source=compressed-mapping
   run_exports: {}
   size: 3210657
   timestamp: 1790418667297
@@ -1539,6 +1583,7 @@ packages:
   - zeromq >=4.3.5,<4.4.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 30502
   timestamp: 1763728886940
@@ -1557,6 +1602,8 @@ packages:
   constrains:
   - __glibc >=2.17
   license: Apache-2.0 AND BSD-3-Clause AND PSF-2.0 AND MIT
+  purls:
+  - pkg:pypi/cryptography?source=compressed-mapping
   run_exports: {}
   size: 1830947
   timestamp: 1790790516832
@@ -1567,6 +1614,7 @@ packages:
   - gxx 15.*
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 6972
   timestamp: 1786642183694
@@ -1579,6 +1627,7 @@ packages:
   - libstdcxx >=14
   - openssl >=3.5.7,<4.0a0
   license: EPL-2.0
+  purls: []
   run_exports:
     weak:
     - cyclonedds >=11.0.1,<11.1.0a0
@@ -1597,6 +1646,7 @@ packages:
   - openssl >=3.5.5,<4.0a0
   license: BSD-3-Clause-Attribution
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - cyrus-sasl >=2.1.28,<3.0a0
@@ -1633,6 +1683,7 @@ packages:
   - bullet-cpp >=3.25,<3.26.0a0
   license: BSD-2-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - dartsim-cpp >=6.19.4,<6.20.0a0
@@ -1649,6 +1700,7 @@ packages:
   - libzlib >=1.3.2,<2.0a0
   - libglib >=2.88.3,<3.0a0
   license: AFL-2.1 OR GPL-2.0-or-later
+  purls: []
   run_exports:
     weak:
     - dbus >=1.16.2,<2.0a0
@@ -1663,6 +1715,7 @@ packages:
   - libstdcxx >=14
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - double-conversion >=3.4.0,<3.5.0a0
@@ -1677,6 +1730,7 @@ packages:
   - libgcc >=15
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - draco >=1.5.7,<1.5.8.0a0
@@ -1687,6 +1741,7 @@ packages:
   md5: cf1f7131e9055f06f07a834091f44ca4
   license: MPL-2.0
   license_family: MOZILLA
+  purls: []
   run_exports: {}
   size: 1311719
   timestamp: 1788951264833
@@ -1697,6 +1752,7 @@ packages:
   - eigen >=5.0.1,<5.0.2.0a0
   license: MPL-2.0
   license_family: MOZILLA
+  purls: []
   run_exports: {}
   size: 13466
   timestamp: 1788951264833
@@ -1710,6 +1766,7 @@ packages:
   - x86_64-microarch-level >=1,<3
   license: MPL-2.0
   license_family: MOZILLA
+  purls: []
   run_exports:
     weak:
     - eigen-abi >=5.0.1.80,<5.0.1.81.0a0
@@ -1729,6 +1786,7 @@ packages:
   - liblzma >=5.8.3,<6.0a0
   license: LGPL-3.0-only
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - elfutils >=0.196,<0.197.0a0
@@ -1754,11 +1812,25 @@ packages:
   - xorg-libxxf86vm >=1.1.6,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - epoxy >=1.5.10,<1.6.0a0
   size: 411735
   timestamp: 1758743520805
+- conda: https://prefix.dev/conda-forge/linux-64/evdev-2.0.0-py314h89acca1_1.conda
+  sha256: 7ca8d5677a8dbed7cc74c9b3fe0b5f79e6d13c0848be832890f65625568d5115
+  md5: b3ced423935822909dba6c925dd806aa
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  - libgcc >=15
+  - python >=3.14,<3.15.0a0
+  - python_abi 3.14.* *_cp314
+  license: BSD-3-Clause
+  license_family: BSD
+  run_exports: {}
+  size: 126601
+  timestamp: 1788580407811
 - conda: https://prefix.dev/conda-forge/linux-64/expat-2.8.5-hd2095e1_0.conda
   sha256: c18c5196847fbf5ba3653f13664bf1a57c87aaa063b87d77c246e3b040aa1963
   md5: 30a967b6ac673c8f21b64604a2b9ccd6
@@ -1768,6 +1840,7 @@ packages:
   - libgcc >=15
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libexpat >=2.8.5,<3.0a0
@@ -1786,6 +1859,7 @@ packages:
   - eigen-abi >=5.0.1.80,<5.0.1.81.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - fcl >=0.7.0,<0.8.0a0
@@ -1853,6 +1927,7 @@ packages:
   - __cuda  >=12.8
   license: GPL-2.0-or-later
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - ffmpeg >=9.0.2,<10.0a0
@@ -1870,6 +1945,7 @@ packages:
   - lz4-c >=1.10.0,<1.11.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - flann >=1.9.2,<1.9.3.0a0
@@ -1884,6 +1960,7 @@ packages:
   - libstdcxx >=14
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - fmt >=12.1.0,<12.2.0a0
@@ -1902,6 +1979,7 @@ packages:
   - libzlib >=1.3.2,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - fontconfig >=2.18.3,<3.0a0
@@ -1920,6 +1998,8 @@ packages:
   - python_abi 3.14.* *_cp314
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/fonttools?source=compressed-mapping
   run_exports: {}
   size: 3193509
   timestamp: 1790702866822
@@ -1931,6 +2011,7 @@ packages:
   - libgcc >=14
   - __glibc >=2.17,<3.0.a0
   license: Zlib
+  purls: []
   run_exports:
     weak:
     - foonathan-memory >=0.7.4,<0.7.5.0a0
@@ -1943,6 +2024,7 @@ packages:
   - gfortran 15.*
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 6970
   timestamp: 1786642183826
@@ -1964,6 +2046,7 @@ packages:
   - xorg-libxxf86vm >=1.1.7,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - freeglut >=3.2.2,<4.0a0
@@ -1987,6 +2070,7 @@ packages:
   - openexr >=3.4.12,<3.5.0a0
   - openjpeg >=2.5.4,<3.0a0
   license: GPL-2.0-or-later OR GPL-3.0-or-later OR FreeImage
+  purls: []
   run_exports:
     weak:
     - freeimage >=3.18.0,<3.19.0a0
@@ -1999,6 +2083,7 @@ packages:
   - libfreetype 2.14.3 ha770c72_2
   - libfreetype6 2.14.3 h5e6c136_2
   license: GPL-2.0-only OR FTL
+  purls: []
   run_exports:
     weak:
     - libfreetype >=2.14.3
@@ -2016,6 +2101,7 @@ packages:
   - libiconv >=1.18,<2.0a0
   license: MPL-1.1
   license_family: MOZILLA
+  purls: []
   run_exports:
     weak:
     - freexl >=2.0.0,<3.0a0
@@ -2028,6 +2114,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   - libgcc >=15
   license: LGPL-2.1-or-later
+  purls: []
   run_exports:
     weak:
     - fribidi >=1.0.17,<2.0a0
@@ -2041,6 +2128,7 @@ packages:
   - gcc_impl_linux-64 15.3.0 h6ad849d_7
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 29624
   timestamp: 1790302921468
@@ -2058,6 +2146,7 @@ packages:
   - sysroot_linux-64
   license: GPL-3.0-only WITH GCC-exception-3.1
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 83849972
   timestamp: 1790302722312
@@ -2069,6 +2158,7 @@ packages:
   - readline >=8.0,<9.0a0
   license: GPL-3.0
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - gdbm >=1.18,<1.19.0a0
@@ -2087,6 +2177,7 @@ packages:
   - libtiff >=4.7.2,<4.8.0a0
   license: LGPL-2.1-or-later
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - gdk-pixbuf >=2.44.8,<3.0a0
@@ -2101,6 +2192,7 @@ packages:
   - libstdcxx >=14
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - geographiclib-cpp >=2.7,<2.8.0a0
@@ -2114,6 +2206,7 @@ packages:
   - libgcc >=15
   - libstdcxx >=15
   license: LGPL-2.1-only
+  purls: []
   run_exports:
     weak:
     - geos >=3.14.1,<3.14.2.0a0
@@ -2133,6 +2226,7 @@ packages:
   - libiconv >=1.18,<2.0a0
   - libstdcxx >=15
   license: LGPL-2.1-or-later AND GPL-3.0-or-later
+  purls: []
   run_exports:
     weak:
     - libasprintf >=0.25.1,<1.0a0
@@ -2148,6 +2242,7 @@ packages:
   - libiconv >=1.18,<2.0a0
   license: GPL-3.0-or-later
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 3761547
   timestamp: 1790117477291
@@ -2160,6 +2255,7 @@ packages:
   - libstdcxx >=14
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - gflags >=2.3.1,<2.4.0a0
@@ -2175,6 +2271,7 @@ packages:
   - gfortran_impl_linux-64 15.3.0 h27ced10_7
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 28905
   timestamp: 1790302940220
@@ -2189,6 +2286,7 @@ packages:
   - sysroot_linux-64
   license: GPL-3.0-only WITH GCC-exception-3.1
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 20647168
   timestamp: 1790302855875
@@ -2201,6 +2299,7 @@ packages:
   - libstdcxx >=15
   license: AGPL-3.0-only
   license_family: AGPL
+  purls: []
   run_exports: {}
   size: 62149156
   timestamp: 1788878278764
@@ -2212,6 +2311,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - giflib >=6.1.3,<6.2.0a0
@@ -2229,6 +2329,7 @@ packages:
   - xorg-libxfixes >=6.0.2,<7.0a0
   license: LGPL-2.0-or-later
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - gl2ps >=1.4.2,<1.4.3.0a0
@@ -2246,6 +2347,7 @@ packages:
   - xorg-libxext
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - glew >=2.3.0,<2.4.0a0
@@ -2265,6 +2367,7 @@ packages:
   - xorg-libxinerama >=1.1.6,<1.2.0a0
   - xorg-libxrandr >=1.5.5,<2.0a0
   license: Zlib
+  purls: []
   run_exports:
     weak:
     - glfw >=3.5.1,<4.0a0
@@ -2279,6 +2382,7 @@ packages:
   - libgcc >=15
   - __glibc >=2.17,<3.0.a0
   license: LGPL-2.1-or-later
+  purls: []
   run_exports: {}
   size: 237225
   timestamp: 1789478025196
@@ -2292,6 +2396,7 @@ packages:
   - libstdcxx >=14
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - glog >=0.7.1,<0.8.0a0
@@ -2307,6 +2412,7 @@ packages:
   - spirv-tools >=2026,<2027.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - glslang >=16,<17.0a0
@@ -2320,6 +2426,7 @@ packages:
   - gtest >=1.18.0,<1.18.1.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 4915
   timestamp: 1786419392511
@@ -2331,6 +2438,7 @@ packages:
   - libgcc >=14
   - libstdcxx >=14
   license: GPL-2.0-or-later OR LGPL-3.0-or-later
+  purls: []
   run_exports:
     weak:
     - gmp >=6.3.0,<7.0a0
@@ -2370,6 +2478,7 @@ packages:
   - zstd >=1.5.7,<1.6.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 3648120
   timestamp: 1761824809105
@@ -2382,6 +2491,7 @@ packages:
   - libgcc >=14
   license: LGPL-2.0-or-later
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - graphite2 >=1.3.15,<2.0a0
@@ -2409,6 +2519,7 @@ packages:
   - pango >=1.56.4,<2.0a0
   license: EPL-1.0
   license_family: Other
+  purls: []
   run_exports:
     weak:
     - graphviz >=14.1.2,<15.0a0
@@ -2425,6 +2536,7 @@ packages:
   - gmock ==1.18.0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - gtest >=1.18.0,<1.18.1.0a0
@@ -2470,6 +2582,7 @@ packages:
   - xorg-libxrender >=0.9.12,<0.10.0a0
   license: LGPL-2.0-or-later
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - gtk3 >=3.24.52,<4.0a0
@@ -2485,6 +2598,7 @@ packages:
   - libstdcxx-ng >=12
   license: LGPL-2.0-or-later
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - gts >=0.7.6,<0.8.0a0
@@ -2499,6 +2613,7 @@ packages:
   - gxx_impl_linux-64 15.3.0 h90d9265_7
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 28905
   timestamp: 1790302956904
@@ -2512,6 +2627,7 @@ packages:
   - tzdata
   license: GPL-3.0-only WITH GCC-exception-3.1
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 17023748
   timestamp: 1790302893582
@@ -2522,6 +2638,7 @@ packages:
   - libgz-cmake ==5.1.1 hee9eb32_1
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-cmake >=5.1.1,<6.0a0
@@ -2534,6 +2651,7 @@ packages:
   - libgz-common ==7.4.0 h592c9c1_0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-common >=7.4.0,<8.0a0
@@ -2546,6 +2664,7 @@ packages:
   - libgz-fuel-tools ==11.0.0 h5e4c36c_4
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-fuel-tools >=11.0.0,<12.0a0
@@ -2558,6 +2677,7 @@ packages:
   - libgz-gui ==10.1.0 hbc9005a_0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-gui >=10.1.0,<11.0a0
@@ -2570,6 +2690,7 @@ packages:
   - gz-math8 ==8.4.0 h43fa40a_0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-math8 >=8.4.0,<9.0a0
@@ -2584,6 +2705,7 @@ packages:
   - gz-math8-python >=8.4.0,<8.4.1.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-math8 >=8.4.0,<9.0a0
@@ -2603,6 +2725,7 @@ packages:
   - pybind11-abi ==11
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports: {}
   size: 1112083
   timestamp: 1788526105654
@@ -2617,6 +2740,7 @@ packages:
   - libprotobuf >=7.35.1,<7.35.2.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-msgs >=12.0.2,<13.0a0
@@ -2629,6 +2753,7 @@ packages:
   - libgz-physics ==9.5.2 h418f2da_0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-physics >=9.5.2,<10.0a0
@@ -2641,6 +2766,7 @@ packages:
   - libgz-plugin ==4.0.0 h93f228a_0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-plugin >=4.0.0,<5.0a0
@@ -2653,6 +2779,7 @@ packages:
   - libgz-rendering ==10.0.2 heeb8b46_1
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-rendering >=10.0.2,<11.0a0
@@ -2665,6 +2792,7 @@ packages:
   - libgz-sensors ==10.1.1 h7e34989_0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-sensors >=10.1.1,<11.0a0
@@ -2677,6 +2805,7 @@ packages:
   - libgz-tools ==2.0.3 h54a6638_1
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-tools >=2.0.3,<3.0a0
@@ -2689,6 +2818,7 @@ packages:
   - libgz-utils ==4.0.0 h9de27cc_3
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-utils >=4.0.0,<5.0a0
@@ -2701,6 +2831,7 @@ packages:
   - libharfbuzz-devel 14.5.1 h23af247_0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libharfbuzz >=14.5.1
@@ -2716,6 +2847,7 @@ packages:
   - libzlib >=1.2.13,<2.0.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - hdf4 >=4.2.15,<4.2.16.0a0
@@ -2736,6 +2868,7 @@ packages:
   - openssl >=3.5.6,<4.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - hdf5 >=1.14.6,<1.14.7.0a0
@@ -2746,6 +2879,7 @@ packages:
   md5: 129e404c5b001f3ef5581316971e3ea0
   license: GPL-2.0-or-later
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 17625
   timestamp: 1771539597968
@@ -2758,6 +2892,7 @@ packages:
   - libgcc >=14
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - icu >=78.3,<79.0a0
@@ -2773,6 +2908,7 @@ packages:
   - libzlib >=1.3.1,<2.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - imath >=3.2.2,<3.2.3.0a0
@@ -2790,6 +2926,7 @@ packages:
   - glfw >=3.4,<4.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - imgui >=1.91.9,<1.91.10.0a0
@@ -2804,6 +2941,7 @@ packages:
   - libstdcxx >=15
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - intel-gmmlib >=22.10.2,<23.0a0
@@ -2820,6 +2958,7 @@ packages:
   - libva >=2.23.0,<3.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - intel-media-driver >=26.1.6,<26.2.0a0
@@ -2838,6 +2977,7 @@ packages:
   - libstdcxx >=14
   - mumps-seq >=5.8.2,<5.8.3.0a0
   license: EPL-1.0
+  purls: []
   run_exports:
     weak:
     - ipopt >=3.14.19,<3.14.20.0a0
@@ -2857,6 +2997,7 @@ packages:
   - libglu >=9.0.3,<9.1.0a0
   - libjpeg-turbo >=3.2.0,<4.0a0
   license: JasPer-2.0
+  purls: []
   run_exports:
     weak:
     - jasper >=4.2.9,<5.0a0
@@ -2870,6 +3011,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - json-c >=0.18,<0.19.0a0
@@ -2883,6 +3025,7 @@ packages:
   - libstdcxx >=15
   - libgcc >=15
   license: LicenseRef-Public-Domain OR MIT
+  purls: []
   run_exports:
     weak:
     - jsoncpp >=1.9.8,<1.9.9.0a0
@@ -2895,6 +3038,7 @@ packages:
   - libgcc-ng >=12
   license: BSD-2-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - jxrlib >=1.1,<1.2.0a0
@@ -2907,6 +3051,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   - libgcc >=15
   license: LGPL-2.1-or-later
+  purls: []
   run_exports:
     weak:
     - keyutils >=1.6.3,<2.0a0
@@ -2923,6 +3068,8 @@ packages:
   - python_abi 3.14.* *_cp314
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/kiwisolver?source=compressed-mapping
   run_exports: {}
   size: 75648
   timestamp: 1790082003350
@@ -2939,6 +3086,7 @@ packages:
   - openssl >=3.5.7,<4.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - krb5 >=1.22.2,<1.23.0a0
@@ -2953,6 +3101,7 @@ packages:
   - mpg123 >=1.33.7,<1.34.0a0
   license: LGPL-2.0-only
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - lame >=4.0,<4.1.0a0
@@ -2968,6 +3117,7 @@ packages:
   - libtiff >=4.7.2,<4.8.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - lcms2 >=2.19.1,<3.0a0
@@ -2983,6 +3133,7 @@ packages:
   - binutils_impl_linux-64 2.46.1
   license: GPL-3.0-only
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 745303
   timestamp: 1784214507189
@@ -2995,6 +3146,7 @@ packages:
   - libstdcxx >=14
   license: Apache-2.0
   license_family: Apache
+  purls: []
   run_exports:
     weak:
     - lerc >=4.2.0,<5.0a0
@@ -3009,6 +3161,7 @@ packages:
   - libstdcxx >=15
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 780520
   timestamp: 1788366449509
@@ -3024,6 +3177,7 @@ packages:
   - libabseil-static =20260526.0=cxx17*
   license: Apache-2.0
   license_family: Apache
+  purls: []
   run_exports:
     weak:
     - libabseil >=20260526.0,<20260527.0a0
@@ -3039,6 +3193,7 @@ packages:
   - libattr >=2.6.0,<2.7.0a0
   license: GPL-2.0-or-later
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - libacl >=2.4.0,<2.5.0a0
@@ -3053,6 +3208,7 @@ packages:
   - libstdcxx >=14
   license: BSD-2-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libaec >=1.1.5,<2.0a0
@@ -3069,6 +3225,7 @@ packages:
   - libsuitesparseconfig >=7.10.1,<8.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libamd >=3.3.3,<4.0a0
@@ -3091,6 +3248,7 @@ packages:
   - zstd >=1.5.7,<1.6.0a0
   license: BSD-2-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libarchive >=3.8.9,<3.9.0a0
@@ -3104,6 +3262,7 @@ packages:
   - libgcc >=15
   - libstdcxx >=15
   license: LGPL-2.1-or-later
+  purls: []
   run_exports:
     weak:
     - libasprintf >=0.25.1,<1.0a0
@@ -3117,6 +3276,7 @@ packages:
   - libasprintf 0.25.1 h0e23cf9_2
   - libgcc >=15
   license: LGPL-2.1-or-later
+  purls: []
   run_exports:
     weak:
     - libasprintf >=0.25.1,<1.0a0
@@ -3137,6 +3297,7 @@ packages:
   - libiconv >=1.18,<2.0a0
   - libharfbuzz >=14.4.0
   license: ISC
+  purls: []
   run_exports:
     weak:
     - libass >=0.17.5,<0.17.6.0a0
@@ -3150,6 +3311,7 @@ packages:
   - libgcc >=14
   license: LGPL-2.1-or-later
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - libattr >=2.6.0,<2.7.0a0
@@ -3167,6 +3329,7 @@ packages:
   - svt-av1 >=4.2.0,<4.2.1.0a0
   license: BSD-2-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libavif16 >=1.4.2,<2.0a0
@@ -3187,6 +3350,7 @@ packages:
   - blas_blis_2
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libblas >=3.11.0,<4.0a0
@@ -3207,6 +3371,7 @@ packages:
   constrains:
   - boost-cpp <0.0a0
   license: BSL-1.0
+  purls: []
   run_exports: {}
   size: 3418609
   timestamp: 1790022514193
@@ -3219,6 +3384,7 @@ packages:
   constrains:
   - boost-cpp <0.0a0
   license: BSL-1.0
+  purls: []
   run_exports:
     weak:
     - libboost >=1.90.0,<1.91.0a0
@@ -3239,6 +3405,7 @@ packages:
   - boost <0.0a0
   - py-boost <0.0a0
   license: BSL-1.0
+  purls: []
   run_exports: {}
   size: 131846
   timestamp: 1790022668750
@@ -3255,6 +3422,7 @@ packages:
   - boost <0.0a0
   - py-boost <0.0a0
   license: BSL-1.0
+  purls: []
   run_exports:
     weak:
     - libboost-python >=1.90.0,<1.91.0a0
@@ -3268,6 +3436,7 @@ packages:
   - libgcc >=15
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libbrotlicommon >=1.2.0,<1.3.0a0
@@ -3282,6 +3451,7 @@ packages:
   - libgcc >=15
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libbrotlidec >=1.2.0,<1.3.0a0
@@ -3296,6 +3466,7 @@ packages:
   - libgcc >=15
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libbrotlienc >=1.2.0,<1.3.0a0
@@ -3309,6 +3480,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   - libsuitesparseconfig >=7.10.1,<8.0a0
   license: LGPL-2.1-or-later
+  purls: []
   run_exports:
     weak:
     - libbtf >=2.3.2,<3.0a0
@@ -3323,6 +3495,7 @@ packages:
   - libsuitesparseconfig >=7.10.1,<8.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libcamd >=3.3.3,<4.0a0
@@ -3336,6 +3509,7 @@ packages:
   - libgcc >=14
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libcap >=2.78,<2.79.0a0
@@ -3353,6 +3527,7 @@ packages:
   - blas_blis
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libcblas >=3.11.0,<4.0a0
@@ -3368,6 +3543,7 @@ packages:
   - libccd <1
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libccd-double >=2.1,<2.2.0a0
@@ -3382,6 +3558,7 @@ packages:
   - libsuitesparseconfig >=7.10.1,<8.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libccolamd >=3.3.4,<4.0a0
@@ -3404,6 +3581,7 @@ packages:
   - libblas >=3.9.0,<4.0a0
   - libcamd >=3.3.3,<4.0a0
   license: LGPL-2.1-or-later AND GPL-2.0-or-later AND Apache-2.0
+  purls: []
   run_exports:
     weak:
     - libcholmod >=5.3.1,<6.0a0
@@ -3418,6 +3596,7 @@ packages:
   - libsuitesparseconfig >=7.10.1,<8.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libcolamd >=3.3.4,<4.0a0
@@ -3434,6 +3613,7 @@ packages:
   - libzlib >=1.3.1,<2.0a0
   license: Apache-2.0
   license_family: Apache
+  purls: []
   run_exports:
     weak:
     - libcups >=2.3.3,<2.4.0a0
@@ -3454,6 +3634,7 @@ packages:
   - zstd >=1.5.7,<1.6.0a0
   license: curl
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libcurl >=8.22.0,<9.0a0
@@ -3468,6 +3649,7 @@ packages:
   - _openmp_mutex >=4.5
   - libsuitesparseconfig >=7.10.1,<8.0a0
   license: LGPL-2.1-or-later
+  purls: []
   run_exports:
     weak:
     - libcxsparse >=4.4.1,<5.0a0
@@ -3481,6 +3663,7 @@ packages:
   - libgcc >=15
   license: BSD-2-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 765022
   timestamp: 1788366542408
@@ -3492,6 +3675,7 @@ packages:
   - libgcc >=14
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libdeflate >=1.25,<1.26.0a0
@@ -3507,6 +3691,7 @@ packages:
   - __glibc >=2.17
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libdovi >=3.4.0,<4.0a0
@@ -3521,6 +3706,7 @@ packages:
   - libpciaccess >=0.19,<0.20.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libdrm >=2.4.129,<2.5.0a0
@@ -3536,6 +3722,7 @@ packages:
   - ncurses >=6.6,<7.0a0
   license: BSD-2-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libedit >=3.1.20250104,<3.2.0a0
@@ -3548,6 +3735,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   - libglvnd 1.7.0 ha4b6fd6_5
   license: LicenseRef-libglvnd
+  purls: []
   run_exports: {}
   size: 46694
   timestamp: 1787310030923
@@ -3560,6 +3748,7 @@ packages:
   - libgl-devel 1.7.0 ha4b6fd6_5
   - xorg-libx11
   license: LicenseRef-libglvnd
+  purls: []
   run_exports:
     weak:
     - libegl >=1.7.0,<2.0a0
@@ -3573,6 +3762,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: BSD-2-Clause OR GPL-2.0-or-later
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - libev >=4.33,<4.34.0a0
@@ -3588,6 +3778,7 @@ packages:
   - expat 2.8.5.*
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 77893
   timestamp: 1790346247149
@@ -3599,6 +3790,7 @@ packages:
   - libgcc >=15
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libffi >=3.7.0,<3.8.0a0
@@ -3615,6 +3807,7 @@ packages:
   - libstdcxx >=14
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libflac >=1.5.0,<1.6.0a0
@@ -3626,6 +3819,7 @@ packages:
   depends:
   - libfreetype6 >=2.14.3
   license: GPL-2.0-only OR FTL
+  purls: []
   run_exports: {}
   size: 8407
   timestamp: 1786641007099
@@ -3640,6 +3834,7 @@ packages:
   constrains:
   - freetype >=2.14.3
   license: GPL-2.0-only OR FTL
+  purls: []
   run_exports: {}
   size: 387671
   timestamp: 1786641006460
@@ -3654,6 +3849,7 @@ packages:
   - libgomp 16.2.0 he0feb66_7
   license: GPL-3.0-only WITH GCC-exception-3.1
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 1058444
   timestamp: 1790303109576
@@ -3664,6 +3860,7 @@ packages:
   - libgcc 16.2.0 ha9f2e26_7
   license: GPL-3.0-only WITH GCC-exception-3.1
   license_family: GPL
+  purls: []
   run_exports:
     strong:
     - libgcc
@@ -3688,6 +3885,7 @@ packages:
   - libzlib >=1.3.1,<2.0a0
   license: GD
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libgd >=2.3.3,<2.4.0a0
@@ -3732,6 +3930,7 @@ packages:
   - libgdal 3.13.3.*
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libgdal-core >=3.13.3,<3.14.0a0
@@ -3777,6 +3976,7 @@ packages:
   - hdf4 >=4.2.15,<4.2.16.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 607856
   timestamp: 1789764663932
@@ -3819,6 +4019,7 @@ packages:
   - hdf5 >=1.14.6,<1.14.7.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 786851
   timestamp: 1789764663932
@@ -3865,6 +4066,7 @@ packages:
   - libnetcdf >=4.10.1,<4.10.2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 807444
   timestamp: 1789764663932
@@ -3877,6 +4079,7 @@ packages:
   - libiconv >=1.18,<2.0a0
   license: GPL-3.0-or-later
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - libgettextpo >=0.25.1,<1.0a0
@@ -3892,6 +4095,7 @@ packages:
   - libiconv >=1.18,<2.0a0
   license: GPL-3.0-or-later
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - libgettextpo >=0.25.1,<1.0a0
@@ -3906,6 +4110,7 @@ packages:
   - libgfortran-ng ==16.2.0=*_7
   license: GPL-3.0-only WITH GCC-exception-3.1
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 28571
   timestamp: 1790303139904
@@ -3919,6 +4124,7 @@ packages:
   - libgfortran 16.2.0
   license: GPL-3.0-only WITH GCC-exception-3.1
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 2528180
   timestamp: 1790303122004
@@ -3930,6 +4136,7 @@ packages:
   - libglvnd 1.7.0 ha4b6fd6_5
   - libglx 1.7.0 ha4b6fd6_5
   license: LicenseRef-libglvnd
+  purls: []
   run_exports: {}
   size: 131988
   timestamp: 1787310049847
@@ -3941,6 +4148,7 @@ packages:
   - libgl 1.7.0 ha4b6fd6_5
   - libglx-devel 1.7.0 ha4b6fd6_5
   license: LicenseRef-libglvnd
+  purls: []
   run_exports:
     weak:
     - libgl >=1.7.0,<2.0a0
@@ -3959,6 +4167,7 @@ packages:
   constrains:
   - glib >2.66
   license: LGPL-2.1-or-later
+  purls: []
   run_exports:
     weak:
     - libglib >=2.90.0,<3.0a0
@@ -3973,6 +4182,7 @@ packages:
   - libopengl >=1.7.0,<2.0a0
   - libstdcxx >=13
   license: SGI-B-2.0
+  purls: []
   run_exports:
     weak:
     - libglu >=9.0.3,<9.1.0a0
@@ -3984,6 +4194,7 @@ packages:
   depends:
   - __glibc >=2.17,<3.0.a0
   license: LicenseRef-libglvnd
+  purls: []
   run_exports: {}
   size: 133827
   timestamp: 1787310026653
@@ -3995,6 +4206,7 @@ packages:
   - libglvnd 1.7.0 ha4b6fd6_5
   - xorg-libx11 >=1.8.13,<2.0a0
   license: LicenseRef-libglvnd
+  purls: []
   run_exports: {}
   size: 79834
   timestamp: 1787310042550
@@ -4007,6 +4219,7 @@ packages:
   - xorg-libx11 >=1.8.13,<2.0a0
   - xorg-xorgproto
   license: LicenseRef-libglvnd
+  purls: []
   run_exports:
     weak:
     - libglx >=1.7.0,<2.0a0
@@ -4019,6 +4232,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: GPL-3.0-only WITH GCC-exception-3.1
   license_family: GPL
+  purls: []
   run_exports:
     strong:
     - _openmp_mutex >=4.5
@@ -4033,6 +4247,7 @@ packages:
   - libstdcxx >=15
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-cmake >=5.1.1,<6.0a0
@@ -4047,6 +4262,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-cmake4 >=4.2.0,<5.0a0
@@ -4072,6 +4288,7 @@ packages:
   - libgz-math >=9.2.0,<10.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-common >=7.4.0,<8.0a0
@@ -4097,6 +4314,7 @@ packages:
   - libgz-math >=9.2.0,<10.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-fuel-tools >=11.0.0,<12.0a0
@@ -4128,6 +4346,7 @@ packages:
   - libgl >=1.7.0,<2.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-gui >=10.1.0,<11.0a0
@@ -4145,6 +4364,7 @@ packages:
   - libgz-cmake >=5.1.1,<6.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-math >=9.3.0,<10.0a0
@@ -4162,6 +4382,7 @@ packages:
   - libgz-utils3 >=3.1.1,<4.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-math8 >=8.4.0,<9.0a0
@@ -4185,6 +4406,7 @@ packages:
   - libgz-tools >=2.0.3,<3.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-msgs >=12.0.2,<13.0a0
@@ -4209,6 +4431,7 @@ packages:
   - libgz-math >=9.3.0,<10.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-physics >=9.5.2,<10.0a0
@@ -4227,6 +4450,7 @@ packages:
   - libgz-tools >=2.0.3,<3.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-plugin >=4.0.0,<5.0a0
@@ -4251,6 +4475,7 @@ packages:
   - libgz-plugin >=4.0.0,<5.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-rendering >=10.0.2,<11.0a0
@@ -4277,6 +4502,7 @@ packages:
   - libabseil * cxx17*
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-sensors >=10.1.1,<11.0a0
@@ -4314,6 +4540,7 @@ packages:
   - libgz-fuel-tools >=11.0.0,<12.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-sim >=10.5.0,<11.0a0
@@ -4330,6 +4557,7 @@ packages:
   - libgcc >=14
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-tools >=2.0.3,<3.0a0
@@ -4356,6 +4584,7 @@ packages:
   - libgz-cmake >=5.1.1,<6.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-transport >=15.1.0,<16.0a0
@@ -4373,6 +4602,7 @@ packages:
   - spdlog >=1.17.0,<1.18.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-utils >=4.0.0,<5.0a0
@@ -4390,6 +4620,7 @@ packages:
   - libgz-cmake4 >=4.2.0,<5.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libgz-utils3 >=3.1.1,<4.0a0
@@ -4412,6 +4643,7 @@ packages:
   - libzlib >=1.3.2,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 1411575
   timestamp: 1790860722061
@@ -4434,6 +4666,7 @@ packages:
   - libzlib >=1.3.2,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libharfbuzz >=14.5.1
@@ -4450,6 +4683,7 @@ packages:
   - libxml2-16 >=2.14.6
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libhwloc >=2.13.0,<2.13.1.0a0
@@ -4463,6 +4697,7 @@ packages:
   - libgcc >=15
   - libstdcxx >=15
   license: Apache-2.0 OR BSD-3-Clause
+  purls: []
   run_exports:
     weak:
     - libhwy >=1.4.0,<1.5.0a0
@@ -4480,6 +4715,7 @@ packages:
   - libacl >=2.4.0,<2.5.0a0
   - ncurses >=6.6,<7.0a0
   license: Apache-2.0 AND MIT AND EPL-2.0
+  purls: []
   run_exports: {}
   size: 91314
   timestamp: 1788317792509
@@ -4494,6 +4730,7 @@ packages:
   - ncurses >=6.6,<7.0a0
   - libacl >=2.4.0,<2.5.0a0
   license: Apache-2.0 AND MIT AND EPL-2.0
+  purls: []
   run_exports: {}
   size: 220241
   timestamp: 1788317792509
@@ -4507,6 +4744,7 @@ packages:
   - libacl >=2.4.0,<2.5.0a0
   - ncurses >=6.6,<7.0a0
   license: Apache-2.0 AND MIT AND EPL-2.0
+  purls: []
   run_exports: {}
   size: 25103
   timestamp: 1788317792509
@@ -4522,6 +4760,7 @@ packages:
   - ncurses >=6.6,<7.0a0
   - libacl >=2.4.0,<2.5.0a0
   license: Apache-2.0 AND MIT AND EPL-2.0
+  purls: []
   run_exports: {}
   size: 556088
   timestamp: 1788317792509
@@ -4532,6 +4771,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   - libgcc >=15
   license: LGPL-2.1-only
+  purls: []
   run_exports:
     weak:
     - libiconv >=1.18,<2.0a0
@@ -4546,6 +4786,7 @@ packages:
   constrains:
   - jpeg <0.0.0a
   license: IJG AND BSD-3-Clause AND Zlib
+  purls: []
   run_exports:
     weak:
     - libjpeg-turbo >=3.2.0,<4.0a0
@@ -4563,6 +4804,7 @@ packages:
   - libhwy >=1.4.0,<1.5.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libjxl >=0.12.0,<0.13.0a0
@@ -4587,6 +4829,7 @@ packages:
   - libbtf >=2.3.2,<3.0a0
   - libccolamd >=3.3.4,<4.0a0
   license: LGPL-2.1-or-later
+  purls: []
   run_exports:
     weak:
     - libklu >=2.3.5,<3.0a0
@@ -4604,6 +4847,7 @@ packages:
   - uriparser >=0.9.8,<1.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 412514
   timestamp: 1777026799177
@@ -4622,6 +4866,7 @@ packages:
   - blas_netlib_2
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - liblapack >=3.11.0,<4.0a0
@@ -4644,6 +4889,7 @@ packages:
   - blas_netlib_2
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - liblapacke >=3.11.0,<4.0a0
@@ -4657,6 +4903,7 @@ packages:
   - libgcc >=13
   - libsuitesparseconfig >=7.10.1,<8.0a0
   license: LGPL-2.1-or-later
+  purls: []
   run_exports:
     weak:
     - libldl >=3.3.2,<4.0a0
@@ -4671,6 +4918,7 @@ packages:
   constrains:
   - xz 5.8.3.*
   license: 0BSD
+  purls: []
   run_exports:
     weak:
     - liblzma >=5.8.3,<6.0a0
@@ -4684,6 +4932,7 @@ packages:
   - libgcc >=14
   - liblzma 5.8.3 hb03c661_1
   license: 0BSD
+  purls: []
   run_exports:
     weak:
     - liblzma >=5.8.3,<6.0a0
@@ -4697,6 +4946,7 @@ packages:
   - libgcc >=14
   license: BSD-2-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 92759
   timestamp: 1786650399772
@@ -4722,6 +4972,7 @@ packages:
   - openssl >=3.5.7,<4.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libnetcdf >=4.10.1,<4.10.2.0a0
@@ -4741,6 +4992,7 @@ packages:
   - openssl >=3.5.7,<4.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libnghttp2 >=1.68.1,<2.0a0
@@ -4754,6 +5006,7 @@ packages:
   - libgcc >=13
   license: LGPL-2.1-only
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - libnsl >=2.0.1,<2.1.0a0
@@ -4766,6 +5019,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   - libgcc >=13
   license: LGPL-2.1-or-later
+  purls: []
   run_exports:
     weak:
     - libntlm >=1.8,<2.0a0
@@ -4782,6 +5036,7 @@ packages:
   - pthread-stubs
   - python_abi 3.14.* *_cp314
   license: LGPL-2.1-or-later OR BSD-4-Clause
+  purls: []
   run_exports:
     weak:
     - libode >=0.16.6,<0.16.7.0a0
@@ -4795,6 +5050,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libogg >=1.3.5,<1.4.0a0
@@ -4848,6 +5104,8 @@ packages:
   - qt6-main >=6.11.2,<7.0a0
   license: Apache-2.0
   license_family: Apache
+  purls:
+  - pkg:pypi/opencv-python?source=compressed-mapping
   run_exports:
     weak:
     - libopencv >=5.0.0,<5.0.1.0a0
@@ -4860,6 +5118,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   - libglvnd 1.7.0 ha4b6fd6_5
   license: LicenseRef-libglvnd
+  purls: []
   run_exports: {}
   size: 50627
   timestamp: 1787310045795
@@ -4870,6 +5129,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   - libopengl 1.7.0 ha4b6fd6_5
   license: LicenseRef-libglvnd
+  purls: []
   run_exports:
     weak:
     - libopengl >=1.7.0,<2.0a0
@@ -4886,6 +5146,7 @@ packages:
   - tbb >=2023.1.0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libopenvino >=2026.4.0,<2026.4.1.0a0
@@ -4902,6 +5163,7 @@ packages:
   - tbb >=2023.1.0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports: {}
   size: 117208
   timestamp: 1790171141953
@@ -4916,6 +5178,7 @@ packages:
   - tbb >=2023.1.0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports: {}
   size: 277976
   timestamp: 1790171150939
@@ -4930,6 +5193,7 @@ packages:
   - tbb >=2023.1.0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libopenvino-gguf-frontend >=2026.4.0,<2026.4.1.0a0
@@ -4946,6 +5210,7 @@ packages:
   - pugixml >=1.15,<1.16.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports: {}
   size: 245834
   timestamp: 1790171169566
@@ -4961,6 +5226,7 @@ packages:
   - tbb >=2023.1.0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports: {}
   size: 14219752
   timestamp: 1790171178830
@@ -4977,6 +5243,7 @@ packages:
   - tbb >=2023.1.0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports: {}
   size: 12363338
   timestamp: 1790171213536
@@ -4993,6 +5260,7 @@ packages:
   - tbb >=2023.1.0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports: {}
   size: 3000274
   timestamp: 1790171245590
@@ -5007,6 +5275,7 @@ packages:
   - pugixml >=1.15,<1.16.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libopenvino-ir-frontend >=2026.4.0,<2026.4.1.0a0
@@ -5025,6 +5294,7 @@ packages:
   - libstdcxx >=15
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libopenvino-onnx-frontend >=2026.4.0,<2026.4.1.0a0
@@ -5043,6 +5313,7 @@ packages:
   - libstdcxx >=15
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libopenvino-paddle-frontend >=2026.4.0,<2026.4.1.0a0
@@ -5058,6 +5329,7 @@ packages:
   - libstdcxx >=15
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libopenvino-pytorch-frontend >=2026.4.0,<2026.4.1.0a0
@@ -5077,6 +5349,7 @@ packages:
   - snappy >=1.2.2,<1.3.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libopenvino-tensorflow-frontend >=2026.4.0,<2026.4.1.0a0
@@ -5092,6 +5365,7 @@ packages:
   - libstdcxx >=15
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libopenvino-tensorflow-lite-frontend >=2026.4.0,<2026.4.1.0a0
@@ -5105,6 +5379,7 @@ packages:
   - libgcc >=15
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libopus >=1.6.1,<2.0a0
@@ -5124,6 +5399,7 @@ packages:
   - libumfpack >=6.3.5,<7.0a0
   license: GPL-3.0-or-later
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - libparu >=1.0.0,<2.0a0
@@ -5137,6 +5413,7 @@ packages:
   - libgcc >=14
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libpciaccess >=0.19,<0.20.0a0
@@ -5154,6 +5431,7 @@ packages:
   - shaderc >=2026.3,<2026.4.0a0
   - libvulkan-loader >=1.4.341.0,<2.0a0
   license: LGPL-2.1-or-later
+  purls: []
   run_exports:
     weak:
     - libplacebo >=7.360.1,<7.361.0a0
@@ -5167,6 +5445,7 @@ packages:
   - libgcc >=15
   - libzlib >=1.3.2,<2.0a0
   license: zlib-acknowledgement
+  purls: []
   run_exports:
     weak:
     - libpng >=1.6.59,<1.7.0a0
@@ -5184,6 +5463,7 @@ packages:
   - openldap >=2.6.13,<2.7.0a0
   - openssl >=3.5.8,<4.0a0
   license: PostgreSQL
+  purls: []
   run_exports:
     weak:
     - libpq >=18.6,<19.0a0
@@ -5201,6 +5481,7 @@ packages:
   - libzlib >=1.3.2,<2.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libprotobuf >=7.35.1,<7.35.2.0a0
@@ -5216,6 +5497,7 @@ packages:
   - icu >=78.3,<79.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libpsl >=0.23.1,<0.24.0a0
@@ -5230,6 +5512,7 @@ packages:
   - libgcc >=15
   - libstdcxx >=15
   license: Python-2.0
+  purls: []
   run_exports: {}
   size: 10520530
   timestamp: 1788383918299
@@ -5245,6 +5528,7 @@ packages:
   - libharfbuzz >=14.2.1
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libraqm >=0.11.0,<0.12.0a0
@@ -5263,6 +5547,7 @@ packages:
   - jasper >=4.2.9,<5.0a0
   - libjpeg-turbo >=3.2.0,<4.0a0
   license: LGPL-2.1-only
+  purls: []
   run_exports:
     weak:
     - libraw >=0.22.2,<0.23.0a0
@@ -5277,6 +5562,7 @@ packages:
   - libsuitesparseconfig >=7.10.1,<8.0a0
   license: GPL-2.0-or-later
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - librbio >=4.3.4,<5.0a0
@@ -5299,6 +5585,7 @@ packages:
   constrains:
   - __glibc >=2.17
   license: LGPL-2.1-or-later
+  purls: []
   run_exports:
     weak:
     - librsvg >=2.62.4,<3.0a0
@@ -5314,6 +5601,7 @@ packages:
   - libstdcxx >=15
   license: GPL-2.0-or-later
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - librttopo >=1.1.0,<1.2.0a0
@@ -5328,6 +5616,7 @@ packages:
   - libstdcxx >=15.3.0
   license: GPL-3.0-only WITH GCC-exception-3.1
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - libsanitizer 15.3.0
@@ -5345,6 +5634,7 @@ packages:
   - liblzma >=5.8.3,<6.0a0
   - libzlib >=1.3.2,<2.0a0
   license: CECILL-C
+  purls: []
   run_exports:
     weak:
     - libscotch >=7.0.11,<7.0.12.0a0
@@ -5367,6 +5657,7 @@ packages:
   - libgz-tools >=2.0.3,<3.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libsdformat >=16.1.0,<17.0a0
@@ -5388,6 +5679,7 @@ packages:
   - libgz-cmake4 >=4.2.0,<5.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libsdformat15 >=15.3.0,<16.0a0
@@ -5407,6 +5699,7 @@ packages:
   - libogg >=1.3.5,<1.4.0a0
   - libflac >=1.5.0,<1.6.0a0
   license: LGPL-2.1-or-later
+  purls: []
   run_exports:
     weak:
     - libsndfile >=1.2.2,<1.3.0a0
@@ -5419,6 +5712,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   - libgcc >=15
   license: ISC
+  purls: []
   run_exports:
     weak:
     - libsodium >=1.0.22,<1.0.23.0a0
@@ -5445,6 +5739,7 @@ packages:
   - zlib
   license: MPL-1.1
   license_family: MOZILLA
+  purls: []
   run_exports:
     weak:
     - libspatialite >=5.1.0,<5.2.0a0
@@ -5464,6 +5759,7 @@ packages:
   - mpfr >=4.2.1,<5.0a0
   license: LGPL-2.0-or-later
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - libspex >=3.2.3,<4.0a0
@@ -5483,6 +5779,7 @@ packages:
   - libsuitesparseconfig >=7.10.1,<8.0a0
   license: GPL-2.0-or-later
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - libspqr >=4.3.4,<5.0a0
@@ -5506,6 +5803,7 @@ packages:
   - metis >=5.1.0,<5.1.1.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libspral >=2025.9.18,<2025.9.19.0a0
@@ -5520,6 +5818,7 @@ packages:
   - libgcc >=15
   - libzlib >=1.3.2,<2.0a0
   license: blessing
+  purls: []
   run_exports:
     weak:
     - libsqlite >=3.53.4,<4.0a0
@@ -5535,6 +5834,7 @@ packages:
   - openssl >=3.5.7,<4.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libssh2 >=1.11.1,<2.0a0
@@ -5550,6 +5850,7 @@ packages:
   - libstdcxx-ng ==16.2.0=*_7
   license: GPL-3.0-only WITH GCC-exception-3.1
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 6615436
   timestamp: 1790303132935
@@ -5560,6 +5861,7 @@ packages:
   - libstdcxx 16.2.0 h934c35e_7
   license: GPL-3.0-only WITH GCC-exception-3.1
   license_family: GPL
+  purls: []
   run_exports:
     strong:
     - libstdcxx
@@ -5577,6 +5879,7 @@ packages:
   - _openmp_mutex >=4.5
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libsuitesparseconfig >=7.10.1,<8.0a0
@@ -5590,6 +5893,7 @@ packages:
   - libcap >=2.78,<2.79.0a0
   - libgcc >=15
   license: LGPL-2.1-or-later
+  purls: []
   run_exports: {}
   size: 572864
   timestamp: 1790777898360
@@ -5603,6 +5907,7 @@ packages:
   - libvorbis >=1.3.7,<1.4.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libtheora >=1.2.0,<1.3.0a0
@@ -5623,6 +5928,7 @@ packages:
   - libzlib >=1.3.2,<2.0a0
   - zstd >=1.5.7,<1.6.0a0
   license: HPND
+  purls: []
   run_exports:
     weak:
     - libtiff >=4.7.2,<4.8.0a0
@@ -5636,6 +5942,7 @@ packages:
   - libcap >=2.78,<2.79.0a0
   - libgcc >=15
   license: LGPL-2.1-or-later
+  purls: []
   run_exports: {}
   size: 184629
   timestamp: 1790777902394
@@ -5651,6 +5958,7 @@ packages:
   - libamd >=3.3.3,<4.0a0
   license: GPL-2.0-or-later
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - libumfpack >=6.3.5,<7.0a0
@@ -5665,6 +5973,7 @@ packages:
   - libstdcxx >=14
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libunwind >=1.8.3,<1.9.0a0
@@ -5677,6 +5986,7 @@ packages:
   - libgcc-ng >=12
   license: LGPL-2.0-or-later
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - liburcu >=0.14.0,<0.15.0a0
@@ -5691,6 +6001,7 @@ packages:
   - libstdcxx >=14
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - liburing >=2.14,<2.15.0a0
@@ -5704,6 +6015,7 @@ packages:
   - libgcc >=15
   - libudev1 >=257.13
   license: LGPL-2.1-or-later
+  purls: []
   run_exports:
     weak:
     - libusb >=1.0.30,<2.0a0
@@ -5717,6 +6029,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libuuid >=2.42.4,<3.0a0
@@ -5730,6 +6043,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libuv >=1.52.1,<2.0a0
@@ -5753,6 +6067,7 @@ packages:
   - xorg-libxfixes >=6.0.2,<7.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libva >=2.24.1,<3.0a0
@@ -5770,6 +6085,7 @@ packages:
   - libogg >=1.3.5,<1.4.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libvorbis >=1.3.7,<1.4.0a0
@@ -5786,6 +6102,7 @@ packages:
   - libva >=2.23.0,<3.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libvpl >=2.16.0,<2.17.0a0
@@ -5800,6 +6117,7 @@ packages:
   - libstdcxx >=15
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libvpx >=1.17.0,<1.18.0a0
@@ -5813,6 +6131,7 @@ packages:
   - libgcc >=15
   - __glibc >=2.17,<3.0.a0
   license: Apache-2.0 OR MIT
+  purls: []
   run_exports: {}
   size: 2071175
   timestamp: 1787247015719
@@ -5829,6 +6148,7 @@ packages:
   - libvulkan-headers 1.4.357.0.*
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libvulkan-loader >=1.4.357.0,<2.0a0
@@ -5848,6 +6168,7 @@ packages:
   - libwebp-base >=1.6.0,<2.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libwebp-base >=1.6.0,<2.0a0
@@ -5863,6 +6184,7 @@ packages:
   - libwebp 1.6.0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libwebp-base >=1.6.0,<2.0a0
@@ -5879,6 +6201,7 @@ packages:
   - xorg-libxdmcp >=1.1.5,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libxcb >=1.17.0,<2.0a0
@@ -5891,6 +6214,7 @@ packages:
   - libgcc >=14
   - __glibc >=2.17,<3.0.a0
   license: LGPL-2.1-or-later
+  purls: []
   run_exports:
     weak:
     - libxcrypt >=4.4.38
@@ -5909,6 +6233,7 @@ packages:
   - libxml2
   - libxml2-16 >=2.14.6
   license: MIT AND MIT-open-group AND HPND AND HPND-sell-variant AND ISC
+  purls: []
   run_exports:
     weak:
     - libxkbcommon >=1.13.2,<2.0a0
@@ -5923,6 +6248,7 @@ packages:
   - xorg-libx11 >=1.8.13,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libxkbfile >=1.2.0,<2.0a0
@@ -5942,6 +6268,7 @@ packages:
   - libxml2 2.15.4
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 569196
   timestamp: 1788635197456
@@ -5958,6 +6285,7 @@ packages:
   - libzlib >=1.3.2,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libxml2
@@ -5978,6 +6306,7 @@ packages:
   - libzlib >=1.3.2,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libxml2
@@ -5994,6 +6323,7 @@ packages:
   - libxml2-16 >=2.15.3
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - libxslt >=1.1.45,<2.0a0
@@ -6010,6 +6340,7 @@ packages:
   constrains:
   - __glibc >=2.17
   license: Apache-2.0 OR EPL-2.0
+  purls: []
   run_exports:
     weak:
     - libzenohc >=1.10.1,<1.10.2.0a0
@@ -6026,6 +6357,7 @@ packages:
   - openssl >=3.5.8,<4.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - libzip >=1.11.4,<2.0a0
@@ -6040,6 +6372,7 @@ packages:
   - zlib 1.3.2 *_3
   license: Zlib
   license_family: Other
+  purls: []
   run_exports:
     weak:
     - libzlib >=1.3.2,<2.0a0
@@ -6054,6 +6387,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   - liburcu >=0.14.0,<0.15.0a0
   license: LGPL-2.1-only
+  purls: []
   run_exports:
     weak:
     - lttng-ust >=2.13.9,<2.14.0a0
@@ -6072,6 +6406,8 @@ packages:
   - python >=3.14,<3.15.0a0
   - python_abi 3.14.* *_cp314
   license: BSD-3-Clause and MIT-CMU
+  purls:
+  - pkg:pypi/lxml?source=compressed-mapping
   run_exports: {}
   size: 1610598
   timestamp: 1789036689685
@@ -6087,6 +6423,8 @@ packages:
   - lz4-c >=1.10.0,<1.11.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/lz4?source=compressed-mapping
   run_exports: {}
   size: 44666
   timestamp: 1789242265785
@@ -6099,6 +6437,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: BSD-2-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - lz4-c >=1.10.0,<1.11.0a0
@@ -6112,6 +6451,7 @@ packages:
   - libgcc >=15
   license: GPL-2.0-or-later
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - lzo >=2.10,<3.0a0
@@ -6144,6 +6484,8 @@ packages:
   - tk >=8.6.13,<8.7.0a0
   license: PSF-2.0
   license_family: PSF
+  purls:
+  - pkg:pypi/matplotlib?source=compressed-mapping
   run_exports: {}
   size: 9286809
   timestamp: 1789824093677
@@ -6156,6 +6498,7 @@ packages:
   - libstdcxx >=15
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - metis >=5.1.0,<5.1.1.0a0
@@ -6175,6 +6518,7 @@ packages:
   - openssl >=3.5.8,<4.0a0
   - liblzma >=5.8.3,<6.0a0
   license: Zlib
+  purls: []
   run_exports:
     weak:
     - minizip >=4.2.2,<5.0a0
@@ -6189,6 +6533,7 @@ packages:
   - libgcc >=15
   license: LGPL-3.0-only
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - mpfr >=4.2.2,<5.0a0
@@ -6203,6 +6548,7 @@ packages:
   - libstdcxx >=15
   license: LGPL-2.1-only
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - mpg123 >=1.33.7,<1.34.0a0
@@ -6219,6 +6565,8 @@ packages:
   - python_abi 3.14.* *_cp314
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/msgpack?source=compressed-mapping
   run_exports: {}
   size: 122015
   timestamp: 1790682662717
@@ -6226,6 +6574,7 @@ packages:
   sha256: 18e9bf4bb85588401ae7b319af15eace9f2f0a47677bfe0f91b974941f7a803f
   md5: b09f450cfb527a45e678b415213a31ac
   license: CECILL-C
+  purls: []
   run_exports: {}
   size: 26965
   timestamp: 1790018428242
@@ -6247,6 +6596,7 @@ packages:
   constrains:
   - libopenblas * *openmp*
   license: CECILL-C
+  purls: []
   run_exports:
     weak:
     - mumps-seq >=5.8.2,<5.8.3.0a0
@@ -6261,6 +6611,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - muparser >=2.3.5,<2.4.0a0
@@ -6282,6 +6633,8 @@ packages:
   - python_abi 3.14.* *_cp314
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/mypy?source=compressed-mapping
   run_exports: {}
   size: 24047132
   timestamp: 1790965578260
@@ -6289,6 +6642,7 @@ packages:
   sha256: 0141796f802039a40d3e2bce0d1183040f8cd2c53453455cb1401df1eb01d478
   md5: acccd21b34ac988d1b26d15c53b28f65
   license: BSD
+  purls: []
   run_exports: {}
   size: 25915
   timestamp: 1728332440211
@@ -6299,6 +6653,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   - libgcc >=14
   license: X11 AND BSD-3-Clause
+  purls: []
   run_exports:
     weak:
     - ncurses >=6.6,<7.0a0
@@ -6313,6 +6668,7 @@ packages:
   - libgcc >=14
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports: {}
   size: 186767
   timestamp: 1786713048064
@@ -6323,6 +6679,7 @@ packages:
   - nlohmann_json-abi ==3.12.0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 136372
   timestamp: 1785920438981
@@ -6337,6 +6694,8 @@ packages:
   - numpy >=1.25,<3
   - python_abi 3.14.* *_cp314
   license: LGPL-2.1-or-later
+  purls:
+  - pkg:pypi/nlopt?source=compressed-mapping
   run_exports:
     weak:
     - nlopt >=2.11.0,<2.12.0a0
@@ -6358,6 +6717,8 @@ packages:
   - numpy-base <0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/numpy?source=hash-mapping
   run_exports:
     weak:
     - numpy >=1.25,<3
@@ -6372,6 +6733,7 @@ packages:
   - opencl-headers >=2025.6.13
   license: BSD-2-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - ocl-icd >=2.3.4,<3.0a0
@@ -6386,6 +6748,7 @@ packages:
   - libgcc >=15
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - octomap >=1.10.1,<1.11.0a0
@@ -6417,6 +6780,7 @@ packages:
   - zziplib >=0.13.69,<0.14.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - ogre >=1.10.12.1,<1.11.0a0
@@ -6442,6 +6806,7 @@ packages:
   - zziplib >=0.13.69,<0.14.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - ogre-next >=2.3.3,<2.3.4.0a0
@@ -6465,6 +6830,7 @@ packages:
   - eigen-abi >=5.0.1.80,<5.0.1.81.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - ompl >=2.0.2,<2.1.0a0
@@ -6479,6 +6845,7 @@ packages:
   - libstdcxx >=14
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports: {}
   size: 55754
   timestamp: 1773844383536
@@ -6495,6 +6862,7 @@ packages:
   - libdeflate >=1.25,<1.26.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - openexr >=3.4.15,<3.5.0a0
@@ -6509,6 +6877,7 @@ packages:
   - libstdcxx >=15
   license: BSD-2-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - openh264 >=2.6.0,<2.6.1.0a0
@@ -6526,6 +6895,7 @@ packages:
   - libpng >=1.6.58,<1.7.0a0
   license: BSD-2-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - openjpeg >=2.5.4,<3.0a0
@@ -6541,6 +6911,7 @@ packages:
   - libtiff >=4.7.2,<4.8.0a0
   license: BSD-2-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - openjph >=0.31.0,<0.32.0a0
@@ -6558,6 +6929,7 @@ packages:
   - openssl >=3.5.6,<4.0a0
   license: OLDAP-2.8
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - openldap >=2.6.13,<2.7.0a0
@@ -6601,6 +6973,7 @@ packages:
   - zlib
   license: LGPL-2.1-only
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - openscenegraph >=3.6.5,<3.7.0a0
@@ -6615,6 +6988,7 @@ packages:
   - libgcc >=15
   license: Apache-2.0
   license_family: Apache
+  purls: []
   run_exports:
     weak:
     - openssl >=3.6.4,<4.0a0
@@ -6631,6 +7005,7 @@ packages:
   - libstdcxx >=15
   license: LGPL-2.1-or-later
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - orocos-kdl >=1.5.4,<1.6.0a0
@@ -6648,6 +7023,7 @@ packages:
   - tbb >=2023.0.0
   - libboost >=1.90.0,<1.91.0a0
   license: GPL-3.0-or-later OR LGPL-3.0-or-later
+  purls: []
   run_exports: {}
   size: 4858222
   timestamp: 1780824078944
@@ -6669,6 +7045,7 @@ packages:
   - libpng >=1.6.58,<1.7.0a0
   - libzlib >=1.3.2,<2.0a0
   license: LGPL-2.1-or-later
+  purls: []
   run_exports:
     weak:
     - pango >=1.58.2,<2.0a0
@@ -6700,6 +7077,7 @@ packages:
   - eigen-abi >=5.0.1.80,<5.0.1.81.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - pcl >=1.15.1,<1.15.2.0a0
@@ -6713,6 +7091,7 @@ packages:
   - libstdcxx-ng >=9.3.0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - pcre >=8.45,<9.0a0
@@ -6728,6 +7107,7 @@ packages:
   - libzlib >=1.3.2,<2.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - pcre2 >=10.47,<10.48.0a0
@@ -6752,6 +7132,8 @@ packages:
   - zlib-ng >=2.3.3,<2.4.0a0
   - libjpeg-turbo >=3.2.0,<4.0a0
   license: HPND
+  purls:
+  - pkg:pypi/pillow?source=compressed-mapping
   run_exports: {}
   size: 1104065
   timestamp: 1789122647267
@@ -6764,6 +7146,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - pixman >=0.46.4,<1.0a0
@@ -6777,6 +7160,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: GPL-2.0-or-later
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 141376
   timestamp: 1788677377648
@@ -6791,6 +7175,7 @@ packages:
   - unixodbc >=2.3.14,<2.4.0a0
   license: BSL-1.0
   license_family: OTHER
+  purls: []
   run_exports:
     weak:
     - poco >=1.15.3,<1.15.4.0a0
@@ -6813,6 +7198,7 @@ packages:
   - proj4 ==999999999999
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - proj >=9.9.0,<9.10.0a0
@@ -6828,6 +7214,8 @@ packages:
   - python_abi 3.14.* *_cp314
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/propcache?source=compressed-mapping
   run_exports: {}
   size: 60875
   timestamp: 1790966818621
@@ -6847,6 +7235,8 @@ packages:
   - libprotobuf 7.35.1
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/protobuf?source=hash-mapping
   run_exports: {}
   size: 497294
   timestamp: 1788687351519
@@ -6860,6 +7250,8 @@ packages:
   - python_abi 3.14.* *_cp314
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/psutil?source=compressed-mapping
   run_exports: {}
   size: 231451
   timestamp: 1789682034946
@@ -6871,6 +7263,7 @@ packages:
   - libgcc >=15
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 9630
   timestamp: 1788381877753
@@ -6883,6 +7276,7 @@ packages:
   - libstdcxx >=13
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - pugixml >=1.15,<1.16.0a0
@@ -6904,6 +7298,7 @@ packages:
   - pulseaudio 17.0 *_4
   license: LGPL-2.1-or-later
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - pulseaudio-client >=17.0,<17.1.0a0
@@ -6921,6 +7316,8 @@ packages:
   - python >=3.11
   license: Apache-2.0
   license_family: Apache
+  purls:
+  - pkg:pypi/opencv-python?source=compressed-mapping
   run_exports:
     weak:
     - py-opencv >=5.0.0,<6.0a0
@@ -6939,6 +7336,8 @@ packages:
   - python >=3.14,<3.15.0a0
   - python_abi 3.14.* *_cp314
   license: Zlib
+  purls:
+  - pkg:pypi/pybullet?source=hash-mapping
   run_exports: {}
   size: 62812622
   timestamp: 1761044622979
@@ -6956,6 +7355,8 @@ packages:
   - python >=3.14,<3.15.0a0
   - python_abi 3.14.* *_cp314
   license: LGPL-2.1-only OR MPL-1.1
+  purls:
+  - pkg:pypi/pycairo?source=hash-mapping
   run_exports: {}
   size: 120068
   timestamp: 1788834503446
@@ -6972,6 +7373,8 @@ packages:
   - __glibc >=2.17
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/pydantic-core?source=compressed-mapping
   run_exports: {}
   size: 1876209
   timestamp: 1789996107060
@@ -6987,9 +7390,25 @@ packages:
   - graphviz >=14.1.2,<15.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/pygraphviz?source=compressed-mapping
   run_exports: {}
   size: 146485
   timestamp: 1790944632864
+- conda: https://prefix.dev/conda-forge/linux-64/pynput-1.8.2-py314hdafbbf9_1.conda
+  sha256: 28381d19adb4744de32d356335539741b022df928600752e6f7fac2473aecbd5
+  md5: 91c486fbd51b1ac0ef3f96c58dde117b
+  depends:
+  - evdev
+  - python >=3.14,<3.15.0a0
+  - python-xlib
+  - python_abi 3.14.* *_cp314
+  - six
+  license: LGPL-3.0-only
+  license_family: LGPL
+  run_exports: {}
+  size: 171948
+  timestamp: 1791376996256
 - conda: https://prefix.dev/conda-forge/linux-64/pyqt6-6.11.0-py314hab09b3e_2.conda
   sha256: 48c7b2614b6ef67057427d0dc8cea0d8765b633837538d1f811a88d79b25af56
   md5: d0f6e00c44dcd182e76ce14e32330d29
@@ -7023,6 +7442,8 @@ packages:
   - xorg-libxxf86vm >=1.1.7,<2.0a0
   license: GPL-3.0-only
   license_family: GPL
+  purls:
+  - pkg:pypi/pyqt6?source=hash-mapping
   run_exports:
     weak:
     - pyqt6 >=6.11.0,<6.12.0a0
@@ -7042,6 +7463,8 @@ packages:
   - toml
   license: GPL-3.0-only
   license_family: GPL
+  purls:
+  - pkg:pypi/pyqt6-sip?source=hash-mapping
   run_exports: {}
   size: 81085
   timestamp: 1770737358794
@@ -7070,6 +7493,7 @@ packages:
   - tzdata
   - zstd >=1.5.7,<1.6.0a0
   license: Python-2.0
+  purls: []
   run_exports:
     weak:
     - python_abi 3.14.* *_cp314
@@ -7088,6 +7512,8 @@ packages:
   - python_abi 3.14.* *_cp314
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/librt?source=compressed-mapping
   run_exports: {}
   size: 167820
   timestamp: 1790684473363
@@ -7105,6 +7531,7 @@ packages:
   - python_abi 3.14.* *_cp314
   license: LGPL-2.1-or-later
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - python-orocos-kdl >=1.5.4,<1.6.0a0
@@ -7121,6 +7548,8 @@ packages:
   - yaml >=0.2.5,<0.3.0a0
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/pyyaml?source=hash-mapping
   run_exports: {}
   size: 202391
   timestamp: 1770223462836
@@ -7132,6 +7561,7 @@ packages:
   - libgcc-ng >=12
   - libstdcxx-ng >=12
   license: LicenseRef-Qhull
+  purls: []
   run_exports:
     weak:
     - qhull >=2020.2,<2020.3.0a0
@@ -7207,6 +7637,7 @@ packages:
   - qt ==6.11.2
   license: LGPL-3.0-only
   license_family: LGPL
+  purls: []
   run_exports:
     weak:
     - qt6-main >=6.11.2,<7.0a0
@@ -7240,6 +7671,7 @@ packages:
   - libopengl >=1.7.0,<2.0a0
   license: GPL-3.0-only
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - qt6-multimedia >=6.11.2,<6.12.0a0
@@ -7255,6 +7687,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   - qt6-main >=6.11.2,<7.0a0
   license: LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only
+  purls: []
   run_exports:
     weak:
     - qt6-positioning >=6.11.2,<6.12.0a0
@@ -7271,6 +7704,7 @@ packages:
   - qt6-main >=6.11.2,<7.0a0
   license: GPL-3.0-only
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - qt6-scxml >=6.11.2,<6.12.0a0
@@ -7287,6 +7721,7 @@ packages:
   - libudev1 >=257.13
   - qt6-main >=6.11.2,<7.0a0
   license: LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only
+  purls: []
   run_exports:
     weak:
     - qt6-serialport >=6.11.2,<6.12.0a0
@@ -7301,6 +7736,7 @@ packages:
   - libstdcxx >=14
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 156127
   timestamp: 1784885303075
@@ -7314,6 +7750,7 @@ packages:
   - __glibc >=2.17
   license: BSD-2-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - rav1e >=0.8.1,<0.9.0a0
@@ -7328,6 +7765,7 @@ packages:
   - ncurses >=6.6,<7.0a0
   license: GPL-3.0-only
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - readline >=8.3,<9.0a0
@@ -7341,6 +7779,7 @@ packages:
   - libgcc >=14
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - rhash >=1.4.6,<2.0a0
@@ -7367,6 +7806,7 @@ packages:
   - rb34
   license: BSD-2-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - ruby >=3.4.2,<3.5.0a0
@@ -7379,6 +7819,7 @@ packages:
   - sdformat15 ==15.3.0 h8b8f374_5
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libsdformat15 >=15.3.0,<16.0a0
@@ -7393,6 +7834,7 @@ packages:
   - sdformat15-python >=15.3.0,<15.3.1.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - libsdformat15 >=15.3.0,<16.0a0
@@ -7414,6 +7856,7 @@ packages:
   - python_abi 3.14.* *_cp314
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports: {}
   size: 673151
   timestamp: 1781019498460
@@ -7428,6 +7871,7 @@ packages:
   - sdl3 >=3.2.22,<4.0a0
   - libegl >=1.7.0,<2.0a0
   license: Zlib
+  purls: []
   run_exports:
     weak:
     - sdl2 >=2.32.56,<3.0a0
@@ -7460,6 +7904,7 @@ packages:
   - pulseaudio-client >=17.0,<17.1.0a0
   - xorg-libxfixes >=6.0.2,<7.0a0
   license: Zlib
+  purls: []
   run_exports:
     weak:
     - sdl3 >=3.4.18,<4.0a0
@@ -7476,6 +7921,7 @@ packages:
   - spirv-tools >=2026,<2027.0a0
   license: Apache-2.0
   license_family: Apache
+  purls: []
   run_exports:
     weak:
     - shaderc >=2026.3,<2026.4.0a0
@@ -7496,6 +7942,8 @@ packages:
   - tomli
   license: BSD-2-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/sip?source=hash-mapping
   run_exports:
     weak:
     - sip >=6.15.3,<6.16.0a0
@@ -7510,6 +7958,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - snappy >=1.2.2,<1.3.0a0
@@ -7525,6 +7974,7 @@ packages:
   - libstdcxx >=14
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - spdlog >=1.17.0,<1.18.0a0
@@ -7541,6 +7991,7 @@ packages:
   - spirv-headers >=1.4.357.0,<1.4.357.1.0a0
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports:
     weak:
     - spirv-tools >=2026,<2027.0a0
@@ -7558,6 +8009,7 @@ packages:
   - ncurses >=6.6,<7.0a0
   - readline >=8.3,<9.0a0
   license: blessing
+  purls: []
   run_exports:
     weak:
     - libsqlite >=3.53.4,<4.0a0
@@ -7583,6 +8035,7 @@ packages:
   - libspex ==3.2.3 h9226d62_7100101
   - libspqr ==4.3.4 h23b7119_7100101
   license: LGPL-2.1-or-later AND BSD-3-Clause AND GPL-2.0-or-later AND Apache-2.0
+  purls: []
   run_exports:
     weak:
     - libsuitesparseconfig >=7.10.1,<8.0a0
@@ -7612,6 +8065,7 @@ packages:
   - libstdcxx >=15
   license: BSD-2-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - svt-av1 >=4.2.0,<4.2.1.0a0
@@ -7629,6 +8083,7 @@ packages:
   - swig-abi ==5
   license: GPL-3.0-or-later
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 1371893
   timestamp: 1789328698840
@@ -7642,6 +8097,7 @@ packages:
   - libstdcxx >=15
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports: {}
   size: 187290
   timestamp: 1788879077075
@@ -7655,6 +8111,7 @@ packages:
   - libxml2
   - libxml2-16 >=2.15.4
   - tbb 2023.1.0 hfd44327_0
+  purls: []
   run_exports:
     weak:
     - tbb >=2023.1.0
@@ -7668,6 +8125,7 @@ packages:
   - libgcc >=15
   - __glibc >=2.17,<3.0.a0
   license: Zlib
+  purls: []
   run_exports:
     weak:
     - tinyxml2 >=11.0.0,<11.1.0a0
@@ -7684,6 +8142,7 @@ packages:
   constrains:
   - xorg-libx11 >=1.8.13,<2.0a0
   license: TCL
+  purls: []
   run_exports:
     weak:
     - tk >=8.6.13,<8.7.0a0
@@ -7698,6 +8157,7 @@ packages:
   - libstdcxx >=14
   license: GPL-2.0-only
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 748418
   timestamp: 1779015692186
@@ -7711,6 +8171,7 @@ packages:
   - libedit >=3.1.20250104,<3.2.0a0
   - libiconv >=1.18,<2.0a0
   license: LGPL-2.1-only
+  purls: []
   run_exports:
     weak:
     - unixodbc >=2.3.14,<2.4.0a0
@@ -7728,6 +8189,7 @@ packages:
   - tinyxml2 >=11.0.0,<11.1.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - urdfdom_headers >=3.0.1,<4.0a0
@@ -7743,6 +8205,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 22402
   timestamp: 1787006267023
@@ -7754,6 +8217,7 @@ packages:
   - libstdcxx-ng >=12
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - uriparser >=0.9.8,<1.0a0
@@ -7763,6 +8227,7 @@ packages:
   sha256: 18f84366d84b83bb4b2a6e0ac4487a5b4ee33c531faa2d822027fddf8225eed5
   md5: 99884244028fe76046e3914f90d4ad05
   license: BSL-1.0
+  purls: []
   run_exports: {}
   size: 14226
   timestamp: 1767012219987
@@ -7781,6 +8246,7 @@ packages:
   - viskores-p-0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - viskores >=1.1.1,<1.2.0a0
@@ -7802,6 +8268,7 @@ packages:
   - python_abi 3.14.* *_cp314
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - vtk-base >=9.7.0,<9.7.1.0a0
@@ -7859,6 +8326,8 @@ packages:
   - libboost-headers >=1.90.0,<1.91.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/vtk?source=compressed-mapping
   run_exports:
     weak:
     - vtk-base >=9.7.0,<9.7.1.0a0
@@ -7874,6 +8343,7 @@ packages:
   - ffmpeg >=9.0.2,<10.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - vtk-io-ffmpeg >=9.7.0,<9.7.1.0a0
@@ -7890,6 +8360,7 @@ packages:
   - libstdcxx >=15
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - wayland >=1.26.0,<2.0a0
@@ -7905,6 +8376,8 @@ packages:
   - python_abi 3.14.* *_cp314
   license: BSD-2-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/wrapt?source=compressed-mapping
   run_exports: {}
   size: 157551
   timestamp: 1790502477733
@@ -7916,6 +8389,7 @@ packages:
   - libgcc >=15
   license: GPL-2.0-or-later
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - x264 >=1!164.3095,<1!165
@@ -7930,6 +8404,7 @@ packages:
   - libstdcxx >=15
   license: GPL-2.0-or-later
   license_family: GPL
+  purls: []
   run_exports:
     weak:
     - x265 >=3.5,<3.6.0a0
@@ -7944,6 +8419,7 @@ packages:
   - libxcb >=1.17.0,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xcb-util >=0.4.1,<0.5.0a0
@@ -7961,6 +8437,7 @@ packages:
   - xcb-util-renderutil >=0.3.10,<0.4.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xcb-util-cursor >=0.1.6,<0.2.0a0
@@ -7975,6 +8452,7 @@ packages:
   - xcb-util >=0.4.1,<0.5.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xcb-util-image >=0.4.0,<0.5.0a0
@@ -7988,6 +8466,7 @@ packages:
   - libxcb >=1.16,<2.0.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xcb-util-keysyms >=0.4.1,<0.5.0a0
@@ -8001,6 +8480,7 @@ packages:
   - libxcb >=1.16,<2.0.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xcb-util-renderutil >=0.3.10,<0.4.0a0
@@ -8014,6 +8494,7 @@ packages:
   - libxcb >=1.16,<2.0.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xcb-util-wm >=0.4.2,<0.5.0a0
@@ -8030,6 +8511,7 @@ packages:
   - libstdcxx >=15
   license: Apache-2.0
   license_family: Apache
+  purls: []
   run_exports:
     weak:
     - xerces-c >=3.3.0,<3.4.0a0
@@ -8044,6 +8526,7 @@ packages:
   - xorg-libx11 >=1.8.13,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 441670
   timestamp: 1782027360439
@@ -8055,6 +8538,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libice >=1.1.2,<2.0a0
@@ -8070,6 +8554,7 @@ packages:
   - libuuid >=2.42.2,<3.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libsm >=1.2.6,<2.0a0
@@ -8084,6 +8569,7 @@ packages:
   - libxcb >=1.17.0,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libx11 >=1.8.13,<2.0a0
@@ -8097,6 +8583,7 @@ packages:
   - libgcc >=15
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libxau >=1.0.12,<2.0a0
@@ -8115,6 +8602,7 @@ packages:
   - xorg-libxt >=1.3.0,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 307032
   timestamp: 1727870272246
@@ -8128,6 +8616,7 @@ packages:
   - xorg-libxfixes >=6.0.2,<7.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libxcomposite >=0.4.7,<1.0a0
@@ -8144,6 +8633,7 @@ packages:
   - xorg-libxrender >=0.9.11,<0.10.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libxcursor >=1.2.3,<2.0a0
@@ -8160,6 +8650,7 @@ packages:
   - xorg-libxfixes >=6.0.1,<7.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libxdamage >=1.1.6,<2.0a0
@@ -8173,6 +8664,7 @@ packages:
   - libgcc >=15
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libxdmcp >=1.1.5,<2.0a0
@@ -8187,6 +8679,7 @@ packages:
   - xorg-libx11 >=1.8.13,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libxext >=1.3.7,<2.0a0
@@ -8201,6 +8694,7 @@ packages:
   - xorg-libx11 >=1.8.13,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libxfixes >=6.0.2,<7.0a0
@@ -8217,6 +8711,7 @@ packages:
   - xorg-libxfixes >=6.0.2,<7.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libxi >=1.8.3,<2.0a0
@@ -8233,6 +8728,7 @@ packages:
   - xorg-libxext >=1.3.6,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libxinerama >=1.1.6,<1.2.0a0
@@ -8249,6 +8745,7 @@ packages:
   - xorg-libxt >=1.3.1,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libxmu >=1.3.1,<2.0a0
@@ -8268,6 +8765,7 @@ packages:
   - xorg-libxt >=1.3.1,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libxpm >=3.5.19,<4.0a0
@@ -8284,6 +8782,7 @@ packages:
   - xorg-libxrender >=0.9.12,<0.10.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libxrandr >=1.5.5,<2.0a0
@@ -8298,6 +8797,7 @@ packages:
   - xorg-libx11 >=1.8.13,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libxrender >=0.9.12,<0.10.0a0
@@ -8313,6 +8813,7 @@ packages:
   - xorg-libxext >=1.3.6,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libxscrnsaver >=1.2.4,<2.0a0
@@ -8329,6 +8830,7 @@ packages:
   - xorg-libx11 >=1.8.13,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libxt >=1.3.1,<2.0a0
@@ -8345,6 +8847,7 @@ packages:
   - xorg-libxi >=1.8.3,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libxtst >=1.2.5,<2.0a0
@@ -8360,6 +8863,7 @@ packages:
   - xorg-libxext >=1.3.6,<2.0a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - xorg-libxxf86vm >=1.1.7,<2.0a0
@@ -8373,6 +8877,7 @@ packages:
   - libgcc >=13
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 26134
   timestamp: 1731320782817
@@ -8384,6 +8889,7 @@ packages:
   - __glibc >=2.17,<3.0.a0
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 596340
   timestamp: 1788874111132
@@ -8395,6 +8901,7 @@ packages:
   - libgcc >=15
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - yaml >=0.2.5,<0.3.0a0
@@ -8409,6 +8916,7 @@ packages:
   - libstdcxx >=14
   license: MIT
   license_family: MIT
+  purls: []
   run_exports:
     weak:
     - yaml-cpp >=0.8.0,<0.9.0a0
@@ -8422,6 +8930,7 @@ packages:
   constrains:
   - __glibc >=2.17
   license: Apache-2.0 OR EPL-2.0
+  purls: []
   run_exports:
     weak:
     - zenoh-rust-abi >=1.10.1.1.97.1,<1.10.1.1.97.2.0a0
@@ -8438,6 +8947,7 @@ packages:
   - krb5 >=1.22.2,<1.23.0a0
   license: MPL-2.0
   license_family: MOZILLA
+  purls: []
   run_exports:
     weak:
     - zeromq >=4.3.5,<4.4.0a0
@@ -8453,6 +8963,7 @@ packages:
   - libstdcxx >=15
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - zfp >=1.0.1,<2.0a0
@@ -8466,6 +8977,7 @@ packages:
   - libzlib 1.3.2 h25fd6f3_3
   license: Zlib
   license_family: Other
+  purls: []
   run_exports:
     weak:
     - libzlib >=1.3.2,<2.0a0
@@ -8480,6 +8992,7 @@ packages:
   - libstdcxx >=15
   license: Zlib
   license_family: Other
+  purls: []
   run_exports:
     weak:
     - zlib-ng >=2.3.3,<2.4.0a0
@@ -8493,6 +9006,7 @@ packages:
   - libzlib >=1.3.2,<2.0a0
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - zstd >=1.5.7,<1.6.0a0
@@ -8505,6 +9019,7 @@ packages:
   - libgcc-ng >=12
   - libzlib >=1.3.1,<2.0a0
   license: LGPL-2.0-or-later OR MPL-1.1
+  purls: []
   run_exports:
     weak:
     - zziplib >=0.13.69,<0.14.0a0
@@ -8518,6 +9033,7 @@ packages:
   - python-gil
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 8144
   timestamp: 1784221492234
@@ -8529,6 +9045,7 @@ packages:
   - hicolor-icon-theme
   - librsvg
   license: LGPL-3.0-or-later OR CC-BY-SA-3.0
+  purls: []
   run_exports: {}
   size: 687517
   timestamp: 1790100765464
@@ -8539,6 +9056,8 @@ packages:
   - python >=3.10
   license: PSF-2.0
   license_family: PSF
+  purls:
+  - pkg:pypi/aiohappyeyeballs?source=hash-mapping
   run_exports: {}
   size: 24690
   timestamp: 1782986823268
@@ -8560,6 +9079,8 @@ packages:
   - aiohttp_no_compile
   license: MIT AND Apache-2.0
   license_family: Apache
+  purls:
+  - pkg:pypi/aiohttp?source=hash-mapping
   run_exports: {}
   size: 522561
   timestamp: 1784900504858
@@ -8572,6 +9093,8 @@ packages:
   - typing_extensions >=4.2
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/aiosignal?source=hash-mapping
   run_exports: {}
   size: 13688
   timestamp: 1751626573984
@@ -8583,6 +9106,8 @@ packages:
   - typing-extensions >=4.0.0
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/annotated-types?source=hash-mapping
   run_exports: {}
   size: 19461
   timestamp: 1784935220549
@@ -8594,6 +9119,8 @@ packages:
   - python
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/argcomplete?source=hash-mapping
   run_exports: {}
   size: 47150
   timestamp: 1786180543999
@@ -8605,6 +9132,8 @@ packages:
   - python
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/async-timeout?source=hash-mapping
   run_exports: {}
   size: 13559
   timestamp: 1767290444597
@@ -8616,6 +9145,8 @@ packages:
   - python
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/attrs?source=hash-mapping
   run_exports: {}
   size: 64927
   timestamp: 1773935801332
@@ -8625,6 +9156,7 @@ packages:
   depends:
   - __unix
   license: ISC
+  purls: []
   run_exports: {}
   size: 131780
   timestamp: 1784754889428
@@ -8640,6 +9172,8 @@ packages:
   - setuptools
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/catkin-pkg?source=compressed-mapping
   run_exports: {}
   size: 54898
   timestamp: 1788990651726
@@ -8652,6 +9186,8 @@ packages:
   - python >=3.9
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-argcomplete?source=hash-mapping
   size: 18692
   timestamp: 1735452378252
 - conda: https://prefix.dev/conda-forge/noarch/colcon-bash-0.5.0-pyhd8ed1ab_1.conda
@@ -8662,6 +9198,8 @@ packages:
   - python >=3.9
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-bash?source=hash-mapping
   run_exports: {}
   size: 19001
   timestamp: 1735646679519
@@ -8674,6 +9212,8 @@ packages:
   - python >=3.9
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-cd?source=hash-mapping
   run_exports: {}
   size: 16858
   timestamp: 1735513271475
@@ -8687,6 +9227,8 @@ packages:
   - python >=3.10
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-cmake?source=hash-mapping
   run_exports: {}
   size: 30528
   timestamp: 1781648219269
@@ -8707,6 +9249,8 @@ packages:
   - python
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-core?source=compressed-mapping
   run_exports: {}
   size: 105024
   timestamp: 1789974486749
@@ -8719,6 +9263,8 @@ packages:
   - pyyaml
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-defaults?source=hash-mapping
   run_exports: {}
   size: 15580
   timestamp: 1757616344706
@@ -8730,6 +9276,8 @@ packages:
   - python >=3.10
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-devtools?source=hash-mapping
   run_exports: {}
   size: 14943
   timestamp: 1757616967604
@@ -8741,6 +9289,8 @@ packages:
   - python >=3.10
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-library-path?source=hash-mapping
   run_exports: {}
   size: 13505
   timestamp: 1757615646068
@@ -8753,6 +9303,8 @@ packages:
   - pyyaml
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-metadata?source=compressed-mapping
   run_exports: {}
   size: 24847
   timestamp: 1789640164577
@@ -8765,6 +9317,8 @@ packages:
   - python
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-output?source=compressed-mapping
   run_exports: {}
   size: 22144
   timestamp: 1789827755833
@@ -8776,6 +9330,8 @@ packages:
   - python >=3.10
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-package-information?source=hash-mapping
   run_exports: {}
   size: 19302
   timestamp: 1775237925157
@@ -8787,6 +9343,8 @@ packages:
   - python >=3.10
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-package-selection?source=hash-mapping
   run_exports: {}
   size: 18069
   timestamp: 1757614388574
@@ -8799,6 +9357,8 @@ packages:
   - python
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-parallel-executor?source=hash-mapping
   run_exports: {}
   size: 20688
   timestamp: 1755156877864
@@ -8810,6 +9370,8 @@ packages:
   - python >=3.9
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-pkg-config?source=hash-mapping
   run_exports: {}
   size: 13616
   timestamp: 1775238006255
@@ -8821,6 +9383,8 @@ packages:
   - python >=3.10
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-powershell?source=hash-mapping
   run_exports: {}
   size: 17608
   timestamp: 1770791211378
@@ -8833,6 +9397,8 @@ packages:
   - setuptools
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-python-setup-py?source=hash-mapping
   run_exports: {}
   size: 16561
   timestamp: 1753971248803
@@ -8844,6 +9410,8 @@ packages:
   - python >=3.5
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-recursive-crawl?source=hash-mapping
   run_exports: {}
   size: 13254
   timestamp: 1696534627965
@@ -8860,6 +9428,8 @@ packages:
   - python >=3.6
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-ros?source=hash-mapping
   run_exports: {}
   size: 23852
   timestamp: 1719301582281
@@ -8871,6 +9441,8 @@ packages:
   - python >=3.10
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-test-result?source=hash-mapping
   run_exports: {}
   size: 17214
   timestamp: 1757615650730
@@ -8882,6 +9454,8 @@ packages:
   - python >=3.9
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/colcon-zsh?source=hash-mapping
   run_exports: {}
   size: 18905
   timestamp: 1735357634338
@@ -8892,6 +9466,8 @@ packages:
   - python >=3.9
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/colorama?source=hash-mapping
   run_exports: {}
   size: 27011
   timestamp: 1733218222191
@@ -8903,6 +9479,8 @@ packages:
   - python >=3.9
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/coloredlogs?source=hash-mapping
   run_exports: {}
   size: 43758
   timestamp: 1733928076798
@@ -8914,6 +9492,7 @@ packages:
   - python >=3.14,<3.15.0a0
   - python_abi * *_cp314
   license: Python-2.0
+  purls: []
   run_exports: {}
   size: 51289
   timestamp: 1788383537525
@@ -8925,6 +9504,8 @@ packages:
   - python
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/cycler?source=hash-mapping
   run_exports: {}
   size: 14778
   timestamp: 1764466758386
@@ -8937,6 +9518,8 @@ packages:
   - python
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/deprecated?source=compressed-mapping
   run_exports: {}
   size: 23072
   timestamp: 1790496270485
@@ -8948,6 +9531,8 @@ packages:
   - python
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/distlib?source=hash-mapping
   run_exports: {}
   size: 303705
   timestamp: 1781320269259
@@ -8958,6 +9543,8 @@ packages:
   - python >=3.9
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/distro?source=hash-mapping
   size: 41773
   timestamp: 1734729953882
 - conda: https://prefix.dev/conda-forge/noarch/docutils-0.23-pyhcf101f3_0.conda
@@ -8968,6 +9555,8 @@ packages:
   - python
   license: LGPL-3.0-only
   license_family: LGPL
+  purls:
+  - pkg:pypi/docutils?source=hash-mapping
   run_exports: {}
   size: 459540
   timestamp: 1779967837277
@@ -8979,6 +9568,8 @@ packages:
   - python
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/empy?source=hash-mapping
   run_exports: {}
   size: 99405
   timestamp: 1787208879550
@@ -8989,6 +9580,8 @@ packages:
   - python >=3.10
   - typing_extensions >=4.6.0
   license: MIT and PSF-2.0
+  purls:
+  - pkg:pypi/exceptiongroup?source=hash-mapping
   run_exports: {}
   size: 21333
   timestamp: 1763918099466
@@ -9002,6 +9595,8 @@ packages:
   - python >=3.11
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/flake8?source=compressed-mapping
   run_exports: {}
   size: 112708
   timestamp: 1790372802431
@@ -9013,6 +9608,8 @@ packages:
   - python >=3.10
   license: GPL-2.0-only
   license_family: GPL2
+  purls:
+  - pkg:pypi/flake8-builtins?source=hash-mapping
   run_exports: {}
   size: 19501
   timestamp: 1761594405382
@@ -9024,6 +9621,8 @@ packages:
   - python >=3.10
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/flake8-comprehensions?source=hash-mapping
   run_exports: {}
   size: 14049
   timestamp: 1757526877129
@@ -9037,6 +9636,8 @@ packages:
   - setuptools
   license: LGPL-3.0-only
   license_family: LGPL
+  purls:
+  - pkg:pypi/flake8-import-order?source=hash-mapping
   run_exports: {}
   size: 21041
   timestamp: 1750969641622
@@ -9048,6 +9649,8 @@ packages:
   - python >=3.9
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/flake8-quotes?source=hash-mapping
   run_exports: {}
   size: 14776
   timestamp: 1735335323771
@@ -9056,6 +9659,7 @@ packages:
   md5: 0c96522c6bdaed4b1566d11387caaf45
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   size: 397370
   timestamp: 1566932522327
 - conda: https://prefix.dev/conda-forge/noarch/font-ttf-inconsolata-3.000-h77eed37_0.tar.bz2
@@ -9063,6 +9667,7 @@ packages:
   md5: 34893075a5c9e55cdafac56607368fc6
   license: OFL-1.1
   license_family: Other
+  purls: []
   run_exports: {}
   size: 96530
   timestamp: 1620479909603
@@ -9071,6 +9676,7 @@ packages:
   md5: 4d59c254e01d9cde7957100457e2d5fb
   license: OFL-1.1
   license_family: Other
+  purls: []
   run_exports: {}
   size: 700814
   timestamp: 1620479612257
@@ -9079,6 +9685,7 @@ packages:
   md5: 49023d73832ef61042f6a237cb2687e7
   license: LicenseRef-Ubuntu-Font-Licence-Version-1.0
   license_family: Other
+  purls: []
   run_exports: {}
   size: 1620504
   timestamp: 1727511233259
@@ -9089,6 +9696,7 @@ packages:
   - fonts-conda-forge
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 3667
   timestamp: 1566974674465
@@ -9102,6 +9710,7 @@ packages:
   - font-ttf-source-code-pro
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 4059
   timestamp: 1762351264405
@@ -9114,6 +9723,8 @@ packages:
   - frozenlist_no_compile
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/frozenlist?source=hash-mapping
   run_exports: {}
   size: 19878
   timestamp: 1779999782801
@@ -9127,6 +9738,7 @@ packages:
   - python
   license: Apache-2.0
   license_family: APACHE
+  purls: []
   run_exports: {}
   size: 68248
   timestamp: 1788717686660
@@ -9138,6 +9750,8 @@ packages:
   - python >=3.9
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/humanfriendly?source=hash-mapping
   run_exports: {}
   size: 73563
   timestamp: 1733928021866
@@ -9149,6 +9763,8 @@ packages:
   - python
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/idna?source=compressed-mapping
   run_exports: {}
   size: 178572
   timestamp: 1790020377150
@@ -9159,6 +9775,8 @@ packages:
   - python >=3.10
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/iniconfig?source=hash-mapping
   run_exports: {}
   size: 13387
   timestamp: 1760831448842
@@ -9169,6 +9787,7 @@ packages:
   - sysroot_linux-64 ==2.28
   license: LGPL-2.0-or-later AND LGPL-2.0-or-later WITH exceptions AND GPL-2.0-or-later
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 1278712
   timestamp: 1765578681495
@@ -9179,6 +9798,8 @@ packages:
   - python >=3.6
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/lark-parser?source=hash-mapping
   run_exports: {}
   size: 86134
   timestamp: 1725742423890
@@ -9190,6 +9811,7 @@ packages:
   constrains:
   - boost-cpp <0.0a0
   license: BSL-1.0
+  purls: []
   run_exports: {}
   size: 14671374
   timestamp: 1790022432098
@@ -9200,6 +9822,7 @@ packages:
   - __unix
   license: GPL-3.0-only WITH GCC-exception-3.1
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 3085843
   timestamp: 1790302578256
@@ -9210,6 +9833,7 @@ packages:
   - __unix
   license: GPL-3.0-only WITH GCC-exception-3.1
   license_family: GPL
+  purls: []
   run_exports: {}
   size: 20673146
   timestamp: 1790302599776
@@ -9220,6 +9844,8 @@ packages:
   - python >=3.9
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/mccabe?source=hash-mapping
   run_exports: {}
   size: 12934
   timestamp: 1733216573915
@@ -9233,6 +9859,8 @@ packages:
   - multidict_no_compile
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/multidict?source=hash-mapping
   run_exports: {}
   size: 37745
   timestamp: 1771610804457
@@ -9243,6 +9871,8 @@ packages:
   - python >=3.9
   license: Apache-2.0
   license_family: Apache
+  purls:
+  - pkg:pypi/munkres?source=hash-mapping
   run_exports: {}
   size: 15851
   timestamp: 1749895533014
@@ -9253,6 +9883,8 @@ packages:
   - python >=3.9
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/mypy-extensions?source=hash-mapping
   run_exports: {}
   size: 11766
   timestamp: 1745776666688
@@ -9263,6 +9895,8 @@ packages:
   - python >=3.6
   license: Apache-2.0
   license_family: Apache
+  purls:
+  - pkg:pypi/osrf-pycommon?source=hash-mapping
   size: 32902
   timestamp: 1626759108531
 - conda: https://prefix.dev/conda-forge/noarch/packaging-26.3-pyhc364b38_0.conda
@@ -9273,6 +9907,8 @@ packages:
   - python
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/packaging?source=hash-mapping
   run_exports: {}
   size: 116363
   timestamp: 1785888127370
@@ -9283,6 +9919,8 @@ packages:
   - python >=3.10
   license: MPL-2.0
   license_family: MOZILLA
+  purls:
+  - pkg:pypi/pathspec?source=hash-mapping
   run_exports: {}
   size: 56559
   timestamp: 1777271601895
@@ -9294,6 +9932,8 @@ packages:
   - python
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/pluggy?source=hash-mapping
   run_exports: {}
   size: 25877
   timestamp: 1764896838868
@@ -9304,6 +9944,8 @@ packages:
   - python >=3.9
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/ply?source=hash-mapping
   run_exports: {}
   size: 49052
   timestamp: 1733239818090
@@ -9318,6 +9960,8 @@ packages:
   - pybind11-abi ==11
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/pybind11?source=compressed-mapping
   run_exports: {}
   size: 251088
   timestamp: 1786199539429
@@ -9326,6 +9970,7 @@ packages:
   md5: f0599959a2447c1e544e216bddf393fa
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports:
     weak:
     - pybind11-abi ==11
@@ -9342,6 +9987,8 @@ packages:
   - pybind11-abi ==11
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/pybind11-global?source=compressed-mapping
   run_exports: {}
   size: 244363
   timestamp: 1786199539429
@@ -9353,6 +10000,8 @@ packages:
   - python
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/pycodestyle?source=compressed-mapping
   run_exports: {}
   size: 36832
   timestamp: 1790193282432
@@ -9364,6 +10013,8 @@ packages:
   - python
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/pycparser?source=hash-mapping
   run_exports: {}
   size: 55886
   timestamp: 1779293633166
@@ -9379,6 +10030,8 @@ packages:
   - python
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/pydantic?source=hash-mapping
   run_exports: {}
   size: 346633
   timestamp: 1787941273167
@@ -9391,6 +10044,8 @@ packages:
   - tomli >=1.2.3
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/pydocstyle?source=hash-mapping
   size: 40236
   timestamp: 1733261742916
 - conda: https://prefix.dev/conda-forge/noarch/pydot-4.0.1-pyhcf101f3_2.conda
@@ -9403,6 +10058,8 @@ packages:
   - python
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/pydot?source=hash-mapping
   run_exports: {}
   size: 150656
   timestamp: 1766345630713
@@ -9413,6 +10070,8 @@ packages:
   - python >=3.11
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/pyflakes?source=compressed-mapping
   run_exports: {}
   size: 62565
   timestamp: 1790810522797
@@ -9424,6 +10083,8 @@ packages:
   - python
   license: BSD-2-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/pygments?source=compressed-mapping
   run_exports: {}
   size: 959376
   timestamp: 1786995678795
@@ -9435,6 +10096,8 @@ packages:
   - python
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/pyparsing?source=compressed-mapping
   run_exports: {}
   size: 114046
   timestamp: 1790063282695
@@ -9448,6 +10111,8 @@ packages:
   - toml
   license: BSD-2-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/pyqt-builder?source=hash-mapping
   run_exports: {}
   size: 2952282
   timestamp: 1766858321453
@@ -9468,6 +10133,8 @@ packages:
   - pytest-faulthandler >=2
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/pytest?source=hash-mapping
   run_exports: {}
   size: 306724
   timestamp: 1782127176429
@@ -9482,6 +10149,8 @@ packages:
   - python
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/pytest-cov?source=hash-mapping
   run_exports: {}
   size: 29559
   timestamp: 1774139250481
@@ -9493,6 +10162,8 @@ packages:
   - python >=3.9
   license: MPL-2.0
   license_family: MOZILLA
+  purls:
+  - pkg:pypi/pytest-repeat?source=hash-mapping
   run_exports: {}
   size: 10537
   timestamp: 1744061283541
@@ -9505,6 +10176,8 @@ packages:
   - python >=3.11
   license: MPL-2.0
   license_family: OTHER
+  purls:
+  - pkg:pypi/pytest-rerunfailures?source=compressed-mapping
   run_exports: {}
   size: 26527
   timestamp: 1788434181061
@@ -9517,6 +10190,8 @@ packages:
   - python
   license: Apache-2.0
   license_family: APACHE
+  purls:
+  - pkg:pypi/python-dateutil?source=hash-mapping
   run_exports: {}
   size: 233310
   timestamp: 1751104122689
@@ -9527,9 +10202,20 @@ packages:
   - cpython 3.14.7.*
   - python_abi * *_cp314
   license: Python-2.0
+  purls: []
   run_exports: {}
   size: 51276
   timestamp: 1788383547342
+- conda: https://prefix.dev/conda-forge/noarch/python-xlib-0.33-pyhff2d567_1.conda
+  sha256: fb743969f4281b93830f0e35dc375feee65f1d34af7629d5934027bb8cdb97bd
+  md5: 1adabe28079a10fca260f9439ae8e3a8
+  depends:
+  - python >=3.9
+  - six >=1.10.0
+  license: LGPL-2.1-or-later
+  run_exports: {}
+  size: 138101
+  timestamp: 1734617825181
 - conda: https://prefix.dev/conda-forge/noarch/python_abi-3.14-9_cp314.conda
   build_number: 9
   sha256: e7f8e965bbfb98e08feb2365cacdad8bb218fa5b5a0a2752f747287f425f213c
@@ -9538,6 +10224,7 @@ packages:
   - python 3.14.* *_cp314
   license: BSD-3-Clause
   license_family: BSD
+  purls: []
   run_exports: {}
   size: 6791
   timestamp: 1788302824440
@@ -9552,6 +10239,8 @@ packages:
   - setuptools
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/rosdistro?source=hash-mapping
   run_exports: {}
   size: 50402
   timestamp: 1788416157376
@@ -9566,6 +10255,8 @@ packages:
   - python
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/rospkg?source=compressed-mapping
   run_exports: {}
   size: 32914
   timestamp: 1789833266234
@@ -9576,6 +10267,8 @@ packages:
   - python >=3.9
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/setuptools?source=hash-mapping
   run_exports: {}
   size: 787541
   timestamp: 1745484086827
@@ -9587,6 +10280,8 @@ packages:
   - python
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/six?source=hash-mapping
   run_exports: {}
   size: 18455
   timestamp: 1753199211006
@@ -9597,6 +10292,8 @@ packages:
   - python >=3.10
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/snowballstemmer?source=hash-mapping
   run_exports: {}
   size: 74456
   timestamp: 1780468201547
@@ -9609,6 +10306,7 @@ packages:
   - tzdata
   license: LGPL-2.0-or-later AND LGPL-2.0-or-later WITH exceptions AND GPL-2.0-or-later
   license_family: GPL
+  purls: []
   run_exports:
     strong:
     - __glibc >=2.28,<3.0.a0
@@ -9622,6 +10320,8 @@ packages:
   - python
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/toml?source=hash-mapping
   run_exports: {}
   size: 24017
   timestamp: 1764486833072
@@ -9633,6 +10333,8 @@ packages:
   - python
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/tomli?source=hash-mapping
   run_exports: {}
   size: 21561
   timestamp: 1774492402955
@@ -9643,6 +10345,7 @@ packages:
   - typing_extensions ==4.16.0 pyhcf101f3_0
   license: PSF-2.0
   license_family: PSF
+  purls: []
   run_exports: {}
   size: 94080
   timestamp: 1783002732887
@@ -9655,6 +10358,8 @@ packages:
   - python
   license: MIT
   license_family: MIT
+  purls:
+  - pkg:pypi/typing-inspection?source=hash-mapping
   run_exports: {}
   size: 21070
   timestamp: 1786818918217
@@ -9666,6 +10371,8 @@ packages:
   - python
   license: PSF-2.0
   license_family: PSF
+  purls:
+  - pkg:pypi/typing-extensions?source=hash-mapping
   run_exports: {}
   size: 52631
   timestamp: 1783002732887
@@ -9673,6 +10380,7 @@ packages:
   sha256: b928c30ddcb0e3f544c6eade8352737e6e610e263276b90232db6a578ef899d8
   md5: fcb489df604d100968b737f2cb6076c6
   license: LicenseRef-Public-Domain
+  purls: []
   run_exports: {}
   size: 118849
   timestamp: 1784250406640
@@ -9681,6 +10389,7 @@ packages:
   md5: 0839a3421140d4a9ba93fb988698fc00
   license: MIT
   license_family: MIT
+  purls: []
   run_exports: {}
   size: 147954
   timestamp: 1780946721169
@@ -9693,6 +10402,8 @@ packages:
   - python >=3.10
   license: BSD-3-Clause
   license_family: BSD
+  purls:
+  - pkg:pypi/wslink?source=hash-mapping
   run_exports: {}
   size: 36803
   timestamp: 1778826669944
@@ -9708,6 +10419,8 @@ packages:
   - yarl_no_compile
   license: Apache-2.0
   license_family: Apache
+  purls:
+  - pkg:pypi/yarl?source=hash-mapping
   run_exports: {}
   size: 96070
   timestamp: 1784526424667
