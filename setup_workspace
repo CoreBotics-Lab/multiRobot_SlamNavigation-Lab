@@ -1,0 +1,467 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
+DISTRO_LINES=""
+EOL_LINES=""
+RECOMMENDED_DISTRO=""
+
+load_distros() {
+    if [[ -n "$DISTRO_LINES" || -n "$EOL_LINES" ]]; then
+        return 0
+    fi
+
+    local fetched=""
+    if command -v curl >/dev/null 2>&1 && command -v python3 >/dev/null 2>&1; then
+        fetched="$(curl -fsSL --max-time 4 https://docs.ros.org/en/rolling/Releases.html 2>/dev/null | python3 -c '
+import sys, re, html, urllib.request
+from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor
+
+def parse_date(s):
+    for fmt in ("%B %d, %Y", "%B %Y"):
+        try:
+            return datetime.strptime(s.strip(), fmt)
+        except ValueError:
+            pass
+    return None
+
+def has_robostack(distro):
+    url = f"https://prefix.dev/robostack-{distro}/linux-64/repodata.json"
+    req = urllib.request.Request(url, method="HEAD")
+    try:
+        with urllib.request.urlopen(req, timeout=3) as resp:
+            return resp.status < 400
+    except urllib.error.HTTPError as e:
+        return e.code != 404
+    except Exception:
+        return True
+
+data = sys.stdin.read()
+rows = re.findall(r"<tr class=\"row-(?:even|odd)\"[^>]*>(.*?)</tr>", data, re.S)
+now = datetime.now()
+now_m = now.year * 12 + now.month
+candidates = []
+for r in rows:
+    cols = [html.unescape(re.sub(r"<[^>]+>", "", c)).strip() for c in re.findall(r"<td[^>]*>(.*?)</td>", r, re.S)]
+    if len(cols) >= 4 and cols[0] and cols[3]:
+        release = cols[0]
+        distro = release.split()[0].lower()
+        rel_dt = parse_date(cols[1])
+        eol_dt = parse_date(cols[3])
+        if not rel_dt or not eol_dt or rel_dt > now or rel_dt.year < 2020:
+            continue
+        candidates.append((distro, release, rel_dt, eol_dt))
+
+with ThreadPoolExecutor(max_workers=6) as ex:
+    available = list(ex.map(lambda c: has_robostack(c[0]), candidates))
+
+active = []
+eol = []
+for (distro, release, rel_dt, eol_dt), ok in zip(candidates, available):
+    if not ok:
+        continue
+    is_lts = (eol_dt.year - rel_dt.year) >= 4
+    eol_m = eol_dt.year * 12 + eol_dt.month
+    kind = "LTS" if is_lts else "Standard"
+    eol_fmt = eol_dt.strftime("%b %Y")
+    if eol_m >= now_m:
+        active.append((distro, release, kind, eol_fmt, eol_m, is_lts))
+    else:
+        eol.append((distro, release, kind, eol_fmt))
+
+if not active and not eol:
+    sys.exit(1)
+
+rec = None
+for distro, release, kind, eol_fmt, eol_m, is_lts in reversed(active):
+    if is_lts and (eol_m - now_m) >= 18:
+        rec = distro
+        break
+if not rec and active:
+    rec = active[0][0]
+
+print(f"REC={rec or \"\"}")
+for distro, release, kind, eol_fmt, eol_m, is_lts in active:
+    tag = " [Recommended]" if distro == rec else ""
+    print(f"ACT|  {distro:<9} {release:<20} {kind}, supported until {eol_fmt}{tag}")
+for distro, release, kind, eol_fmt in eol:
+    print(f"EOL|  {distro:<9} {release:<20} {kind}, ended {eol_fmt}")
+' 2>/dev/null || true)"
+    fi
+
+    if [[ -n "$fetched" ]]; then
+        RECOMMENDED_DISTRO="$(printf '%s\n' "$fetched" | sed -n 's/^REC=//p' | head -n 1)"
+        DISTRO_LINES="$(printf '%s\n' "$fetched" | sed -n 's/^ACT|//p')"
+        EOL_LINES="$(printf '%s\n' "$fetched" | sed -n 's/^EOL|//p')"
+        return 0
+    fi
+
+    # Offline fallback if docs.ros.org is unreachable (RoboStack-hosted distros)
+    local now_year now_month now_months min_months=18
+    now_year=$((10#$(date +%Y)))
+    now_month=$((10#$(date +%m)))
+    now_months=$((now_year * 12 + now_month))
+
+    # Format: distro|release|kind|eol_label|eol_year|eol_month|is_lts
+    local entries=(
+        "lyrical|Lyrical Luth|LTS|May 2031|2031|5|1"
+        "kilted|Kilted Kaiju|Standard|Dec 2026|2026|12|0"
+        "jazzy|Jazzy Jalisco|LTS|May 2029|2029|5|1"
+        "humble|Humble Hawksbill|LTS|May 2027|2027|5|1"
+    )
+
+    local entry name rel kind eol_label eol_y eol_m is_lts eol_months
+    RECOMMENDED_DISTRO=""
+    for ((i=${#entries[@]}-1; i>=0; i--)); do
+        IFS='|' read -r name rel kind eol_label eol_y eol_m is_lts <<< "${entries[$i]}"
+        eol_months=$((eol_y * 12 + eol_m))
+        if (( is_lts == 1 && eol_months - now_months >= min_months )); then
+            RECOMMENDED_DISTRO="$name"
+            break
+        fi
+    done
+
+    DISTRO_LINES=""
+    EOL_LINES=""
+    for entry in "${entries[@]}"; do
+        IFS='|' read -r name rel kind eol_label eol_y eol_m is_lts <<< "$entry"
+        eol_months=$((eol_y * 12 + eol_m))
+        local line
+        if (( eol_months >= now_months )); then
+            local tag=""
+            if [[ "$name" == "$RECOMMENDED_DISTRO" ]]; then
+                tag=" [Recommended]"
+            fi
+            printf -v line "  %-9s %-20s %s, supported until %s%s" "$name" "$rel" "$kind" "$eol_label" "$tag"
+            DISTRO_LINES+="${line}"$'\n'
+        else
+            printf -v line "  %-9s %-20s %s, ended %s" "$name" "$rel" "$kind" "$eol_label"
+            EOL_LINES+="${line}"$'\n'
+        fi
+    done
+    DISTRO_LINES="${DISTRO_LINES%$'\n'}"
+    EOL_LINES="${EOL_LINES%$'\n'}"
+}
+
+usage() {
+    load_distros
+
+    cat <<EOF
+Usage: $(basename "$0") <ros_distro>
+
+Available ROS 2 distributions (RoboStack):
+  Distro    Release              Support / EOL
+  ------    -------              -------------
+${DISTRO_LINES}
+EOF
+
+    if [[ -n "$EOL_LINES" ]]; then
+        cat <<EOF
+
+End-of-Life ROS 2 distributions (support has ended, can still be installed):
+  Distro    Release              Status
+  ------    -------              ------
+${EOL_LINES}
+EOF
+    fi
+}
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+    usage
+    exit 0
+fi
+
+if [[ $# -gt 1 ]]; then
+    echo "Error: Expected at most 1 argument (<ros_distro>)." >&2
+    echo "" >&2
+    usage >&2
+    exit 1
+fi
+
+if [[ $# -eq 0 || -z "${1:-}" ]]; then
+    usage
+    echo ""
+    rec="$RECOMMENDED_DISTRO"
+    if ! read -r -p "Select ROS 2 distro [default: ${rec}]: " TARGET_DISTRO; then
+        echo ""
+        echo "Error: No distribution selected." >&2
+        exit 1
+    fi
+    TARGET_DISTRO="${TARGET_DISTRO// /}"
+    if [[ -z "$TARGET_DISTRO" ]]; then
+        TARGET_DISTRO="$rec"
+    fi
+else
+    TARGET_DISTRO="$1"
+fi
+
+if [[ ! "$TARGET_DISTRO" =~ ^[a-z0-9_-]+$ ]]; then
+    echo "Error: Invalid distro name '$TARGET_DISTRO'. Expected lowercase alphanumeric characters, '-' or '_'." >&2
+    exit 1
+fi
+
+if [[ ! -f "pixi.toml" ]]; then
+    echo "Error: pixi.toml not found in $SCRIPT_DIR" >&2
+    exit 1
+fi
+
+CURRENT_DISTRO="$(sed -n 's/.*robostack-\([a-z0-9_-]*\).*/\1/p' pixi.toml | head -n 1)"
+
+if [[ -z "$CURRENT_DISTRO" ]]; then
+    echo "Error: Could not detect current ROS 2 distro from pixi.toml." >&2
+    exit 1
+fi
+
+ensure_pixi() {
+    if command -v pixi >/dev/null 2>&1; then
+        return 0
+    fi
+
+    if [[ -x "$HOME/.pixi/bin/pixi" ]]; then
+        export PATH="$HOME/.pixi/bin:$PATH"
+        return 0
+    fi
+
+    echo "Pixi is not installed. Installing Pixi..."
+    if ! command -v curl >/dev/null 2>&1; then
+        echo "Error: 'curl' is required to install Pixi. Please install curl and try again." >&2
+        exit 1
+    fi
+
+    curl -fsSL https://pixi.sh/install.sh | bash
+    export PATH="$HOME/.pixi/bin:$PATH"
+
+    if ! command -v pixi >/dev/null 2>&1; then
+        echo "Error: Pixi installation finished, but 'pixi' was not found in PATH." >&2
+        exit 1
+    fi
+}
+
+sync_python_version() {
+    local python_bin=".pixi/envs/default/bin/python"
+    if [[ ! -x "$python_bin" ]]; then
+        echo "Warning: '$python_bin' not found; skipping Python version sync." >&2
+        return 0
+    fi
+
+    local python_ver
+    python_ver="$("$python_bin" -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
+
+    if [[ -z "$python_ver" ]]; then
+        echo "Warning: Could not determine installed Python version." >&2
+        return 0
+    fi
+
+    local pixi_changed=0
+    local config_changed=0
+
+    if ! grep -qE "^python = \"${python_ver}\.\*\"" pixi.toml; then
+        sed -i -E "s/^python = \"[^\"]+\"/python = \"${python_ver}.*\"/" pixi.toml
+        pixi_changed=1
+        config_changed=1
+    fi
+
+    if [[ -f ".vscode/settings.json" ]] && grep -qE "lib/python[0-9]+\.[^/]+/site-packages" .vscode/settings.json; then
+        if grep -oE "lib/python[0-9]+\.[^/]+/site-packages" .vscode/settings.json | grep -qv "lib/python${python_ver}/site-packages"; then
+            sed -i -E "s|lib/python[0-9]+\.[^/]+/site-packages|lib/python${python_ver}/site-packages|g" .vscode/settings.json
+            config_changed=1
+        fi
+    fi
+
+    if [[ -f "pyrefly.toml" ]]; then
+        if ! grep -qE "^python-version = \"${python_ver}\"$" pyrefly.toml || (grep -qE "lib/python[0-9]+\.[^/]+/site-packages" pyrefly.toml && grep -oE "lib/python[0-9]+\.[^/]+/site-packages" pyrefly.toml | grep -qv "lib/python${python_ver}/site-packages"); then
+            sed -i -E \
+                -e "s/^python-version = \"[^\"]+\"/python-version = \"${python_ver}\"/" \
+                -e "s|lib/python[0-9]+\.[^/]+/site-packages|lib/python${python_ver}/site-packages|g" \
+                pyrefly.toml
+            config_changed=1
+        fi
+    fi
+
+    if [[ "$config_changed" -eq 1 ]]; then
+        echo "Synced Python $python_ver across configuration files."
+    fi
+
+    # Refresh lockfile only if pixi.toml python pin changed
+    if [[ "$pixi_changed" -eq 1 ]]; then
+        ensure_pixi
+        pixi install
+    fi
+}
+
+sync_workspace_name() {
+    local ws_name
+    ws_name="$(basename "$SCRIPT_DIR")"
+    ws_name="${ws_name// /_}"
+    local current_name
+    current_name="$(sed -n 's/^name = "\([^"]*\)"/\1/p' pixi.toml | head -n 1)"
+    if [[ -n "$ws_name" && "$current_name" != "$ws_name" ]]; then
+        echo "Updating workspace name in pixi.toml from '$current_name' to '$ws_name'..."
+        sed -i -E "s|^name = \"[^\"]+\"|name = \"${ws_name}\"|" pixi.toml
+    fi
+}
+
+sync_workspace_name
+
+get_recommended_python() {
+    local distro="$1"
+    if command -v curl >/dev/null 2>&1 && command -v python3 >/dev/null 2>&1; then
+        local url ubuntu_codename=""
+        for url in \
+            "https://docs.ros.org/en/${distro}/Get-Started/Installation/Ubuntu-Install-Debs.html" \
+            "https://docs.ros.org/en/${distro}/Installation/Ubuntu-Install-Debs.html"; do
+            ubuntu_codename="$(curl -fsSL --max-time 10 "$url" 2>/dev/null \
+                | grep -oE 'Ubuntu [A-Za-z ]+ \([0-9]+\.[0-9]+\)' | head -n 1 \
+                | awk '{print tolower($2)}' || true)"
+            if [[ -n "$ubuntu_codename" ]]; then
+                break
+            fi
+        done
+
+        if [[ -n "$ubuntu_codename" ]]; then
+            local py_ver=""
+            py_ver="$(curl -fsSL --max-time 6 \
+                "https://api.launchpad.net/1.0/ubuntu/+archive/primary?ws.op=getPublishedSources&distro_series=https://api.launchpad.net/1.0/ubuntu/${ubuntu_codename}&source_name=python3-defaults&exact_match=true&status=Published" 2>/dev/null \
+                | python3 -c 'import sys, json, re; d=json.load(sys.stdin); v=d["entries"][0]["source_package_version"]; m=re.match(r"3\.[0-9]+", v); print(m.group(0) if m else "")' 2>/dev/null || true)"
+            if [[ -n "$py_ver" ]]; then
+                echo "${py_ver}.*"
+                return 0
+            fi
+        fi
+    fi
+    echo "*"
+}
+
+install_with_recommended_python() {
+    local distro="$1"
+    local target_py
+    target_py="$(get_recommended_python "$distro")"
+    echo "Target Python constraint for '$distro': $target_py"
+    sed -i -E "s/^python = \"[^\"]+\"/python = \"${target_py}\"/" pixi.toml
+
+    if ! pixi install; then
+        if [[ "$target_py" != "*" ]]; then
+            echo "Warning: RoboStack '$distro' has no build for Python '${target_py}'. Falling back to '*'..." >&2
+            sed -i -E "s/^python = \"[^\"]+\"/python = \"*\"/" pixi.toml
+            rm -f pixi.lock
+            pixi install
+        else
+            exit 1
+        fi
+    fi
+}
+
+get_recommended_python() {
+    local distro="$1"
+    if command -v curl >/dev/null 2>&1 && command -v python3 >/dev/null 2>&1; then
+        local url ubuntu_codename=""
+        for url in \
+            "https://docs.ros.org/en/${distro}/Get-Started/Installation/Ubuntu-Install-Debs.html" \
+            "https://docs.ros.org/en/${distro}/Installation/Ubuntu-Install-Debs.html"; do
+            ubuntu_codename="$(curl -fsSL --max-time 10 "$url" 2>/dev/null \
+                | grep -oE 'Ubuntu [A-Za-z ]+ \([0-9]+\.[0-9]+\)' | head -n 1 \
+                | awk '{print tolower($2)}' || true)"
+            if [[ -n "$ubuntu_codename" ]]; then
+                break
+            fi
+        done
+
+        if [[ -n "$ubuntu_codename" ]]; then
+            local py_ver=""
+            py_ver="$(curl -fsSL --max-time 6 \
+                "https://api.launchpad.net/1.0/ubuntu/+archive/primary?ws.op=getPublishedSources&distro_series=https://api.launchpad.net/1.0/ubuntu/${ubuntu_codename}&source_name=python3-defaults&exact_match=true&status=Published" 2>/dev/null \
+                | python3 -c 'import sys, json, re; d=json.load(sys.stdin); v=d["entries"][0]["source_package_version"]; m=re.match(r"3\.[0-9]+", v); print(m.group(0) if m else "")' 2>/dev/null || true)"
+            if [[ -n "$py_ver" ]]; then
+                echo "${py_ver}.*"
+                return 0
+            fi
+        fi
+    fi
+    echo "*"
+}
+
+install_with_recommended_python() {
+    local distro="$1"
+    local target_py
+    target_py="$(get_recommended_python "$distro")"
+    echo "Target Python constraint for '$distro': $target_py"
+    sed -i -E "s/^python = \"[^\"]+\"/python = \"${target_py}\"/" pixi.toml
+
+    if ! pixi install; then
+        if [[ "$target_py" != "*" ]]; then
+            echo "Warning: RoboStack '$distro' has no build for Python '${target_py}'. Falling back to '*'..." >&2
+            sed -i -E "s/^python = \"[^\"]+\"/python = \"*\"/" pixi.toml
+            rm -f pixi.lock
+            pixi install
+        else
+            exit 1
+        fi
+    fi
+}
+
+if [[ "$CURRENT_DISTRO" == "$TARGET_DISTRO" ]]; then
+    if [[ -d ".pixi" ]]; then
+        target_py="$(get_recommended_python "$TARGET_DISTRO")"
+        installed_py=""
+        if [[ -x ".pixi/envs/default/bin/python" ]]; then
+            installed_py="$(".pixi/envs/default/bin/python" -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
+        fi
+        if [[ "$target_py" != "*" && -n "$installed_py" && "${installed_py}.*" != "$target_py" ]]; then
+            ensure_pixi
+            echo "Updating '$TARGET_DISTRO' Python from $installed_py to $target_py (recommended by docs.ros.org)..."
+            rm -f pixi.lock
+            install_with_recommended_python "$TARGET_DISTRO"
+        fi
+        sync_python_version
+        echo "ROS 2 distro is already '$TARGET_DISTRO' and installed. Skipping."
+        exit 0
+    else
+        ensure_pixi
+        echo "ROS 2 distro is already '$TARGET_DISTRO', but '.pixi/' is missing. Running 'pixi install'..."
+        install_with_recommended_python "$TARGET_DISTRO"
+        sync_python_version
+        exit 0
+    fi
+fi
+
+check_robostack_channel() {
+    local distro="$1"
+    if command -v curl >/dev/null 2>&1; then
+        local url="https://prefix.dev/robostack-${distro}/linux-64/repodata.json"
+        local code
+        code="$(curl -s -o /dev/null -w "%{http_code}" --max-time 6 "$url" || true)"
+        if [[ "$code" == "404" ]]; then
+            echo "Error: RoboStack channel 'https://prefix.dev/robostack-${distro}' does not exist (HTTP 404)." >&2
+            echo "Your workspace files and current environment were not modified." >&2
+            exit 1
+        fi
+    fi
+}
+
+ensure_pixi
+
+check_robostack_channel "$TARGET_DISTRO"
+
+echo "Switching ROS 2 distro from '$CURRENT_DISTRO' to '$TARGET_DISTRO'..."
+
+sed -i \
+    -e "s/robostack-${CURRENT_DISTRO}/robostack-${TARGET_DISTRO}/g" \
+    -e "s/ros-${CURRENT_DISTRO}-/ros-${TARGET_DISTRO}-/g" \
+    pixi.toml
+
+if [[ -f ".vscode/settings.json" ]]; then
+    sed -i \
+        "s/\"ros\.distro\": \"${CURRENT_DISTRO}\"/\"ros.distro\": \"${TARGET_DISTRO}\"/g" \
+        .vscode/settings.json
+fi
+
+rm -f pixi.lock
+rm -rf build/ install/ log/ .pixi/
+
+install_with_recommended_python "$TARGET_DISTRO"
+sync_python_version
+
+echo "Successfully switched ROS 2 distro to '$TARGET_DISTRO'."
