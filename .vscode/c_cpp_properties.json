@@ -1,7 +1,7 @@
 {
   "configurations": [
     {
-      "name": "ROS 2 Lyrical (Pixi)",
+      "name": "ROS 2 (Pixi)",
       "includePath": [
         "${workspaceFolder}/src/**/include/**",
         "${workspaceFolder}/install/**/include/**",
